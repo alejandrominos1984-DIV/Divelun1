@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA | Premium Access</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Configuración de Tailwind y Fuentes -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#050505',
+                        primary: '#3B82F6',
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        'glass-hover': 'rgba(255, 255, 255, 0.1)',
+                        border: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            background-color: #050505;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Utility para ocultar scrollbar pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Inputs autocompletar fix para dark mode */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #0a0a0a inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #3B82F6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative selection:bg-primary selection:text-white">
+
+    <!-- Background Ambient Glows -->
+    <div class="fixed top-[-20%] left-[-10%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow pointer-events-none"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse-slow pointer-events-none delay-1000"></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-md p-6 relative z-10">
+        
+        <!-- Logo Header (Visible siempre excepto en dashboard interno si se quisiera) -->
+        <div class="text-center mb-8 fade-in">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-tr from-primary to-purple-600 mb-4 shadow-lg shadow-primary/30">
+                <i data-lucide="sparkles" class="text-white w-6 h-6"></i>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">AURA</h1>
+            <p class="text-gray-400 text-sm mt-2 tracking-wide" id="page-subtitle">Premium Access</p>
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div id="app-container" class="glass-card rounded-2xl p-8 transition-all duration-300">
+            
+            <!-- VISTA 1: BIENVENIDA -->
+            <section id="view-welcome" class="space-y-4 text-center">
+                <h2 class="text-xl font-medium mb-6">Bienvenido</h2>
+                <button onclick="navigateTo('register')" class="w-full py-3.5 bg-primary hover:bg-blue-600 text-white font-medium rounded-xl transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 group">
+                    Crear Cuenta
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <button onclick="navigateTo('login')" class="w-full py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium rounded-xl transition-all">
+                    Iniciar Sesión
+                </button>
+            </section>
+
+            <!-- VISTA 2: REGISTRO -->
+            <section id="view-register" class="hidden space-y-5">
+                <div class="text-center mb-2">
+                    <h3 class="text-lg font-medium">Crear tu cuenta</h3>
+                </div>
+                <form id="form-register" onsubmit="handleRegister(event)" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-gray-400 ml-1">Email</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="absolute left-4 top-3.5 w-5 h-5 text-gray-500"></i>
+                            <input type="email" id="reg-email" required class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-gray-600" placeholder="usuario@ejemplo.com">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-gray-400 ml-1">Contraseña</label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="absolute left-4 top-3.5 w-5 h-5 text-gray-500"></i>
+                            <input type="password" id="reg-pass" required minlength="6" class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder-gray-600" placeholder="••••••••">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-3.5 bg-primary hover:bg-blue-600 text-white font-medium rounded-xl transition-all mt-4 flex justify-center items-center gap-2">
+                        <span>Siguiente</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+                <button onclick="navigateTo('welcome')" class="w-full text-sm text-gray-500 hover:text-white transition-colors">Cancelar</button>
+            </section>
+
+            <!-- VISTA 3: PAGO (Stripe Simulado) -->
+            <section id="view-payment" class="hidden space-y-6">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-lg font-medium">Suscripción Pro</h3>
+                    <span class="text-primary font-bold">$29.00</span>
+                </div>
+                
+                <!-- Credit Card Visual -->
+                <div class="relative w-full h-44 rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-black border border-white/10 p-5 shadow-2xl overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[40px] -mr-10 -mt-10"></div>
+                    <div class="relative z-10 flex flex-col justify-between h-full">
+                        <div class="flex justify-between items-start">
+                            <div class="w-10 h-6 bg-white/20 rounded"></div> <!-- Chip -->
+                            <i data-lucide="wifi" class="text-white/30 rotate-90 w-6 h-6"></i>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="text-xl tracking-widest font-mono text-gray-300">•••• •••• •••• 4242</div>
+                            <div class="flex justify-between text-xs text-gray-400 uppercase tracking-wider">
+                                <span>Titular</span>
+                                <span>EXP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex gap-3">
+                        <input type="text" placeholder="MM / YY" class="w-1/2 bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-center text-white focus:border-primary outline-none transition-colors">
+                        <input type="text" placeholder="CVC" class="w-1/2 bg-black/20 border border-white/10 rounded-xl py-3 px-4 text-center text-white focus:border-primary outline-none transition-colors">
+                    </div>
+                </div>
+
+                <button id="btn-pay" onclick="processPayment()" class="w-full py-3.5 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/30 flex items-center justify-center gap-2">
+                    <span id="btn-pay-text">PAGAR Y ACTIVAR ACCESO</span>
+                    <div id="btn-pay-loader" class="loader hidden"></div>
+                </button>
+            </section>
+
+            <!-- VISTA 4: LOGIN -->
+            <section id="view-login" class="hidden space-y-5">
+                <div class="text-center mb-2">
+                    <h3 class="text-lg font-medium">Bienvenido de nuevo</h3>
+                </div>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-gray-400 ml-1">Email</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="absolute left-4 top-3.5 w-5 h-5 text-gray-500"></i>
+                            <input type="email" id="login-email" required class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="usuario@ejemplo.com">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-gray-400 ml-1">Contraseña</label>
+                        <div class="relative">
+                            <i data-lucide="lock" class="absolute left-4 top-3.5 w-5 h-5 text-gray-500"></i>
+                            <input type="password" id="login-pass" required class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="••••••••">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button type="button" onclick="navigateTo('recovery')" class="text-xs text-primary hover:text-blue-400 transition-colors">
+                            ¿Olvidaste tu contraseña?
+                        </button>
+                    </div>
+
+                    <button type="submit" id="btn-login" class="w-full py-3.5 bg-primary hover:bg-blue-600 text-white font-medium rounded-xl transition-all flex justify-center items-center gap-2">
+                        <span>Entrar</span>
+                        <div id="btn-login-loader" class="loader hidden"></div>
+                    </button>
+                </form>
+                <button onclick="navigateTo('welcome')" class="w-full text-sm text-gray-500 hover:text-white transition-colors">Volver</button>
+            </section>
+
+            <!-- VISTA 5: RECUPERACIÓN -->
+            <section id="view-recovery" class="hidden space-y-5">
+                <div class="text-center mb-2">
+                    <h3 class="text-lg font-medium">Recuperar Acceso</h3>
+                    <p class="text-xs text-gray-400 mt-1">Te enviaremos un enlace mágico</p>
+                </div>
+                <form onsubmit="handleRecover(event)" class="space-y-4">
+                    <div class="relative">
+                        <i data-lucide="mail" class="absolute left-4 top-3.5 w-5 h-5 text-gray-500"></i>
+                        <input type="email" id="rec-email" required class="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="usuario@ejemplo.com">
+                    </div>
+                    <button type="submit" id="btn-rec" class="w-full py-3.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium rounded-xl transition-all">
+                        Enviar Enlace
+                    </button>
+                </form>
+                <button onclick="navigateTo('login')" class="w-full text-sm text-gray-500 hover:text-white transition-colors">Volver al Login</button>
+            </section>
+
+            <!-- VISTA 6: HOME (Dashboard) -->
+            <section id="view-home" class="hidden text-center py-6 space-y-6">
+                <div class="w-20 h-20 bg-gradient-to-tr from-green-500 to-emerald-700 rounded-full mx-auto flex items-center justify-center shadow-lg shadow-green-900/30 mb-4">
+                    <i data-lucide="check" class="w-10 h-10 text-white"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">¡Bienvenido a Aura Pro!</h2>
+                    <p class="text-gray-400 text-sm">Tu suscripción está activa.</p>
+                </div>
+                
+                <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <span class="text-xs text-gray-300 uppercase tracking-wider">Estado del Sistema</span>
+                    </div>
+                    <p class="text-left text-sm text-gray-400">Todo funcionando correctamente. Conexión establecida con la base de datos segura.</p>
+                </div>
+
+                <button onclick="handleLogout()" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 font-medium rounded-xl transition-all text-sm flex items-center justify-center gap-2">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    Cerrar Sesión
+                </button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- CONSTANTS & STATE ---
+        // Obtiene la URL del script de los parámetros o null
+        const SCRIPT_URL = new URLSearchParams(window.location.search).get('gs_url');
+        
+        // Estado temporal para el flujo de registro
+        let tempRegistrationData = null;
+
+        // --- LIFECYCLE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Verificación de configuración
+            if (!SCRIPT_URL) {
+                console.warn('AURA DEV: "gs_url" no encontrado en URL. Modo demostración activo (Sin backend real).');
+                // En producción, descomentar la siguiente línea para forzar alerta
+                // alert('CONFIGURACIÓN FALTANTE: Por favor agrega ?gs_url=TU_SCRIPT_URL a la dirección.');
+            }
+
+            // Verificar sesión existente
+            const savedSession = localStorage.getItem('aura_session');
+            if (savedSession) {
+                navigateTo('home');
+            }
+        });
+
+        // --- NAVIGATION ENGINE ---
+        function navigateTo(viewId) {
+            // Ocultar todas las secciones
+            const sections = document.querySelectorAll('section');
+            sections.forEach(sec => sec.classList.add('hidden'));
+            
+            // Mostrar la deseada
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) {
+                target.classList.remove('hidden');
+                // Animación simple de entrada
+                target.classList.add('animate-fade-in');
+            }
+
+            // Actualizar subtítulo (UX)
+            const subtitle = document.getElementById('page-subtitle');
+            if (viewId === 'home') subtitle.innerText = 'Dashboard';
+            else if (viewId === 'payment') subtitle.innerText = 'Pasarela Segura';
+            else subtitle.innerText = 'Premium Access';
+
+            // Refrescar iconos por si acaso
+            lucide.createIcons();
+        }
+
+        // --- AUTH HANDLERS ---
+
+        // 1. Registro: Valida y lleva al pago
+        async function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-pass').value;
+
+            // Guardamos temporalmente en memoria (no en DB todavía)
+            tempRegistrationData = { email, password, action: 'register' };
+            
+            // Forzar flujo de pago
+            navigateTo('payment');
+        }
+
+        // 2. Proceso de Pago (Simulado + Fetch)
+        async function processPayment() {
+            if (!tempRegistrationData) {
+                alert('Error de flujo. Por favor regístrate primero.');
+                navigateTo('register');
+                return;
+            }
+
+            const btnText = document.getElementById('btn-pay-text');
+            const loader = document.getElementById('btn-pay-loader');
+            const btn = document.getElementById('btn-pay');
+
+            // UI Loading State
+            btnText.classList.add('hidden');
+            loader.classList.remove('hidden');
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            try {
+                // Simular retraso de pasarela bancaria (2 segundos)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Si hay URL, intentamos enviar los datos
+                if (SCRIPT_URL) {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Solicitado en prompt
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            ...tempRegistrationData,
+                            paymentStatus: 'PAID',
+                            date: new Date().toISOString()
+                        })
+                    });
+                }
+
+                // Éxito: Crear sesión persistente
+                localStorage.setItem('aura_session', JSON.stringify({
+                    email: tempRegistrationData.email,
+                    token: 'mock-token-' + Date.now()
+                }));
+
+                // Limpiar memoria
+                tempRegistrationData = null;
+
+                // Redirigir
+                navigateTo('home');
+
+            } catch (error) {
+                console.error("Error en pago:", error);
+                alert("Hubo un error procesando el pago. Intenta nuevamente.");
+            } finally {
+                // Restaurar UI (aunque si navega, esto no se ve)
+                btnText.classList.remove('hidden');
+                loader.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        }
+
+        // 3. Login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-pass').value;
+            
+            const btn = document.getElementById('btn-login');
+            const loader = document.getElementById('btn-login-loader');
+            const span = btn.querySelector('span');
+
+            span.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            try {
+                // Simular request de red
+                if (SCRIPT_URL) {
+                    await fetch(SCRIPT_URL + `?action=login&email=${email}`, { mode: 'no-cors' });
+                }
+                
+                // Simulación de espera
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Login Exitoso (Simulado)
+                localStorage.setItem('aura_session', JSON.stringify({ email, token: 'session-token' }));
+                navigateTo('home');
+
+            } catch (error) {
+                alert('Error de conexión');
+            } finally {
+                span.classList.remove('hidden');
+                loader.classList.add('hidden');
+            }
+        }
+
+        // 4. Recuperación
+        async function handleRecover(e) {
+            e.preventDefault();
+            const email = document.getElementById('rec-email').value;
+            const btn = document.getElementById('btn-rec');
+            
+            const originalText = btn.innerText;
+            btn.innerText = 'Enviando...';
+            
+            if (SCRIPT_URL) {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'recover', email })
+                });
+            }
+
+            setTimeout(() => {
+                alert(`Si el correo ${email} existe en nuestra base de datos, recibirás un enlace.`);
+                btn.innerText = originalText;
+                navigateTo('login');
+            }, 1500);
+        }
+
+        // 5. Logout
+        function handleLogout() {
+            localStorage.removeItem('aura_session');
+            document.getElementById('form-register').reset(); // Limpiar formularios
+            navigateTo('welcome');
+        }
+
+    </script>
+</body>
+</html>
