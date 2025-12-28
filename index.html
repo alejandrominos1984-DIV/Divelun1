@@ -409,6 +409,12 @@
                 }
             },
 
+            // Helper para obtener URL con timestamp (Anti-Caché)
+            getApiUrl: () => {
+                const sep = SCRIPT_URL.includes('?') ? '&' : '?';
+                return `${SCRIPT_URL}${sep}t=${new Date().getTime()}`;
+            },
+
             // Manejo de Registro (Crea nuevos usuarios)
             handleRegister: async (e) => {
                 e.preventDefault();
@@ -427,9 +433,10 @@
 
                 try {
                     // SEGURIDAD: Fetch estándar esperando respuesta JSON
-                    // Importante: 'text/plain' para evitar preflight OPTIONS en GAS
-                    const response = await fetch(SCRIPT_URL, {
+                    // Anti-Caché + Redirect Follow + Text/Plain
+                    const response = await fetch(app.getApiUrl(), {
                         method: 'POST',
+                        redirect: 'follow',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(userData)
                     });
@@ -457,7 +464,7 @@
 
                 } catch (error) {
                     console.error("Error Registro:", error);
-                    alert("Error de conexión. Verifica tu internet e intenta de nuevo.");
+                    alert("Error de conexión. Si usas un bloqueador de anuncios, desactívalo, o verifica tu internet.");
                 } finally {
                     app.toggleLoading(false, 'btn-register', 'Continuar');
                 }
@@ -480,8 +487,10 @@
 
                 try {
                     // SEGURIDAD: Validación real contra el servidor
-                    const response = await fetch(SCRIPT_URL, {
+                    // Anti-Caché + Redirect Follow + Text/Plain
+                    const response = await fetch(app.getApiUrl(), {
                         method: 'POST',
+                        redirect: 'follow',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(loginData)
                     });
@@ -522,7 +531,7 @@
 
                 } catch (error) {
                     console.error("Error Login:", error);
-                    alert("Error de conexión con el servidor. Intenta más tarde.");
+                    alert("Error de conexión con el servidor. Verifica tu internet o desactiva bloqueadores.");
                 } finally {
                     app.toggleLoading(false, 'btn-login', 'Entrar');
                 }
@@ -542,8 +551,9 @@
                 localStorage.setItem('aura_user', JSON.stringify(app.state.user));
                 
                 // Notificar al servidor para actualizar la base de datos
-                fetch(SCRIPT_URL, {
+                fetch(app.getApiUrl(), {
                     method: 'POST',
+                    redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'payment_confirmation',
@@ -561,8 +571,9 @@
             handleRecovery: () => {
                 const email = prompt("Ingresa tu email para recuperar la contraseña:");
                 if(email) {
-                    fetch(SCRIPT_URL, {
+                    fetch(app.getApiUrl(), {
                         method: 'POST',
+                        redirect: 'follow',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ action: 'reset_password', email: email })
                     }).catch(console.error);
@@ -574,8 +585,9 @@
             logWorkout: () => {
                 if(!confirm("¿Registrar entrenamiento de hoy?")) return;
 
-                fetch(SCRIPT_URL, {
+                fetch(app.getApiUrl(), {
                     method: 'POST',
+                    redirect: 'follow',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'log_workout',
