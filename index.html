@@ -386,17 +386,23 @@
                 app.checkSession();
             },
 
-            // Verificar Sesión
+            // Verificar Sesión Local
             checkSession: () => {
                 const storedUser = localStorage.getItem('aura_user');
                 if (storedUser) {
-                    app.state.user = JSON.parse(storedUser);
-                    // Lógica estricta de redirección según el estado guardado
-                    if(app.state.user.hasPaid) {
-                        app.updateDashboardUI();
-                        router.navigate('dashboard');
-                    } else {
-                        router.navigate('paywall');
+                    try {
+                        app.state.user = JSON.parse(storedUser);
+                        // Redirección basada en el status guardado localmente
+                        if (app.state.user.status === 'PAID') {
+                            app.updateDashboardUI();
+                            router.navigate('dashboard');
+                        } else {
+                            router.navigate('paywall');
+                        }
+                    } catch (e) {
+                        console.error("Error al leer sesión local:", e);
+                        localStorage.removeItem('aura_user');
+                        router.navigate('welcome');
                     }
                 } else {
                     router.navigate('welcome');
@@ -421,29 +427,37 @@
 
                 try {
                     // SEGURIDAD: Fetch estándar esperando respuesta JSON
+                    // Importante: 'text/plain' para evitar preflight OPTIONS en GAS
                     const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        // Header text/plain evita errores CORS preflight con Google Apps Script
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(userData)
                     });
 
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
                     const data = await response.json();
 
                     if (data.success) {
-                        // Usuario creado exitosamente
-                        const tempUser = { email: email, hasPaid: false, name: email.split('@')[0] };
-                        localStorage.setItem('aura_user', JSON.stringify(tempUser));
-                        app.state.user = tempUser;
+                        // Usuario creado exitosamente con estado PENDING por defecto
+                        const newUser = { 
+                            email: email, 
+                            status: 'PENDING', 
+                            name: email.split('@')[0] 
+                        };
+                        localStorage.setItem('aura_user', JSON.stringify(newUser));
+                        app.state.user = newUser;
                         router.navigate('paywall');
                     } else {
-                        // Error (ej: Usuario ya existe)
+                        // Error lógico del backend (ej: Usuario ya existe)
                         alert(data.message || "Error al registrar. Verifica si el usuario ya existe.");
                     }
 
                 } catch (error) {
                     console.error("Error Registro:", error);
-                    alert("Error de conexión. Intenta de nuevo.");
+                    alert("Error de conexión. Verifica tu internet e intenta de nuevo.");
                 } finally {
                     app.toggleLoading(false, 'btn-register', 'Continuar');
                 }
@@ -472,15 +486,20 @@
                         body: JSON.stringify(loginData)
                     });
 
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
                     const data = await response.json();
 
                     if (data.success) {
-                        // Login exitoso: Determinar estado de pago
-                        const hasPaid = data.hasPaid === true; // Asegurar booleano
+                        // Login exitoso: Determinar estado de pago real
+                        // Priorizamos 'status' si viene del backend, si no, inferimos
+                        const status = data.status || (data.hasPaid ? 'PAID' : 'PENDING');
                         
                         const loggedUser = { 
                             email: email, 
-                            hasPaid: hasPaid, 
+                            status: status,
                             name: email.split('@')[0] 
                         };
 
@@ -489,10 +508,11 @@
                         
                         app.updateDashboardUI();
                         
-                        // REDIRECCIÓN FORZADA
-                        if(hasPaid) {
+                        // REDIRECCIÓN LÓGICA DE NEGOCIO
+                        if(status === 'PAID') {
                             router.navigate('dashboard');
                         } else {
+                            // Si es PENDING o cualquier otro estado, al muro de pago
                             router.navigate('paywall');
                         }
                     } else {
@@ -502,7 +522,7 @@
 
                 } catch (error) {
                     console.error("Error Login:", error);
-                    alert("Error de conexión con el servidor.");
+                    alert("Error de conexión con el servidor. Intenta más tarde.");
                 } finally {
                     app.toggleLoading(false, 'btn-login', 'Entrar');
                 }
@@ -517,11 +537,11 @@
             confirmPayment: () => {
                 if(!app.state.user) return;
                 
-                // Actualizar estado local
-                app.state.user.hasPaid = true;
+                // Actualizar estado local optimistamente
+                app.state.user.status = 'PAID';
                 localStorage.setItem('aura_user', JSON.stringify(app.state.user));
                 
-                // Notificar al servidor
+                // Notificar al servidor para actualizar la base de datos
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -529,6 +549,8 @@
                         action: 'payment_confirmation',
                         email: app.state.user.email
                     })
+                }).then(response => {
+                    if(!response.ok) console.warn("Advertencia: No se pudo confirmar el pago en el servidor.");
                 }).catch(console.error);
 
                 app.updateDashboardUI();
@@ -543,7 +565,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ action: 'reset_password', email: email })
-                    });
+                    }).catch(console.error);
                     alert("Si el correo existe, recibirás instrucciones.");
                 }
             },
@@ -560,9 +582,13 @@
                         email: app.state.user.email,
                         date: new Date().toISOString()
                     })
+                }).then(res => {
+                    if(res.ok) alert("¡Entrenamiento registrado! Buen trabajo.");
+                    else alert("Hubo un problema al guardar el entrenamiento.");
+                }).catch(error => {
+                    console.error(error);
+                    alert("Error de conexión al guardar.");
                 });
-
-                alert("¡Entrenamiento registrado! Buen trabajo.");
             },
 
             // Cerrar Sesión
