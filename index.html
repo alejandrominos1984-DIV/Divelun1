@@ -29,7 +29,8 @@
                             dark: '#050505',
                             card: '#0f0f0f',
                             accent: '#06b6d4', // Cyan 500
-                            glow: 'rgba(6, 182, 212, 0.5)'
+                            glow: 'rgba(6, 182, 212, 0.5)',
+                            error: '#ef4444'
                         }
                     },
                     animation: {
@@ -430,26 +431,31 @@
                 };
 
                 try {
-                    // Envío a Google Sheets (no-cors)
-                    // Nota: 'no-cors' impide leer la respuesta JSON, pero permite enviar datos.
-                    // Si no hay error de red, asumimos éxito.
-                    await fetch(SCRIPT_URL, {
+                    // SEGURIDAD: Petición CORS Real
+                    const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors', 
-                        headers: { 'Content-Type': 'application/json' },
+                        // Usamos text/plain para evitar problemas de preflight en Google Apps Script, pero enviamos JSON
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(userData)
                     });
 
-                    // Simulamos éxito y guardamos sesión local temporal
-                    const tempUser = { email: email, hasPaid: false, name: email.split('@')[0] };
-                    localStorage.setItem('aura_user', JSON.stringify(tempUser));
-                    app.state.user = tempUser;
+                    if (!response.ok) throw new Error("Error en el servidor");
 
-                    // Ir al pago
-                    router.navigate('paywall');
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Solo si el servidor dice éxito (usuario creado)
+                        const tempUser = { email: email, hasPaid: false, name: email.split('@')[0] };
+                        localStorage.setItem('aura_user', JSON.stringify(tempUser));
+                        app.state.user = tempUser;
+                        router.navigate('paywall');
+                    } else {
+                        // Error lógico (ej: usuario ya existe)
+                        alert(data.message || "Error al registrar. Verifica si el usuario ya existe.");
+                    }
 
                 } catch (error) {
-                    alert("Error de conexión. Por favor verifica tu internet.");
+                    alert("Error de conexión. Por favor verifica tu internet o intenta más tarde.");
                     console.error("Error en registro:", error);
                 } finally {
                     app.toggleLoading(false, 'btn-register', 'Continuar');
@@ -472,25 +478,49 @@
                 };
 
                 try {
-                    await fetch(SCRIPT_URL, {
+                    // SEGURIDAD: Petición CORS Real
+                    const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
+                        // Usamos text/plain para evitar problemas de preflight
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(loginData)
                     });
 
-                    // Debido a no-cors, no podemos validar la contraseña del lado servidor en el cliente.
-                    // En esta arquitectura simple, permitimos el paso si la petición no falla.
-                    // (Para mayor seguridad se requeriría un proxy o backend intermedio).
-                    
-                    const loggedUser = { email: email, hasPaid: true, name: email.split('@')[0] };
-                    localStorage.setItem('aura_user', JSON.stringify(loggedUser));
-                    app.state.user = loggedUser;
-                    
-                    app.updateDashboardUI();
-                    router.navigate('dashboard');
+                    if (!response.ok) throw new Error("Error de red");
+
+                    const data = await response.json();
+
+                    // SEGURIDAD: Validación estricta de la respuesta del servidor
+                    if (data.success) {
+                        // Login exitoso
+                        const loggedUser = { 
+                            email: email, 
+                            hasPaid: data.hasPaid || true, // Si el backend no devuelve estado de pago, asumimos true para demo o validamos
+                            name: email.split('@')[0] 
+                        };
+                        
+                        // Si el backend devuelve estado de pago, lo respetamos
+                        if (data.hasPaid !== undefined) {
+                            loggedUser.hasPaid = data.hasPaid;
+                        }
+
+                        localStorage.setItem('aura_user', JSON.stringify(loggedUser));
+                        app.state.user = loggedUser;
+                        
+                        app.updateDashboardUI();
+                        
+                        if(loggedUser.hasPaid) {
+                            router.navigate('dashboard');
+                        } else {
+                            router.navigate('paywall');
+                        }
+                    } else {
+                        // Login fallido (contraseña mal o usuario no existe)
+                        alert(data.message || "Credenciales incorrectas.");
+                    }
 
                 } catch (error) {
+                    console.error(error);
                     alert("Error al conectar con el servidor.");
                 } finally {
                     app.toggleLoading(false, 'btn-login', 'Entrar');
@@ -514,11 +544,10 @@
                 app.state.user.hasPaid = true;
                 localStorage.setItem('aura_user', JSON.stringify(app.state.user));
                 
-                // Enviar actualización a Sheets con action: 'payment_confirmation'
+                // Enviar confirmación (Fire and forget, pero idealmente esperaríamos respuesta también)
                 fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'payment_confirmation',
                         email: app.state.user.email
@@ -533,11 +562,9 @@
             handleRecovery: () => {
                 const email = prompt("Ingresa tu email para recuperar la contraseña:");
                 if(email) {
-                    // Enviar solicitud con action: 'reset_password'
                     fetch(SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ action: 'reset_password', email: email })
                     });
                     
@@ -549,11 +576,9 @@
             logWorkout: () => {
                 if(!confirm("¿Registrar entrenamiento de hoy?")) return;
 
-                // Enviar log con action: 'log_workout'
                 fetch(SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'log_workout',
                         email: app.state.user.email,
