@@ -10,13 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
-    <!-- TAILWIND CSS (Versión CDN para funcionamiento inmediato) -->
+    <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- LUCIDE ICONS -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- CONFIGURACIÓN DE DISEÑO PERSONALIZADA -->
+    <!-- CONFIGURACIÓN DE DISEÑO -->
     <script>
         tailwind.config = {
             theme: {
@@ -347,38 +347,28 @@
         // ###############      SECCIÓN DE CONFIGURACIÓN      ###############
         // ##################################################################
 
-        // URL del backend en Google Apps Script
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5BZ-lLob8lj-Gb0aXrKmLj1izrn-chJVlB_IT7DHu92cQPQpkaA4ION_D7YHl_6gENQ/exec";
-
-        // Enlace de pago de Stripe (Payment Link)
         const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
 
         // ##################################################################
         // ###############      FIN DE LA CONFIGURACIÓN       ###############
         // ##################################################################
 
-        
         /**
-         * Sistema de Enrutamiento y Lógica Principal
+         * Sistema de Enrutamiento
          */
         const router = {
             navigate: (viewId) => {
-                // Ocultar todas las secciones
                 document.querySelectorAll('.view-section').forEach(el => {
                     el.classList.add('hidden');
-                    el.classList.remove('flex'); // Por si acaso
+                    el.classList.remove('flex');
                 });
 
-                // Mostrar la deseada
                 const target = document.getElementById(`view-${viewId}`);
                 if (target) {
                     target.classList.remove('hidden');
-                    if(viewId === 'welcome') target.classList.add('flex'); // Welcome usa flex layout
-                    
-                    // Reinicializar iconos para asegurar que se vean
+                    if(viewId === 'welcome') target.classList.add('flex');
                     lucide.createIcons();
-                    
-                    // Resetear scroll
                     window.scrollTo(0, 0);
                 }
             }
@@ -396,12 +386,12 @@
                 app.checkSession();
             },
 
-            // Verificar si ya hay usuario guardado
+            // Verificar Sesión
             checkSession: () => {
                 const storedUser = localStorage.getItem('aura_user');
                 if (storedUser) {
                     app.state.user = JSON.parse(storedUser);
-                    // Si ya pagó, va al dashboard, si no, al paywall
+                    // Lógica estricta de redirección según el estado guardado
                     if(app.state.user.hasPaid) {
                         app.updateDashboardUI();
                         router.navigate('dashboard');
@@ -413,16 +403,15 @@
                 }
             },
 
-            // Manejo de Registro
+            // Manejo de Registro (Crea nuevos usuarios)
             handleRegister: async (e) => {
                 e.preventDefault();
                 app.toggleLoading(true, 'btn-register');
 
                 const form = e.target;
-                const email = form.email.value;
+                const email = form.email.value.trim().toLowerCase();
                 const password = form.password.value;
                 
-                // Objeto de datos con action: 'register'
                 const userData = {
                     action: 'register',
                     email: email,
@@ -431,44 +420,42 @@
                 };
 
                 try {
-                    // SEGURIDAD: Petición CORS Real
+                    // SEGURIDAD: Fetch estándar esperando respuesta JSON
                     const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        // Usamos text/plain para evitar problemas de preflight en Google Apps Script, pero enviamos JSON
+                        // Header text/plain evita errores CORS preflight con Google Apps Script
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(userData)
                     });
 
-                    if (!response.ok) throw new Error("Error en el servidor");
-
                     const data = await response.json();
 
                     if (data.success) {
-                        // Solo si el servidor dice éxito (usuario creado)
+                        // Usuario creado exitosamente
                         const tempUser = { email: email, hasPaid: false, name: email.split('@')[0] };
                         localStorage.setItem('aura_user', JSON.stringify(tempUser));
                         app.state.user = tempUser;
                         router.navigate('paywall');
                     } else {
-                        // Error lógico (ej: usuario ya existe)
+                        // Error (ej: Usuario ya existe)
                         alert(data.message || "Error al registrar. Verifica si el usuario ya existe.");
                     }
 
                 } catch (error) {
-                    alert("Error de conexión. Por favor verifica tu internet o intenta más tarde.");
-                    console.error("Error en registro:", error);
+                    console.error("Error Registro:", error);
+                    alert("Error de conexión. Intenta de nuevo.");
                 } finally {
                     app.toggleLoading(false, 'btn-register', 'Continuar');
                 }
             },
 
-            // Manejo de Login
+            // Manejo de Login (Solo valida, no crea)
             handleLogin: async (e) => {
                 e.preventDefault();
                 app.toggleLoading(true, 'btn-login');
 
                 const form = e.target;
-                const email = form.email.value;
+                const email = form.email.value.trim().toLowerCase();
                 const password = form.password.value;
 
                 const loginData = {
@@ -478,50 +465,44 @@
                 };
 
                 try {
-                    // SEGURIDAD: Petición CORS Real
+                    // SEGURIDAD: Validación real contra el servidor
                     const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        // Usamos text/plain para evitar problemas de preflight
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(loginData)
                     });
 
-                    if (!response.ok) throw new Error("Error de red");
-
                     const data = await response.json();
 
-                    // SEGURIDAD: Validación estricta de la respuesta del servidor
                     if (data.success) {
-                        // Login exitoso
+                        // Login exitoso: Determinar estado de pago
+                        const hasPaid = data.hasPaid === true; // Asegurar booleano
+                        
                         const loggedUser = { 
                             email: email, 
-                            hasPaid: data.hasPaid || true, // Si el backend no devuelve estado de pago, asumimos true para demo o validamos
+                            hasPaid: hasPaid, 
                             name: email.split('@')[0] 
                         };
-                        
-                        // Si el backend devuelve estado de pago, lo respetamos
-                        if (data.hasPaid !== undefined) {
-                            loggedUser.hasPaid = data.hasPaid;
-                        }
 
                         localStorage.setItem('aura_user', JSON.stringify(loggedUser));
                         app.state.user = loggedUser;
                         
                         app.updateDashboardUI();
                         
-                        if(loggedUser.hasPaid) {
+                        // REDIRECCIÓN FORZADA
+                        if(hasPaid) {
                             router.navigate('dashboard');
                         } else {
                             router.navigate('paywall');
                         }
                     } else {
-                        // Login fallido (contraseña mal o usuario no existe)
-                        alert(data.message || "Credenciales incorrectas.");
+                        // Fallo de autenticación
+                        alert("Email o contraseña incorrectos.");
                     }
 
                 } catch (error) {
-                    console.error(error);
-                    alert("Error al conectar con el servidor.");
+                    console.error("Error Login:", error);
+                    alert("Error de conexión con el servidor.");
                 } finally {
                     app.toggleLoading(false, 'btn-login', 'Entrar');
                 }
@@ -529,14 +510,10 @@
 
             // Abrir Stripe
             openStripe: () => {
-                if(!STRIPE_LINK.startsWith("http")) {
-                    alert("Error de configuración en el enlace de pago.");
-                    return;
-                }
                 window.open(STRIPE_LINK, '_blank');
             },
 
-            // Confirmar Pago Manualmente
+            // Confirmar Pago
             confirmPayment: () => {
                 if(!app.state.user) return;
                 
@@ -544,7 +521,7 @@
                 app.state.user.hasPaid = true;
                 localStorage.setItem('aura_user', JSON.stringify(app.state.user));
                 
-                // Enviar confirmación (Fire and forget, pero idealmente esperaríamos respuesta también)
+                // Notificar al servidor
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -552,7 +529,7 @@
                         action: 'payment_confirmation',
                         email: app.state.user.email
                     })
-                }).catch(e => console.error("Error envío pago", e));
+                }).catch(console.error);
 
                 app.updateDashboardUI();
                 router.navigate('dashboard');
@@ -567,8 +544,7 @@
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify({ action: 'reset_password', email: email })
                     });
-                    
-                    alert("Si el correo existe en nuestra base de datos, recibirás instrucciones.");
+                    alert("Si el correo existe, recibirás instrucciones.");
                 }
             },
 
@@ -596,7 +572,7 @@
                 router.navigate('welcome');
             },
 
-            // Utilidad UI: Loading
+            // Utilidades UI
             toggleLoading: (isLoading, btnId, originalText = '') => {
                 const btn = document.getElementById(btnId);
                 if(isLoading) {
@@ -611,19 +587,15 @@
                 }
             },
 
-            // Utilidad UI: Actualizar nombres
             updateDashboardUI: () => {
                 const nameEl = document.getElementById('user-name');
                 if(app.state.user && app.state.user.name) {
-                    // Capitalizar
                     nameEl.innerText = app.state.user.name.charAt(0).toUpperCase() + app.state.user.name.slice(1);
                 }
             }
         };
 
-        // Iniciar App al cargar
         window.addEventListener('DOMContentLoaded', app.init);
-
     </script>
 </body>
 </html>
