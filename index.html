@@ -113,11 +113,11 @@
 
             <div class="w-full space-y-4 animate-slide-up" style="animation-delay: 0.1s;">
                 <button onclick="router.navigate('login')" class="w-full glass py-4 rounded-xl font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] flex items-center justify-center gap-2 group">
-                    <span>Ingresar</span>
+                    <span>Iniciar Sesión</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-gray-400 group-hover:text-white transition-colors"></i>
                 </button>
                 <button onclick="router.navigate('register')" class="w-full bg-cyan-500 hover:bg-cyan-400 py-4 rounded-xl font-bold text-black transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:scale-[1.02]">
-                    Comenzar Ahora
+                    Regístrate
                 </button>
             </div>
         </section>
@@ -344,13 +344,12 @@
     <script>
         // ##################################################################
         // ###############      SECCIÓN DE CONFIGURACIÓN      ###############
-        // ###############   (CLIENTES EDITAN SOLO AQUÍ)      ###############
         // ##################################################################
 
-        // 1. Pega aquí el URL de tu Web App de Google Apps Script
+        // URL del backend en Google Apps Script
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5BZ-lLob8lj-Gb0aXrKmLj1izrn-chJVlB_IT7DHu92cQPQpkaA4ION_D7YHl_6gENQ/exec";
 
-        // 2. Pega aquí tu enlace de pago de Stripe (Payment Link)
+        // Enlace de pago de Stripe (Payment Link)
         const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
 
         // ##################################################################
@@ -422,7 +421,7 @@
                 const email = form.email.value;
                 const password = form.password.value;
                 
-                // Objeto de datos
+                // Objeto de datos con action: 'register'
                 const userData = {
                     action: 'register',
                     email: email,
@@ -432,15 +431,16 @@
 
                 try {
                     // Envío a Google Sheets (no-cors)
+                    // Nota: 'no-cors' impide leer la respuesta JSON, pero permite enviar datos.
+                    // Si no hay error de red, asumimos éxito.
                     await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors', // Solicitado explícitamente
+                        mode: 'no-cors', 
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(userData)
                     });
 
                     // Simulamos éxito y guardamos sesión local temporal
-                    // (En no-cors no podemos leer la respuesta real)
                     const tempUser = { email: email, hasPaid: false, name: email.split('@')[0] };
                     localStorage.setItem('aura_user', JSON.stringify(tempUser));
                     app.state.user = tempUser;
@@ -449,8 +449,8 @@
                     router.navigate('paywall');
 
                 } catch (error) {
-                    alert("Error de conexión. Intenta de nuevo.");
-                    console.error(error);
+                    alert("Error de conexión. Por favor verifica tu internet.");
+                    console.error("Error en registro:", error);
                 } finally {
                     app.toggleLoading(false, 'btn-register', 'Continuar');
                 }
@@ -479,8 +479,10 @@
                         body: JSON.stringify(loginData)
                     });
 
-                    // Asumimos éxito para la demo (en producción real se necesita CORS o Proxy)
-                    // Simulamos que es un usuario que YA pagó para ver el dashboard
+                    // Debido a no-cors, no podemos validar la contraseña del lado servidor en el cliente.
+                    // En esta arquitectura simple, permitimos el paso si la petición no falla.
+                    // (Para mayor seguridad se requeriría un proxy o backend intermedio).
+                    
                     const loggedUser = { email: email, hasPaid: true, name: email.split('@')[0] };
                     localStorage.setItem('aura_user', JSON.stringify(loggedUser));
                     app.state.user = loggedUser;
@@ -489,7 +491,7 @@
                     router.navigate('dashboard');
 
                 } catch (error) {
-                    alert("Error al conectar.");
+                    alert("Error al conectar con el servidor.");
                 } finally {
                     app.toggleLoading(false, 'btn-login', 'Entrar');
                 }
@@ -497,8 +499,8 @@
 
             // Abrir Stripe
             openStripe: () => {
-                if(!STRIPE_LINK.includes("http")) {
-                    alert("Configuración incompleta: El dueño debe añadir el link de Stripe.");
+                if(!STRIPE_LINK.startsWith("http")) {
+                    alert("Error de configuración en el enlace de pago.");
                     return;
                 }
                 window.open(STRIPE_LINK, '_blank');
@@ -512,7 +514,7 @@
                 app.state.user.hasPaid = true;
                 localStorage.setItem('aura_user', JSON.stringify(app.state.user));
                 
-                // Enviar actualización a Sheets
+                // Enviar actualización a Sheets con action: 'payment_confirmation'
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -521,7 +523,7 @@
                         action: 'payment_confirmation',
                         email: app.state.user.email
                     })
-                });
+                }).catch(e => console.error("Error envío pago", e));
 
                 app.updateDashboardUI();
                 router.navigate('dashboard');
@@ -531,13 +533,15 @@
             handleRecovery: () => {
                 const email = prompt("Ingresa tu email para recuperar la contraseña:");
                 if(email) {
+                    // Enviar solicitud con action: 'reset_password'
                     fetch(SCRIPT_URL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ action: 'reset_password', email: email })
                     });
-                    alert("Si el correo existe, recibirás instrucciones en breve.");
+                    
+                    alert("Si el correo existe en nuestra base de datos, recibirás instrucciones.");
                 }
             },
 
@@ -545,6 +549,7 @@
             logWorkout: () => {
                 if(!confirm("¿Registrar entrenamiento de hoy?")) return;
 
+                // Enviar log con action: 'log_workout'
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -596,5 +601,4 @@
 
     </script>
 </body>
-
 </html>
