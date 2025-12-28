@@ -1,538 +1,1053 @@
-// ##################################################################
-// ###############      SECCIÓN DE CONFIGURACIÓN      ###############
-// ##################################################################
-
-// TU URL DE GOOGLE APPS SCRIPT (¡ACTUALIZADA!)
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLWni5rAuOc8dEgQ4ILfpKSX-lKcTtNE762e5DIUMn0Fbdjf20tbKKRXC-fj3CPR5uJA/exec";
-const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
-
-// Tu URL de GitHub Pages (ajusta según tu repositorio)
-// Si es local, déjalo como está; si ya está en GitHub Pages, cambia por tu URL real
-const GITHUB_PAGES_URL = window.location.origin;
-
-// ##################################################################
-// ###############      FIN DE LA CONFIGURACIÓN       ###############
-// ##################################################################
-
-/**
- * Sistema de Enrutamiento
- */
-const router = {
-    navigate: (viewId) => {
-        document.querySelectorAll('.view-section').forEach(el => {
-            el.classList.add('hidden');
-            el.classList.remove('flex');
-        });
-
-        const target = document.getElementById(`view-${viewId}`);
-        if (target) {
-            target.classList.remove('hidden');
-            if(viewId === 'welcome') target.classList.add('flex');
-            lucide.createIcons();
-            window.scrollTo(0, 0);
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Membresía Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #10b981;
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --dark-border: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
         }
-    }
-};
 
-// Clase para manejar llamadas a la API - CORREGIDA PARA CORS
-class APIClient {
-    constructor(baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-
-    async request(data) {
-        try {
-            // Construir URL con parámetro de origen para CORS
-            const url = new URL(this.baseUrl);
-            url.searchParams.append('origin', GITHUB_PAGES_URL);
-            
-            // IMPORTANTE: Usar fetch con modo 'cors' y headers correctos
-            const response = await fetch(url.toString(), {
-                method: 'POST',
-                mode: 'cors', // Cambiado de 'no-cors' a 'cors'
-                cache: 'no-cache',
-                redirect: 'follow', // Seguir redirecciones si las hay
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-
-            // Verificar si la respuesta es OK
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            // Parsear la respuesta como JSON
-            const result = await response.json();
-            return result;
-            
-        } catch (error) {
-            console.error('API Request Error:', error);
-            
-            // Intentar método alternativo con text/plain para evitar preflight
-            if (error.name === 'TypeError' || error.message.includes('Failed to fetch')) {
-                console.warn('CORS error, trying alternative method...');
-                return await this.requestAlternative(data);
-            }
-            
-            throw error;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-    }
 
-    // Método alternativo usando text/plain para evitar preflight OPTIONS
-    async requestAlternative(data) {
-        try {
-            const url = new URL(this.baseUrl);
-            url.searchParams.append('origin', GITHUB_PAGES_URL);
-            
-            // Usar text/plain para evitar preflight CORS
-            const response = await fetch(url.toString(), {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(data)
-            });
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Estilos para las vistas */
+        .view {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--dark-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Botones */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--dark-border);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Tarjetas */
+        .card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--dark-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Vista de Bienvenida */
+        #welcome-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero {
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 60px;
+            max-width: 1000px;
+        }
+
+        .feature {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            background-color: var(--dark-card);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--dark-border);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Vista de Pago */
+        #payment-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .payment-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-icon {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Dashboard */
+        #home-view {
+            padding-top: 40px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .dashboard-card {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid var(--dark-border);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .dashboard-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card p {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-danger {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .alert-success {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .alert-warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fcd34d;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            border-top: 1px solid var(--dark-border);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
             }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
 
-            const text = await response.text();
-            return JSON.parse(text);
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>ProMembership</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="nav-home"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#" id="nav-features"><i class="fas fa-star"></i> Características</a></li>
+                    <li><a href="#" id="nav-pricing"><i class="fas fa-tag"></i> Precios</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-secondary" id="nav-login">Iniciar Sesión</button>
+                <button class="btn btn-primary" id="nav-register">Registrarse</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Vista de Bienvenida -->
+    <div id="welcome-view" class="view active">
+        <div class="container">
+            <div class="hero">
+                <h1>Sistema de Membresía Profesional</h1>
+                <p>Accede a contenido exclusivo, herramientas avanzadas y una comunidad de profesionales. Únete hoy y lleva tu carrera al siguiente nivel.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-lg" id="welcome-login">Iniciar Sesión</button>
+                    <button class="btn btn-secondary btn-lg" id="welcome-register">Registrarse</button>
+                </div>
+            </div>
             
-        } catch (error) {
-            console.error('Alternative request failed:', error);
-            
-            // Último recurso: usar fetch sin headers específicos
-            try {
-                const url = new URL(this.baseUrl);
-                url.searchParams.append('origin', GITHUB_PAGES_URL);
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Acceso Seguro</h3>
+                    <p>Autenticación robusta y protección de datos con encriptación de extremo a extremo.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Contenido Exclusivo</h3>
+                    <p>Recursos premium disponibles solo para miembros con suscripción activa.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Comunidad Profesional</h3>
+                    <p>Conéctate con otros profesionales y expande tu red de contactos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista de Registro -->
+    <div id="register-view" class="view">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Crear Cuenta</h2>
+                    <p class="card-subtitle">Regístrate para acceder al sistema de membresía</p>
+                </div>
                 
-                const response = await fetch(url.toString(), {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                    // No headers para evitar preflight
-                });
-
-                if (response.ok) {
-                    const text = await response.text();
-                    return JSON.parse(text);
-                }
-            } catch (finalError) {
-                console.error('Final attempt failed:', finalError);
-                throw new Error('No se pudo conectar con el servidor. Verifica tu conexión.');
-            }
-        }
-    }
-}
-
-// Inicializar cliente API
-const apiClient = new APIClient(SCRIPT_URL);
-
-const app = {
-    state: {
-        user: null,
-        isLoading: false,
-        api: apiClient
-    },
-
-    // Inicialización
-    init: () => {
-        lucide.createIcons();
-        app.checkSession();
-        
-        // Verificar conexión con API
-        app.testAPI();
-    },
-
-    // Test de conexión con API
-    async testAPI() {
-        try {
-            const url = new URL(SCRIPT_URL);
-            url.searchParams.append('origin', GITHUB_PAGES_URL);
-            
-            const response = await fetch(url.toString());
-            if (response.ok) {
-                const data = await response.json();
-                console.log('✅ API conectada:', data);
-                return true;
-            }
-        } catch (error) {
-            console.warn('❌ API test failed:', error);
-            
-            // Intentar sin CORS
-            try {
-                const response = await fetch(SCRIPT_URL);
-                if (response.ok) {
-                    console.log('⚠️  API responde pero puede haber CORS');
-                }
-            } catch (e) {
-                console.error('❌ No se puede conectar a la API');
-            }
-            
-            return false;
-        }
-    },
-
-    // Verificar Sesión Local
-    checkSession: () => {
-        const storedUser = localStorage.getItem('aura_user');
-        if (storedUser) {
-            try {
-                app.state.user = JSON.parse(storedUser);
-                // Redirección basada en el status guardado localmente
-                if (app.state.user.status === 'PAID') {
-                    app.updateDashboardUI();
-                    router.navigate('dashboard');
-                } else {
-                    router.navigate('paywall');
-                }
-            } catch (e) {
-                console.error("Error al leer sesión local:", e);
-                localStorage.removeItem('aura_user');
-                router.navigate('welcome');
-            }
-        } else {
-            router.navigate('welcome');
-        }
-    },
-
-    // Manejo de Registro (Crea nuevos usuarios) - CORREGIDO
-    handleRegister: async (e) => {
-        e.preventDefault();
-        app.toggleLoading(true, 'btn-register');
-
-        const form = e.target;
-        const email = form.email.value.trim().toLowerCase();
-        const password = form.password.value;
-        
-        // Validación básica
-        if (!email.includes('@') || !email.includes('.')) {
-            alert('Por favor ingresa un email válido');
-            app.toggleLoading(false, 'btn-register', 'Continuar');
-            return;
-        }
-        
-        if (password.length < 6) {
-            alert('La contraseña debe tener al menos 6 caracteres');
-            app.toggleLoading(false, 'btn-register', 'Continuar');
-            return;
-        }
-        
-        const userData = {
-            action: 'register',
-            email: email,
-            password: password,
-            date: new Date().toISOString(),
-            source: 'aura_web_app'
-        };
-
-        try {
-            const data = await app.state.api.request(userData);
-
-            if (data.success) {
-                // Usuario creado exitosamente
-                const newUser = { 
-                    email: email, 
-                    status: data.user?.status || 'PENDING', 
-                    name: email.split('@')[0],
-                    registerDate: new Date().toISOString()
-                };
-                
-                localStorage.setItem('aura_user', JSON.stringify(newUser));
-                app.state.user = newUser;
-                
-                // Mostrar mensaje de éxito
-                alert("✅ ¡Registro exitoso! Tu cuenta ha sido creada.");
-                router.navigate('paywall');
-                
-            } else {
-                // Error del backend
-                alert(`❌ ${data.message || "Error al registrar. Verifica si el usuario ya existe."}`);
-            }
-
-        } catch (error) {
-            console.error("Error Registro:", error);
-            
-            // Mensaje específico según el error
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                alert("🌐 Error de conexión. Verifica tu internet e intenta de nuevo.");
-            } else if (error.message.includes('CORS')) {
-                alert("⚠️  Error de seguridad del navegador. Intenta desde otro navegador o actualiza esta página.");
-            } else {
-                alert("❌ Error inesperado: " + error.message);
-            }
-            
-        } finally {
-            app.toggleLoading(false, 'btn-register', 'Continuar');
-        }
-    },
-
-    // Manejo de Login - CORREGIDO
-    handleLogin: async (e) => {
-        e.preventDefault();
-        app.toggleLoading(true, 'btn-login');
-
-        const form = e.target;
-        const email = form.email.value.trim().toLowerCase();
-        const password = form.password.value;
-
-        // Validación básica
-        if (!email || !password) {
-            alert('Por favor completa todos los campos');
-            app.toggleLoading(false, 'btn-login', 'Entrar');
-            return;
-        }
-
-        const loginData = {
-            action: 'login',
-            email: email,
-            password: password,
-            timestamp: new Date().toISOString()
-        };
-
-        try {
-            const data = await app.state.api.request(loginData);
-
-            if (data.success) {
-                // Login exitoso
-                const status = data.user?.status || (data.hasPaid ? 'PAID' : 'PENDING');
-                
-                const loggedUser = { 
-                    email: email, 
-                    status: status,
-                    name: email.split('@')[0],
-                    loginCount: data.user?.loginCount || 1,
-                    lastLogin: new Date().toISOString()
-                };
-
-                localStorage.setItem('aura_user', JSON.stringify(loggedUser));
-                app.state.user = loggedUser;
-                
-                app.updateDashboardUI();
-                
-                // REDIRECCIÓN BASADA EN ESTADO
-                if(status === 'PAID') {
-                    alert(`✅ Bienvenido de vuelta, ${loggedUser.name}!`);
-                    router.navigate('dashboard');
-                } else {
-                    alert(`✅ Login exitoso. Completa tu suscripción para acceder a todo el contenido.`);
-                    router.navigate('paywall');
-                }
-            } else {
-                // Fallo de autenticación
-                alert("❌ Email o contraseña incorrectos.");
-            }
-
-        } catch (error) {
-            console.error("Error Login:", error);
-            
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                alert("🌐 Error de conexión. Verifica tu internet.");
-            } else {
-                alert("❌ Error de conexión con el servidor. Intenta más tarde.");
-            }
-            
-        } finally {
-            app.toggleLoading(false, 'btn-login', 'Entrar');
-        }
-    },
-
-    // Abrir Stripe
-    openStripe: () => {
-        window.open(STRIPE_LINK, '_blank', 'noopener,noreferrer');
-        
-        // Opcional: Guardar que el usuario hizo clic en Stripe
-        if (app.state.user) {
-            localStorage.setItem('stripe_clicked', 'true');
-        }
-    },
-
-    // Confirmar Pago - CORREGIDO
-    confirmPayment: async () => {
-        if(!app.state.user) {
-            alert("⚠️ Primero debes iniciar sesión.");
-            router.navigate('login');
-            return;
-        }
-        
-        if(confirm("¿Confirmas que has realizado el pago de tu membresía AURA ELITE?")) {
-            const btn = document.querySelector('button[onclick*="confirmPayment"]');
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = 'Confirmando...';
-            }
-            
-            try {
-                const data = await app.state.api.request({
-                    action: 'payment_confirmation',
-                    email: app.state.user.email,
-                    confirmation_time: new Date().toISOString()
-                });
-
-                if (data.success) {
-                    // Actualizar estado local
-                    app.state.user.status = 'PAID';
-                    app.state.user.paymentDate = new Date().toISOString();
-                    localStorage.setItem('aura_user', JSON.stringify(app.state.user));
+                <form id="register-form">
+                    <div class="alert alert-warning" id="register-alert" style="display: none;"></div>
                     
-                    app.updateDashboardUI();
-                    alert("🎉 ¡Pago confirmado! Ahora tienes acceso completo a AURA ELITE.");
-                    router.navigate('dashboard');
-                } else {
-                    alert("⚠️ " + (data.message || "No se pudo confirmar el pago. Contacta al soporte."));
-                }
-            } catch (error) {
-                console.error("Error confirmando pago:", error);
-                alert("❌ Error de conexión al confirmar el pago.");
-            } finally {
-                if (btn) {
-                    btn.disabled = false;
-                    btn.innerHTML = 'Ya realicé mi pago';
+                    <div class="form-group">
+                        <label class="form-label" for="register-email">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="register-email" required placeholder="ejemplo@correo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="register-password">Contraseña</label>
+                        <input type="password" class="form-control" id="register-password" required placeholder="Mínimo 8 caracteres">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="register-confirm-password">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" id="register-confirm-password" required placeholder="Repite tu contraseña">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" id="register-submit">
+                        <span>Crear Cuenta</span>
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>¿Ya tienes una cuenta? <a href="#" id="register-to-login">Inicia Sesión</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista de Inicio de Sesión -->
+    <div id="login-view" class="view">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Iniciar Sesión</h2>
+                    <p class="card-subtitle">Accede a tu cuenta de membresía</p>
+                </div>
+                
+                <form id="login-form">
+                    <div class="alert alert-danger" id="login-alert" style="display: none;"></div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="login-email">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="login-email" required placeholder="ejemplo@correo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="login-password">Contraseña</label>
+                        <input type="password" class="form-control" id="login-password" required placeholder="Introduce tu contraseña">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" id="login-submit">
+                        <span>Iniciar Sesión</span>
+                    </button>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p>¿No tienes una cuenta? <a href="#" id="login-to-register">Regístrate</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista de Pago -->
+    <div id="payment-view" class="view">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <div class="payment-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2 class="card-title">Completar Pago</h2>
+                    <p class="card-subtitle">Tu registro está pendiente de pago. Completa el proceso para activar tu membresía.</p>
+                </div>
+                
+                <div class="payment-info">
+                    <p>Haz clic en el botón para proceder con el pago seguro a través de Stripe.</p>
+                    <p><strong>Importe:</strong> $49.99 USD (anual)</p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <a id="stripe-payment-link" class="btn btn-success btn-lg btn-block" target="_blank">
+                        <i class="fas fa-credit-card"></i> Proceder al Pago
+                    </a>
+                </div>
+                
+                <button class="btn btn-primary btn-block" id="confirm-payment">
+                    <i class="fas fa-check-circle"></i> Confirmar mi Pago
+                </button>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <p><a href="#" id="payment-to-login">Volver al inicio de sesión</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista de Dashboard (Home) -->
+    <div id="home-view" class="view">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title" id="welcome-user">Bienvenido a tu suscripción</h1>
+                <p class="dashboard-subtitle">Aquí tienes acceso exclusivo a todos los beneficios de tu membresía</p>
+            </div>
+            
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Cursos Exclusivos</h3>
+                    <p>Accede a nuestra biblioteca de cursos avanzados para profesionales.</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Herramientas de Análisis</h3>
+                    <p>Utiliza nuestras herramientas premium para analizar tu progreso.</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Eventos Privados</h3>
+                    <p>Participa en webinars y eventos exclusivos para miembros.</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Recursos Descargables</h3>
+                    <p>Descarga plantillas, guías y recursos profesionales.</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>Soporte Prioritario</h3>
+                    <p>Recibe atención personalizada de nuestro equipo de soporte.</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Comunidad</h3>
+                    <p>Conecta con otros profesionales en nuestra plataforma exclusiva.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn btn-secondary" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 ProMembership. Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <a href="#" style="color: var(--text-secondary); text-decoration: none;">Términos de Servicio</a> | 
+                <a href="#" style="color: var(--text-secondary); text-decoration: none;">Política de Privacidad</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // CONSTANTES PARA CONFIGURACIÓN (IMPORTANTE: LLENAR ESTAS CONSTANTES)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyXHYfOVfMv-v2eo-mRr3WYFsEydx6bOYhkv_i4oLLG8RpBWXR5A5mf1PgFqSS3lPMoHg/exec";
+        const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
+        
+        // Variables globales
+        let currentUser = null;
+        let currentView = 'welcome';
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar enlace de Stripe
+            document.getElementById('stripe-payment-link').href = STRIPE_LINK;
+            
+            // Verificar si hay un usuario en localStorage
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    // Verificar si el token de sesión sigue siendo válido
+                    if (currentUser && currentUser.email) {
+                        showView('home');
+                        updateWelcomeMessage();
+                    }
+                } catch (e) {
+                    console.error('Error al cargar usuario desde localStorage:', e);
+                    localStorage.removeItem('currentUser');
                 }
             }
+            
+            // Configurar navegación
+            setupNavigation();
+            
+            // Configurar formularios
+            setupForms();
+            
+            // Configurar otros eventos
+            setupEventListeners();
+        });
+        
+        // Configurar navegación entre vistas
+        function setupNavigation() {
+            // Botones del header
+            document.getElementById('nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentUser && currentUser.status === 'PAID') {
+                    showView('home');
+                } else {
+                    showView('welcome');
+                }
+            });
+            
+            document.getElementById('nav-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                showView('login');
+            });
+            
+            document.getElementById('nav-register').addEventListener('click', function(e) {
+                e.preventDefault();
+                showView('register');
+            });
+            
+            // Botones de bienvenida
+            document.getElementById('welcome-login').addEventListener('click', function() {
+                showView('login');
+            });
+            
+            document.getElementById('welcome-register').addEventListener('click', function() {
+                showView('register');
+            });
+            
+            // Enlaces entre formularios
+            document.getElementById('register-to-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                showView('login');
+            });
+            
+            document.getElementById('login-to-register').addEventListener('click', function(e) {
+                e.preventDefault();
+                showView('register');
+            });
+            
+            document.getElementById('payment-to-login').addEventListener('click', function(e) {
+                e.preventDefault();
+                showView('login');
+            });
+            
+            // Botón de cerrar sesión
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                logout();
+            });
         }
-    },
-
-    // Recuperar Contraseña - CORREGIDO
-    handleRecovery: async () => {
-        const email = prompt("📧 Ingresa tu email para recuperar la contraseña:");
-        if(email && email.includes('@')) {
+        
+        // Configurar formularios
+        function setupForms() {
+            // Formulario de registro
+            document.getElementById('register-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerUser();
+            });
+            
+            // Formulario de inicio de sesión
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                loginUser();
+            });
+            
+            // Botón de confirmar pago
+            document.getElementById('confirm-payment').addEventListener('click', function() {
+                confirmPayment();
+            });
+        }
+        
+        // Configurar otros eventos
+        function setupEventListeners() {
+            // Navegación de características
+            document.getElementById('nav-features').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('welcome-view').scrollIntoView({ behavior: 'smooth' });
+                showView('welcome');
+            });
+            
+            document.getElementById('nav-pricing').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Página de precios en desarrollo. Actualmente solo disponemos del plan anual de $49.99 USD.');
+            });
+        }
+        
+        // Mostrar una vista específica
+        function showView(viewName) {
+            // Ocultar todas las vistas
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Mostrar la vista solicitada
+            document.getElementById(`${viewName}-view`).classList.add('active');
+            currentView = viewName;
+        }
+        
+        // Registrar un nuevo usuario
+        async function registerUser() {
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Validaciones básicas
+            if (!email || !password || !confirmPassword) {
+                showAlert('register-alert', 'warning', 'Por favor completa todos los campos.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('register-alert', 'warning', 'Las contraseñas no coinciden.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showAlert('register-alert', 'warning', 'La contraseña debe tener al menos 8 caracteres.');
+                return;
+            }
+            
+            // Mostrar indicador de carga
+            const submitBtn = document.getElementById('register-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner"></span> Procesando...';
+            submitBtn.disabled = true;
+            
             try {
-                const data = await app.state.api.request({ 
-                    action: 'reset_password', 
-                    email: email.trim().toLowerCase()
+                // Enviar datos al servidor (Google Apps Script)
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        action: 'register',
+                        email: email,
+                        password: password
+                    })
                 });
                 
-                alert(data.message || "📨 Si el correo existe, recibirás instrucciones en tu email.");
-            } catch (error) {
-                alert("⚠️ Error al procesar la solicitud. Intenta más tarde.");
-            }
-        } else if(email) {
-            alert("❌ Por favor ingresa un email válido.");
-        }
-    },
-
-    // Log de Entrenamiento - CORREGIDO
-    logWorkout: async () => {
-        if(!app.state.user) {
-            alert("⚠️ Primero debes iniciar sesión.");
-            return;
-        }
-        
-        if(!confirm("¿Registrar entrenamiento de hoy? 🏋️‍♂️")) return;
-
-        try {
-            const data = await app.state.api.request({
-                action: 'log_workout',
-                email: app.state.user.email,
-                date: new Date().toISOString(),
-                workout_type: 'general',
-                duration_minutes: 60
-            });
-            
-            if(data.success) {
-                alert("✅ ¡Entrenamiento registrado! Buen trabajo. 🎯\n" + 
-                      (data.workout ? `Tipo: ${data.workout.type}` : ''));
-            } else {
-                alert("⚠️ Hubo un problema al guardar el entrenamiento.");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("🌐 Error de conexión al guardar. Tu entrenamiento se guardará localmente.");
-            
-            // Guardar localmente como respaldo
-            const workouts = JSON.parse(localStorage.getItem('aura_workouts') || '[]');
-            workouts.push({
-                email: app.state.user.email,
-                date: new Date().toISOString(),
-                saved_locally: true
-            });
-            localStorage.setItem('aura_workouts', JSON.stringify(workouts));
-        }
-    },
-
-    // Cerrar Sesión
-    logout: () => {
-        if(confirm("¿Estás seguro de que quieres cerrar sesión?")) {
-            localStorage.removeItem('aura_user');
-            app.state.user = null;
-            router.navigate('welcome');
-        }
-    },
-
-    // Utilidades UI
-    toggleLoading: (isLoading, btnId, originalText = '') => {
-        const btn = document.getElementById(btnId);
-        if (!btn) return;
-        
-        if(isLoading) {
-            btn.dataset.original = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "⏳ Procesando...";
-            btn.classList.add('opacity-70', 'cursor-not-allowed');
-        } else {
-            btn.disabled = false;
-            btn.innerText = originalText || btn.dataset.original;
-            btn.classList.remove('opacity-70', 'cursor-not-allowed');
-        }
-    },
-
-    updateDashboardUI: () => {
-        const nameEl = document.getElementById('user-name');
-        if(app.state.user && app.state.user.name) {
-            // Capitalizar primera letra
-            const capitalized = app.state.user.name.charAt(0).toUpperCase() + 
-                              app.state.user.name.slice(1);
-            nameEl.innerText = capitalized;
-            
-            // Actualizar fecha de último login si está disponible
-            if (app.state.user.lastLogin) {
-                const lastLogin = new Date(app.state.user.lastLogin);
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                console.log('Último login:', lastLogin.toLocaleDateString('es-ES', options));
-            }
-        }
-    },
-    
-    // Función adicional: Verificar estado de suscripción
-    checkSubscriptionStatus: async () => {
-        if (!app.state.user) return;
-        
-        try {
-            const data = await app.state.api.request({
-                action: 'check_status',
-                email: app.state.user.email
-            });
-            
-            if (data.success && data.user && data.user.status !== app.state.user.status) {
-                // Actualizar estado si cambió
-                app.state.user.status = data.user.status;
-                localStorage.setItem('aura_user', JSON.stringify(app.state.user));
+                const result = await response.json();
                 
-                if (data.user.status === 'PAID' && window.location.hash.includes('paywall')) {
-                    alert('🎉 ¡Tu suscripción está activa! Redirigiendo al dashboard...');
-                    router.navigate('dashboard');
+                if (result.success) {
+                    // Registro exitoso
+                    currentUser = {
+                        email: email,
+                        status: 'PENDING'
+                    };
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Redirigir a la vista de pago
+                    showView('payment');
+                    showAlert('register-alert', 'success', 'Registro exitoso. Ahora completa el pago para activar tu membresía.');
+                } else {
+                    // Error en el registro
+                    showAlert('register-alert', 'danger', result.message || 'Error al registrar el usuario. Intenta nuevamente.');
                 }
+            } catch (error) {
+                console.error('Error en el registro:', error);
+                showAlert('register-alert', 'danger', 'Error de conexión. Verifica tu conexión a internet y la URL del script.');
+            } finally {
+                // Restaurar botón
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
-        } catch (error) {
-            // Silencioso, no mostrar error al usuario
-            console.log('Status check:', error.message);
         }
-    }
-};
-
-// Inicializar cuando el DOM esté listo
-window.addEventListener('DOMContentLoaded', app.init);
-
-// Opcional: Verificar estado de suscripción cada 30 segundos si está en paywall
-setInterval(() => {
-    if (app.state.user && app.state.user.status === 'PENDING') {
-        app.checkSubscriptionStatus();
-    }
-}, 30000);
+        
+        // Iniciar sesión de usuario
+        async function loginUser() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            // Validaciones básicas
+            if (!email || !password) {
+                showAlert('login-alert', 'warning', 'Por favor ingresa tu correo y contraseña.');
+                return;
+            }
+            
+            // Mostrar indicador de carga
+            const submitBtn = document.getElementById('login-submit');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner"></span> Verificando...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Enviar datos al servidor (Google Apps Script)
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        action: 'login',
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Login exitoso
+                    currentUser = {
+                        email: email,
+                        status: result.status
+                    };
+                    
+                    // Guardar en localStorage
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Verificar el estado del usuario
+                    if (result.status === 'PAID') {
+                        // Usuario pagado, mostrar dashboard
+                        showView('home');
+                        updateWelcomeMessage();
+                    } else if (result.status === 'PENDING') {
+                        // Usuario pendiente de pago, redirigir a pago
+                        showView('payment');
+                        showAlert('login-alert', 'warning', 'Tu membresía está pendiente de pago. Completa el proceso para activar tu cuenta.');
+                    } else {
+                        // Estado desconocido
+                        showAlert('login-alert', 'danger', 'Estado de cuenta no válido. Contacta con soporte.');
+                    }
+                } else {
+                    // Error en el login
+                    showAlert('login-alert', 'danger', result.message || 'Credenciales incorrectas. Intenta nuevamente.');
+                }
+            } catch (error) {
+                console.error('Error en el login:', error);
+                showAlert('login-alert', 'danger', 'Error de conexión. Verifica tu conexión a internet y la URL del script.');
+            } finally {
+                // Restaurar botón
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+        
+        // Confirmar pago
+        async function confirmPayment() {
+            if (!currentUser || !currentUser.email) {
+                showView('login');
+                return;
+            }
+            
+            // Mostrar indicador de carga
+            const confirmBtn = document.getElementById('confirm-payment');
+            const originalText = confirmBtn.innerHTML;
+            confirmBtn.innerHTML = '<span class="spinner"></span> Verificando pago...';
+            confirmBtn.disabled = true;
+            
+            try {
+                // Verificar con el servidor si el usuario ya pagó
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        action: 'checkPayment',
+                        email: currentUser.email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    if (result.status === 'PAID') {
+                        // Pago confirmado, actualizar usuario
+                        currentUser.status = 'PAID';
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        
+                        // Mostrar dashboard
+                        showView('home');
+                        updateWelcomeMessage();
+                        
+                        // Mostrar mensaje de éxito
+                        alert('¡Pago confirmado! Tu membresía ha sido activada correctamente.');
+                    } else {
+                        // Aún pendiente
+                        alert('Tu pago aún está pendiente. Si ya realizaste el pago, espera unos minutos e inténtalo de nuevo. Si el problema persiste, contacta con soporte.');
+                    }
+                } else {
+                    // Error al verificar
+                    alert('Error al verificar el pago: ' + (result.message || 'Intenta nuevamente en unos minutos.'));
+                }
+            } catch (error) {
+                console.error('Error al confirmar pago:', error);
+                alert('Error de conexión al verificar el pago. Intenta nuevamente.');
+            } finally {
+                // Restaurar botón
+                confirmBtn.innerHTML = originalText;
+                confirmBtn.disabled = false;
+            }
+        }
+        
+        // Cerrar sesión
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showView('welcome');
+            
+            // Limpiar formularios
+            document.getElementById('login-form').reset();
+            document.getElementById('register-form').reset();
+        }
+        
+        // Actualizar mensaje de bienvenida en el dashboard
+        function updateWelcomeMessage() {
+            if (currentUser && currentUser.email) {
+                const userName = currentUser.email.split('@')[0];
+                document.getElementById('welcome-user').textContent = `Bienvenido, ${userName}`;
+            }
+        }
+        
+        // Mostrar alerta en un formulario
+        function showAlert(alertId, type, message) {
+            const alertElement = document.getElementById(alertId);
+            alertElement.className = `alert alert-${type}`;
+            alertElement.innerHTML = `
+                <i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : type === 'warning' ? 'exclamation-circle' : 'check-circle'}"></i>
+                <span>${message}</span>
+            `;
+            alertElement.style.display = 'flex';
+            
+            // Ocultar la alerta después de 5 segundos
+            setTimeout(() => {
+                alertElement.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
