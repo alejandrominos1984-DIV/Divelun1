@@ -5,181 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divelun | Acceso Exclusivo</title>
     <style>
-        /* --- VARIABLES & RESET --- */
-        :root {
-            --primary: #6366f1; /* Indigo */
-            --primary-dark: #4f46e5;
-            --accent: #ec4899; /* Pink */
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --text: #1e293b;
-            --text-light: #64748b;
-            --success: #10b981;
-        }
-
+        /* --- ESTILOS VISUALES (GLASSMORPHISM) --- */
+        :root { --primary: #6366f1; --primary-dark: #4f46e5; --accent: #ec4899; --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.6); --text: #1e293b; --text-light: #64748b; }
         * { box-sizing: border-box; outline: none; }
-        
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        /* Fondo animado decorativo */
-        body::before {
-            content: '';
-            position: absolute;
-            top: -10%; left: -10%;
-            width: 50%; height: 50%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0.15;
-            filter: blur(80px);
-            z-index: -1;
-            animation: float 10s infinite alternate;
-        }
-        body::after {
-            content: '';
-            position: absolute;
-            bottom: -10%; right: -10%;
-            width: 50%; height: 50%;
-            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-            opacity: 0.15;
-            filter: blur(80px);
-            z-index: -1;
-            animation: float 10s infinite alternate-reverse;
-        }
-
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow-x: hidden; }
+        body::before { content: ''; position: absolute; top: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate; }
+        body::after { content: ''; position: absolute; bottom: -10%; right: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate-reverse; }
         @keyframes float { from { transform: translate(0,0); } to { transform: translate(20px, 20px); } }
-
-        /* --- CONTENEDOR PRINCIPAL (GLASSMORPHISM) --- */
-        .container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.05), 0 10px 15px -5px rgba(0, 0, 0, 0.02);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-            transition: height 0.3s ease;
-        }
-
-        h1, h2 { margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; }
-        h1 { font-size: 1.8rem; }
-        h2 { font-size: 1.5rem; }
-        p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
-
-        /* --- INPUTS & PASSWORD EYE --- */
-        .input-group {
-            position: relative;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
         
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            padding-right: 45px; /* Espacio para el ojo */
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            font-size: 0.95rem;
-            color: var(--text);
-            transition: all 0.2s;
-        }
-
-        input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
-        }
-
-        .toggle-pass {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #94a3b8;
-            transition: color 0.2s;
-            display: flex;
-            align-items: center;
-        }
-        .toggle-pass:hover { color: var(--primary); }
+        .container { background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px -5px rgba(0,0,0,0.05); width: 100%; max-width: 420px; text-align: center; position: relative; }
+        h1, h2 { margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700; }
+        h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; }
+        p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+        
+        .input-group { position: relative; margin-bottom: 1rem; text-align: left; }
+        input { width: 100%; padding: 14px 16px; padding-right: 45px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.75rem; font-size: 0.95rem; color: var(--text); transition: all 0.2s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+        
+        .toggle-pass { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; display: flex; align-items: center; }
         .toggle-pass svg { width: 20px; height: 20px; }
 
-        /* --- BOTONES --- */
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4); }
-        button:active { transform: translateY(0); }
-
-        button.secondary {
-            background: transparent;
-            color: var(--text-light);
-            box-shadow: none;
-            border: 1px solid transparent;
-            font-weight: 500;
-        }
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer; margin-bottom: 0.75rem; box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3); transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); }
+        button.secondary { background: transparent; color: var(--text-light); box-shadow: none; border: 1px solid transparent; }
         button.secondary:hover { color: var(--primary); background: rgba(99, 102, 241, 0.05); }
-
         button.stripe-btn { background: #635bff; }
-        button.stripe-btn:hover { background: #4e46e5; box-shadow: 0 10px 15px -3px rgba(99, 91, 255, 0.4); }
+        button.success-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
 
-        button.success-btn { 
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
-        }
-        button.success-btn:hover { box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4); }
+        .forgot-link { display: block; font-size: 0.85rem; color: var(--primary); text-decoration: none; margin-bottom: 1.5rem; cursor: pointer; text-align: right; }
+        .forgot-link:hover { text-decoration: underline; }
 
-        /* --- UTILIDADES --- */
         .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
         .view.active { display: block; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         .error { color: #ef4444; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #fee2e2; padding: 8px; border-radius: 6px; }
+        .success-msg { color: #10b981; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #dcfce7; padding: 8px; border-radius: 6px; }
         .loading { font-size: 0.85rem; color: var(--primary); margin-top: 10px; display: none; font-weight: 500; }
         
-        /* Dashboard Bento Grid Style */
         .bento-grid { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; margin-top: 1rem; }
         .bento-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .bento-card h3 { margin: 0 0 5px 0; font-size: 1rem; color: var(--primary); }
         .bento-card p { margin: 0; font-size: 0.85rem; }
-
         .status-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px;}
     </style>
 </head>
 <body>
 
 <div class="container">
-    
     <script>
-        // ==========================================
-        // URLS CONFIGURADAS (NO TOCAR)
-        // ==========================================
+        // =========================================================
+        // VERIFICA QUE ESTE LINK SEA EL QUE DICE "GESTIONAR IMPLEMENTACIONES"
+        // =========================================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
     </script>
 
@@ -194,217 +71,180 @@
     <div id="view-register" class="view">
         <h2>Crear Cuenta</h2>
         <p>Únete hoy para acceder al contenido.</p>
-        
         <div class="input-group">
             <input type="email" id="reg-email" placeholder="Correo electrónico">
         </div>
-        
         <div class="input-group">
             <input type="password" id="reg-pass" placeholder="Crear contraseña">
-            <span class="toggle-pass" onclick="togglePass('reg-pass', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                </svg>
-            </span>
+            <span class="toggle-pass" onclick="togglePass('reg-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
         </div>
-
         <button onclick="handleRegister()">Continuar al Pago</button>
         <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        
         <div id="reg-msg" class="error"></div>
         <div id="reg-load" class="loading">Creando cuenta...</div>
     </div>
 
     <div id="view-payment" class="view">
         <h2>Casi listo...</h2>
-        <p>Tu cuenta ha sido creada. Realiza el pago seguro para activarla inmediatamente.</p>
-        
+        <p>Cuenta creada. Realiza el pago para activarla.</p>
         <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
             <button class="stripe-btn">💳 Pagar Membresía Ahora</button>
         </a>
-        
-        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">
-            🔒 Pago seguro vía Stripe SSL. Serás redirigido automáticamente.
-        </p>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">🔒 Pago seguro vía Stripe SSL.</p>
     </div>
 
     <div id="view-success" class="view">
         <div style="font-size: 4rem; color: #10b981; margin-bottom: 10px;">🎉</div>
         <h2>¡Pago Exitoso!</h2>
-        <p>Tu suscripción está lista. Activa tu acceso ahora.</p>
-        
+        <p>Tu suscripción está lista.</p>
         <button class="success-btn" onclick="activateAccount()">🚀 Comencemos</button>
-        
-        <div id="success-load" class="loading">Activando credenciales...</div>
+        <div id="success-load" class="loading">Activando cuenta...</div>
     </div>
 
     <div id="view-login" class="view">
-        <h2>Bienvenido de nuevo</h2>
-        <p>Ingresa tus credenciales para acceder.</p>
-        
+        <h2>Bienvenido</h2>
+        <p>Ingresa tus credenciales.</p>
         <div class="input-group">
             <input type="email" id="login-email" placeholder="Correo electrónico">
         </div>
-
-        <div class="input-group">
+        <div class="input-group" style="margin-bottom: 0.5rem;">
             <input type="password" id="login-pass" placeholder="Contraseña">
-            <span class="toggle-pass" onclick="togglePass('login-pass', this)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                </svg>
-            </span>
+            <span class="toggle-pass" onclick="togglePass('login-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
         </div>
+        
+        <a class="forgot-link" onclick="nav('view-recover')">¿Olvidaste tu contraseña?</a>
 
         <button onclick="handleLogin()">Entrar</button>
         <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        
         <div id="login-msg" class="error"></div>
         <div id="login-load" class="loading">Verificando...</div>
+    </div>
+
+    <div id="view-recover" class="view">
+        <h2>Recuperar Acceso</h2>
+        <p>Ingresa tu correo y te enviaremos tu contraseña.</p>
+        <div class="input-group">
+            <input type="email" id="rec-email" placeholder="Tu correo registrado">
+        </div>
+        <button onclick="handleRecover()">Enviar Contraseña</button>
+        <button class="secondary" onclick="nav('view-login')">Volver al Login</button>
+        <div id="rec-msg" class="error"></div>
+        <div id="rec-success" class="success-msg"></div>
+        <div id="rec-load" class="loading">Buscando en la base de datos...</div>
     </div>
 
     <div id="view-dashboard" class="view">
         <div class="status-badge">● MIEMBRO ACTIVO</div>
         <h2>Dashboard</h2>
         <p>Bienvenido al área exclusiva.</p>
-        
         <div class="bento-grid">
-            <div class="bento-card">
-                <h3>📁 Mis Recursos</h3>
-                <p>Accede a tus archivos y descargas.</p>
-            </div>
-            <div class="bento-card">
-                <h3>📊 Analíticas</h3>
-                <p>Visualiza el rendimiento de tus datos.</p>
-            </div>
-            <div class="bento-card">
-                <h3>⚙️ Configuración</h3>
-                <p>Gestiona los detalles de tu cuenta.</p>
-            </div>
+            <div class="bento-card"><h3>📁 Mis Recursos</h3><p>Accede a tus archivos.</p></div>
+            <div class="bento-card"><h3>📊 Analíticas</h3><p>Visualiza el rendimiento.</p></div>
+            <div class="bento-card"><h3>⚙️ Configuración</h3><p>Gestiona tu cuenta.</p></div>
         </div>
-        
         <br>
         <button class="secondary" onclick="logout()">Cerrar Sesión</button>
     </div>
 </div>
 
 <script>
-    // ICONOS SVG (Ojo Abierto / Cerrado)
     const eyeOpen = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>`;
     const eyeClosed = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>`;
 
-    // LÓGICA DE MOSTRAR/OCULTAR CONTRASEÑA
     function togglePass(inputId, iconSpan) {
         const input = document.getElementById(inputId);
-        if (input.type === "password") {
-            input.type = "text";
-            iconSpan.innerHTML = eyeOpen;
-            iconSpan.style.color = "var(--primary)";
-        } else {
-            input.type = "password";
-            iconSpan.innerHTML = eyeClosed;
-            iconSpan.style.color = "#94a3b8";
-        }
+        if (input.type === "password") { input.type = "text"; iconSpan.innerHTML = eyeOpen; iconSpan.style.color = "var(--primary)"; } 
+        else { input.type = "password"; iconSpan.innerHTML = eyeClosed; iconSpan.style.color = "#94a3b8"; }
     }
 
-    // --- LÓGICA DEL SISTEMA ---
-
-    // 1. Detección de vuelta de Stripe
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('payment_success') === 'true') {
-            nav('view-success');
-        }
+        if (urlParams.get('payment_success') === 'true') nav('view-success');
     };
 
     function nav(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
-        document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.error, .success-msg').forEach(el => el.style.display = 'none');
     }
 
     async function postData(action, data) {
-        const payload = { action: action, ...data };
         try {
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ action: action, ...data })
             });
             return await response.json();
-        } catch (error) {
-            console.error(error);
-            return { success: false, message: "Error de conexión." };
-        }
+        } catch (error) { return { success: false, message: "Error de conexión." }; }
     }
 
-    // REGISTRO
+    // --- ACCIONES ---
+
     async function handleRegister() {
         const email = document.getElementById('reg-email').value;
         const pass = document.getElementById('reg-pass').value;
         const loader = document.getElementById('reg-load');
         const msg = document.getElementById('reg-msg');
-
-        if(!email || !pass) { msg.innerText = "Completa todos los campos"; msg.style.display = 'block'; return; }
-        
+        if(!email || !pass) { msg.innerText = "Completa los campos"; msg.style.display = 'block'; return; }
         loader.style.display = 'block';
-        
         const res = await postData('register', { email, password: pass });
         loader.style.display = 'none';
-        
-        if (res.success) {
-            localStorage.setItem('tempUserEmail', email); 
-            nav('view-payment');
-        } else {
-            msg.innerText = res.message; msg.style.display = 'block';
-        }
+        if (res.success) { localStorage.setItem('tempUserEmail', email); nav('view-payment'); } 
+        else { msg.innerText = res.message; msg.style.display = 'block'; }
     }
 
-    // ACTIVACIÓN (Botón Comencemos)
-    async function activateAccount() {
-        const savedEmail = localStorage.getItem('tempUserEmail');
-        const loader = document.getElementById('success-load');
-
-        if(!savedEmail) {
-            alert("No se encontró el email de registro. Por favor inicia sesión.");
-            nav('view-login');
-            return;
-        }
-
-        loader.style.display = 'block'; 
-
-        const res = await postData('payment_confirmation', { email: savedEmail });
-        
-        if(res.success) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-            localStorage.removeItem('tempUserEmail');
-            nav('view-dashboard');
-        } else {
-            loader.style.display = 'none';
-            alert("Error: " + res.message);
-        }
-    }
-
-    // LOGIN
     async function handleLogin() {
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-pass').value;
         const loader = document.getElementById('login-load');
         const msg = document.getElementById('login-msg');
-
         loader.style.display = 'block';
         const res = await postData('login', { email, password: pass });
         loader.style.display = 'none';
+        if (res.success) nav('view-dashboard');
+        else { msg.innerText = res.message; msg.style.display = 'block'; }
+    }
 
-        if (res.success) {
-            nav('view-dashboard');
+    // NUEVO: MANEJO DE RECUPERACIÓN
+    async function handleRecover() {
+        const email = document.getElementById('rec-email').value;
+        const loader = document.getElementById('rec-load');
+        const msg = document.getElementById('rec-msg');
+        const success = document.getElementById('rec-success');
+
+        if(!email) { msg.innerText = "Ingresa tu email"; msg.style.display = 'block'; return; }
+        
+        loader.style.display = 'block';
+        msg.style.display = 'none';
+        success.style.display = 'none';
+
+        const res = await postData('recover', { email: email });
+        
+        loader.style.display = 'none';
+
+        if(res.success) {
+            success.innerText = res.message;
+            success.style.display = 'block';
         } else {
-            msg.innerText = res.message; msg.style.display = 'block';
+            msg.innerText = res.message;
+            msg.style.display = 'block';
         }
     }
 
-    function logout() {
-        location.href = window.location.pathname; 
+    async function activateAccount() {
+        const savedEmail = localStorage.getItem('tempUserEmail');
+        if(!savedEmail) { alert("Inicia sesión para activar."); nav('view-login'); return; }
+        document.getElementById('success-load').style.display = 'block';
+        const res = await postData('payment_confirmation', { email: savedEmail });
+        if(res.success) { 
+            window.history.replaceState({}, document.title, window.location.pathname);
+            localStorage.removeItem('tempUserEmail');
+            nav('view-dashboard'); 
+        } else { alert("Error: " + res.message); }
     }
+
+    function logout() { location.href = window.location.pathname; }
 </script>
 
 </body>
