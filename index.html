@@ -3,27 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Exclusivo</title>
+    <title>Divelun | Acceso Exclusivo</title>
     <style>
-        /* ESTILOS (Mismos que antes + Animación de éxito) */
-        :root { --primary: #6366f1; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background: var(--card); padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        h1, h2 { margin-bottom: 1.5rem; color: #111827; }
-        input { width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background-color: var(--primary); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem; }
-        button:hover { background-color: #4f46e5; }
-        button.secondary { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
-        button.stripe-btn { background-color: #635bff; }
-        button.success-btn { background-color: #10b981; font-size: 1.1rem; } /* Botón Comencemos verde */
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --primary: #6366f1; /* Indigo */
+            --primary-dark: #4f46e5;
+            --accent: #ec4899; /* Pink */
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+        }
+
+        * { box-sizing: border-box; outline: none; }
         
-        .view { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
-        .view.active { display: block; opacity: 1; }
-        .error { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; display: none; }
-        .loading { font-size: 0.875rem; color: #6b7280; margin-top: 10px; display: none; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Fondo animado decorativo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 50%; height: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite alternate;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; right: -10%;
+            width: 50%; height: 50%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.15;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite alternate-reverse;
+        }
+
+        @keyframes float { from { transform: translate(0,0); } to { transform: translate(20px, 20px); } }
+
+        /* --- CONTENEDOR PRINCIPAL (GLASSMORPHISM) --- */
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.05), 0 10px 15px -5px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            transition: height 0.3s ease;
+        }
+
+        h1, h2 { margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700; letter-spacing: -0.5px; }
+        h1 { font-size: 1.8rem; }
+        h2 { font-size: 1.5rem; }
+        p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- INPUTS & PASSWORD EYE --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
         
-        /* Icono de Check animado */
-        .check-icon { font-size: 50px; color: #10b981; margin-bottom: 20px; display: block; }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            padding-right: 45px; /* Espacio para el ojo */
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .toggle-pass {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-pass:hover { color: var(--primary); }
+        .toggle-pass svg { width: 20px; height: 20px; }
+
+        /* --- BOTONES --- */
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4); }
+        button:active { transform: translateY(0); }
+
+        button.secondary {
+            background: transparent;
+            color: var(--text-light);
+            box-shadow: none;
+            border: 1px solid transparent;
+            font-weight: 500;
+        }
+        button.secondary:hover { color: var(--primary); background: rgba(99, 102, 241, 0.05); }
+
+        button.stripe-btn { background: #635bff; }
+        button.stripe-btn:hover { background: #4e46e5; box-shadow: 0 10px 15px -3px rgba(99, 91, 255, 0.4); }
+
+        button.success-btn { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+        button.success-btn:hover { box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4); }
+
+        /* --- UTILIDADES --- */
+        .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
+        .view.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .error { color: #ef4444; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #fee2e2; padding: 8px; border-radius: 6px; }
+        .loading { font-size: 0.85rem; color: var(--primary); margin-top: 10px; display: none; font-weight: 500; }
+        
+        /* Dashboard Bento Grid Style */
+        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; margin-top: 1rem; }
+        .bento-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .bento-card h3 { margin: 0 0 5px 0; font-size: 1rem; color: var(--primary); }
+        .bento-card p { margin: 0; font-size: 0.85rem; }
+
+        .status-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px;}
     </style>
 </head>
 <body>
@@ -32,83 +178,141 @@
     
     <script>
         // ==========================================
-        // PEGA AQUÍ TU URL DE APPS SCRIPT
+        // URLS CONFIGURADAS (NO TOCAR)
         // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
     </script>
 
     <div id="view-welcome" class="view active">
-        <h1>Bienvenido</h1>
-        <p>Accede a contenido exclusivo y herramientas premium.</p>
+        <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
+        <h1>Divelun</h1>
+        <p>Plataforma exclusiva de gestión y recursos premium.</p>
         <button onclick="nav('view-login')">Iniciar Sesión</button>
         <button class="secondary" onclick="nav('view-register')">Crear Cuenta</button>
     </div>
 
     <div id="view-register" class="view">
         <h2>Crear Cuenta</h2>
-        <input type="email" id="reg-email" placeholder="Tu correo electrónico">
-        <input type="password" id="reg-pass" placeholder="Crea una contraseña">
-        <button onclick="handleRegister()">Registrarme y Pagar</button>
+        <p>Únete hoy para acceder al contenido.</p>
+        
+        <div class="input-group">
+            <input type="email" id="reg-email" placeholder="Correo electrónico">
+        </div>
+        
+        <div class="input-group">
+            <input type="password" id="reg-pass" placeholder="Crear contraseña">
+            <span class="toggle-pass" onclick="togglePass('reg-pass', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+            </span>
+        </div>
+
+        <button onclick="handleRegister()">Continuar al Pago</button>
         <button class="secondary" onclick="nav('view-welcome')">Volver</button>
+        
         <div id="reg-msg" class="error"></div>
-        <div id="reg-load" class="loading">Procesando registro...</div>
+        <div id="reg-load" class="loading">Creando cuenta...</div>
     </div>
 
     <div id="view-payment" class="view">
         <h2>Casi listo...</h2>
-        <p>Cuenta creada. Haz clic abajo para completar tu suscripción segura en Stripe.</p>
+        <p>Tu cuenta ha sido creada. Realiza el pago seguro para activarla inmediatamente.</p>
         
         <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
             <button class="stripe-btn">💳 Pagar Membresía Ahora</button>
         </a>
         
-        <p style="font-size: 0.8rem; color: #666; margin-top: 20px;">
-            Serás redirigido aquí automáticamente después del pago.
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">
+            🔒 Pago seguro vía Stripe SSL. Serás redirigido automáticamente.
         </p>
     </div>
 
     <div id="view-success" class="view">
-        <div class="check-icon">✨</div>
-        <h2>¡Pago Realizado!</h2>
-        <p>Tu suscripción ha sido procesada. Solo falta activar tu cuenta.</p>
+        <div style="font-size: 4rem; color: #10b981; margin-bottom: 10px;">🎉</div>
+        <h2>¡Pago Exitoso!</h2>
+        <p>Tu suscripción está lista. Activa tu acceso ahora.</p>
         
         <button class="success-btn" onclick="activateAccount()">🚀 Comencemos</button>
         
-        <div id="success-load" class="loading">Cargando tu contenido...</div>
+        <div id="success-load" class="loading">Activando credenciales...</div>
     </div>
 
     <div id="view-login" class="view">
-        <h2>Iniciar Sesión</h2>
-        <input type="email" id="login-email" placeholder="Correo electrónico">
-        <input type="password" id="login-pass" placeholder="Contraseña">
+        <h2>Bienvenido de nuevo</h2>
+        <p>Ingresa tus credenciales para acceder.</p>
+        
+        <div class="input-group">
+            <input type="email" id="login-email" placeholder="Correo electrónico">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="login-pass" placeholder="Contraseña">
+            <span class="toggle-pass" onclick="togglePass('login-pass', this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+            </span>
+        </div>
+
         <button onclick="handleLogin()">Entrar</button>
         <button class="secondary" onclick="nav('view-welcome')">Volver</button>
+        
         <div id="login-msg" class="error"></div>
-        <div id="login-load" class="loading">Verificando credenciales...</div>
+        <div id="login-load" class="loading">Verificando...</div>
     </div>
 
     <div id="view-dashboard" class="view">
+        <div class="status-badge">● MIEMBRO ACTIVO</div>
         <h2>Dashboard</h2>
-        <p>¡Hola! Tu estatus es <strong style="color: green;">PAID</strong>.</p>
-        <div style="text-align: left; background: #f9fafb; padding: 10px; border-radius: 5px;">
-            <p>Bienvenido al área de miembros.</p>
-            <ul>
-                <li>Contenido Premium 1</li>
-                <li>Contenido Premium 2</li>
-            </ul>
+        <p>Bienvenido al área exclusiva.</p>
+        
+        <div class="bento-grid">
+            <div class="bento-card">
+                <h3>📁 Mis Recursos</h3>
+                <p>Accede a tus archivos y descargas.</p>
+            </div>
+            <div class="bento-card">
+                <h3>📊 Analíticas</h3>
+                <p>Visualiza el rendimiento de tus datos.</p>
+            </div>
+            <div class="bento-card">
+                <h3>⚙️ Configuración</h3>
+                <p>Gestiona los detalles de tu cuenta.</p>
+            </div>
         </div>
+        
         <br>
         <button class="secondary" onclick="logout()">Cerrar Sesión</button>
     </div>
 </div>
 
 <script>
-    // Al cargar la página, verificamos si viene de Stripe
+    // ICONOS SVG (Ojo Abierto / Cerrado)
+    const eyeOpen = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>`;
+    const eyeClosed = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>`;
+
+    // LÓGICA DE MOSTRAR/OCULTAR CONTRASEÑA
+    function togglePass(inputId, iconSpan) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            iconSpan.innerHTML = eyeOpen;
+            iconSpan.style.color = "var(--primary)";
+        } else {
+            input.type = "password";
+            iconSpan.innerHTML = eyeClosed;
+            iconSpan.style.color = "#94a3b8";
+        }
+    }
+
+    // --- LÓGICA DEL SISTEMA ---
+
+    // 1. Detección de vuelta de Stripe
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        // Si la URL tiene ?payment_success=true
         if (urlParams.get('payment_success') === 'true') {
-            nav('view-success'); // Mostrar pantalla "Comencemos" directamente
+            nav('view-success');
         }
     };
 
@@ -128,6 +332,7 @@
             });
             return await response.json();
         } catch (error) {
+            console.error(error);
             return { success: false, message: "Error de conexión." };
         }
     }
@@ -147,7 +352,6 @@
         loader.style.display = 'none';
         
         if (res.success) {
-            // TRUCO: Guardamos el email en el navegador para recordarlo al volver de Stripe
             localStorage.setItem('tempUserEmail', email); 
             nav('view-payment');
         } else {
@@ -157,7 +361,6 @@
 
     // ACTIVACIÓN (Botón Comencemos)
     async function activateAccount() {
-        // Recuperamos el email que guardamos antes de ir a Stripe
         const savedEmail = localStorage.getItem('tempUserEmail');
         const loader = document.getElementById('success-load');
 
@@ -167,17 +370,13 @@
             return;
         }
 
-        loader.style.display = 'block'; // Dice: "Cargando tu contenido..."
+        loader.style.display = 'block'; 
 
-        // Llamamos al script para confirmar pago
         const res = await postData('payment_confirmation', { email: savedEmail });
         
         if(res.success) {
-            // Limpiamos la URL para quitar ?payment_success=true
             window.history.replaceState({}, document.title, window.location.pathname);
-            // Limpiamos storage
             localStorage.removeItem('tempUserEmail');
-            // Vamos directo al Dashboard
             nav('view-dashboard');
         } else {
             loader.style.display = 'none';
@@ -204,10 +403,9 @@
     }
 
     function logout() {
-        location.href = window.location.pathname; // Recargar página limpia
+        location.href = window.location.pathname; 
     }
 </script>
 
 </body>
 </html>
-
