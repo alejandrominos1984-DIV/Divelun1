@@ -5,70 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Exclusivo</title>
     <style>
-        /* ESTILOS GENERALES Y MODERNOS */
-        :root {
-            --primary: #6366f1;
-            --bg: #f3f4f6;
-            --card: #ffffff;
-            --text: #1f2937;
-        }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: var(--card);
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+        /* ESTILOS (Mismos que antes + Animación de éxito) */
+        :root { --primary: #6366f1; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .container { background: var(--card); padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         h1, h2 { margin-bottom: 1.5rem; color: #111827; }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            box-sizing: border-box; /* Importante para padding */
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-bottom: 0.5rem;
-        }
+        input { width: 100%; padding: 12px; margin-bottom: 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: var(--primary); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; margin-bottom: 0.5rem; }
         button:hover { background-color: #4f46e5; }
         button.secondary { background-color: transparent; color: var(--primary); border: 1px solid var(--primary); }
-        button.stripe-btn { background-color: #635bff; } /* Color oficial Stripe */
+        button.stripe-btn { background-color: #635bff; }
+        button.success-btn { background-color: #10b981; font-size: 1.1rem; } /* Botón Comencemos verde */
         
         .view { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
         .view.active { display: block; opacity: 1; }
         .error { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; display: none; }
         .loading { font-size: 0.875rem; color: #6b7280; margin-top: 10px; display: none; }
+        
+        /* Icono de Check animado */
+        .check-icon { font-size: 50px; color: #10b981; margin-bottom: 20px; display: block; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    
     <script>
         // ==========================================
-        // 
+        // PEGA AQUÍ TU URL DE APPS SCRIPT
         // ==========================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
     </script>
@@ -91,23 +55,26 @@
     </div>
 
     <div id="view-payment" class="view">
-        <h2>Paso Final: Membresía</h2>
-        <p>Tu cuenta ha sido creada. Para activarla, realiza el pago seguro.</p>
+        <h2>Casi listo...</h2>
+        <p>Cuenta creada. Haz clic abajo para completar tu suscripción segura en Stripe.</p>
         
-        <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_blank" style="text-decoration: none;">
+        <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
             <button class="stripe-btn">💳 Pagar Membresía Ahora</button>
         </a>
-
-        <p style="font-size: 0.8rem; color: #666; margin-top: 20px;">
-            Una vez pagado, tu acceso se activará.
-        </p>
         
-        <button class="secondary" onclick="simulatePaymentConfirm()" style="margin-top: 10px; border-style: dashed;">
-            (Demo) Simular "Pago Exitoso"
-        </button>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 20px;">
+            Serás redirigido aquí automáticamente después del pago.
+        </p>
+    </div>
 
-        <button class="secondary" onclick="nav('view-login')">Ir al Login</button>
-        <div id="pay-load" class="loading">Validando...</div>
+    <div id="view-success" class="view">
+        <div class="check-icon">✨</div>
+        <h2>¡Pago Realizado!</h2>
+        <p>Tu suscripción ha sido procesada. Solo falta activar tu cuenta.</p>
+        
+        <button class="success-btn" onclick="activateAccount()">🚀 Comencemos</button>
+        
+        <div id="success-load" class="loading">Cargando tu contenido...</div>
     </div>
 
     <div id="view-login" class="view">
@@ -124,78 +91,101 @@
         <h2>Dashboard</h2>
         <p>¡Hola! Tu estatus es <strong style="color: green;">PAID</strong>.</p>
         <div style="text-align: left; background: #f9fafb; padding: 10px; border-radius: 5px;">
-            <p>Aquí va tu contenido exclusivo...</p>
+            <p>Bienvenido al área de miembros.</p>
             <ul>
-                <li>Recurso Premium 1</li>
-                <li>Recurso Premium 2</li>
+                <li>Contenido Premium 1</li>
+                <li>Contenido Premium 2</li>
             </ul>
         </div>
         <br>
-        <button class="secondary" onclick="location.reload()">Cerrar Sesión</button>
+        <button class="secondary" onclick="logout()">Cerrar Sesión</button>
     </div>
 </div>
 
 <script>
-    // Variables globales para guardar email temporalmente
-    let currentUserEmail = "";
+    // Al cargar la página, verificamos si viene de Stripe
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        // Si la URL tiene ?payment_success=true
+        if (urlParams.get('payment_success') === 'true') {
+            nav('view-success'); // Mostrar pantalla "Comencemos" directamente
+        }
+    };
 
-    // Navegación entre vistas
     function nav(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
-        // Limpiar errores
         document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
     }
 
-    // Función FETCH genérica (Maneja text/plain para evitar CORS)
     async function postData(action, data) {
         const payload = { action: action, ...data };
-        
         try {
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                // IMPORTANTE: text/plain evita el preflight OPTIONS de CORS
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
                 body: JSON.stringify(payload)
             });
-            const result = await response.json();
-            return result;
+            return await response.json();
         } catch (error) {
-            console.error("Error:", error);
             return { success: false, message: "Error de conexión." };
         }
     }
 
-    // Lógica: REGISTRO
+    // REGISTRO
     async function handleRegister() {
         const email = document.getElementById('reg-email').value;
         const pass = document.getElementById('reg-pass').value;
         const loader = document.getElementById('reg-load');
         const msg = document.getElementById('reg-msg');
 
-        if(!email || !pass) {
-            msg.innerText = "Completa todos los campos";
-            msg.style.display = 'block';
-            return;
-        }
-
-        loader.style.display = 'block';
-        msg.style.display = 'none';
-
-        const res = await postData('register', { email, password: pass });
+        if(!email || !pass) { msg.innerText = "Completa todos los campos"; msg.style.display = 'block'; return; }
         
+        loader.style.display = 'block';
+        
+        const res = await postData('register', { email, password: pass });
         loader.style.display = 'none';
         
         if (res.success) {
-            currentUserEmail = email; // Guardar para referencia
+            // TRUCO: Guardamos el email en el navegador para recordarlo al volver de Stripe
+            localStorage.setItem('tempUserEmail', email); 
             nav('view-payment');
         } else {
-            msg.innerText = res.message;
-            msg.style.display = 'block';
+            msg.innerText = res.message; msg.style.display = 'block';
         }
     }
 
-    // Lógica: LOGIN
+    // ACTIVACIÓN (Botón Comencemos)
+    async function activateAccount() {
+        // Recuperamos el email que guardamos antes de ir a Stripe
+        const savedEmail = localStorage.getItem('tempUserEmail');
+        const loader = document.getElementById('success-load');
+
+        if(!savedEmail) {
+            alert("No se encontró el email de registro. Por favor inicia sesión.");
+            nav('view-login');
+            return;
+        }
+
+        loader.style.display = 'block'; // Dice: "Cargando tu contenido..."
+
+        // Llamamos al script para confirmar pago
+        const res = await postData('payment_confirmation', { email: savedEmail });
+        
+        if(res.success) {
+            // Limpiamos la URL para quitar ?payment_success=true
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Limpiamos storage
+            localStorage.removeItem('tempUserEmail');
+            // Vamos directo al Dashboard
+            nav('view-dashboard');
+        } else {
+            loader.style.display = 'none';
+            alert("Error: " + res.message);
+        }
+    }
+
+    // LOGIN
     async function handleLogin() {
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-pass').value;
@@ -203,46 +193,20 @@
         const msg = document.getElementById('login-msg');
 
         loader.style.display = 'block';
-        msg.style.display = 'none';
-
         const res = await postData('login', { email, password: pass });
-
         loader.style.display = 'none';
 
         if (res.success) {
             nav('view-dashboard');
         } else {
-            msg.innerText = res.message;
-            msg.style.display = 'block';
+            msg.innerText = res.message; msg.style.display = 'block';
         }
     }
 
-    // Lógica: SIMULACIÓN DE PAGO (Botón Demo)
-    // En un sistema real, Stripe llamaría al backend, no el frontend.
-    async function simulatePaymentConfirm() {
-        if(!currentUserEmail) {
-            alert("Error: No hay email registrado en sesión actual.");
-            return;
-        }
-        const loader = document.getElementById('pay-load');
-        loader.style.display = 'block';
-        loader.innerText = "Activando cuenta...";
-
-        const res = await postData('payment_confirmation', { email: currentUserEmail });
-        
-        loader.style.display = 'none';
-        
-        if(res.success) {
-            alert("¡Pago confirmado! Ahora puedes hacer login.");
-            nav('view-login');
-            // Pre-llenar el email
-            document.getElementById('login-email').value = currentUserEmail;
-        } else {
-            alert("Error al confirmar: " + res.message);
-        }
+    function logout() {
+        location.href = window.location.pathname; // Recargar página limpia
     }
 </script>
 
 </body>
 </html>
-
