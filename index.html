@@ -1,272 +1,460 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divelun | Acceso Exclusivo</title>
+    <title>Divelun AI | Elite Fitness Intelligence</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "background-dark": "#050505",
+                        "card-dark": "#121212",
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px rgba(59, 130, 246, 0.5)',
+                        'neon-strong': '0 0 30px rgba(59, 130, 246, 0.6)',
+                    }
+                },
+            },
+        };
+    </script>
     <style>
-        /* --- ESTILOS VISUALES (GLASSMORPHISM) --- */
-        :root { --primary: #6366f1; --primary-dark: #4f46e5; --accent: #ec4899; --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.6); --text: #1e293b; --text-light: #64748b; }
-        * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow-x: hidden; }
-        body::before { content: ''; position: absolute; top: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate; }
-        body::after { content: ''; position: absolute; bottom: -10%; right: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate-reverse; }
-        @keyframes float { from { transform: translate(0,0); } to { transform: translate(20px, 20px); } }
-        
-        .container { background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px -5px rgba(0,0,0,0.05); width: 100%; max-width: 420px; text-align: center; position: relative; }
-        h1, h2 { margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700; }
-        h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; }
-        p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
-        
-        .input-group { position: relative; margin-bottom: 1rem; text-align: left; }
-        input { width: 100%; padding: 14px 16px; padding-right: 45px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.75rem; font-size: 0.95rem; color: var(--text); transition: all 0.2s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
-        
-        .toggle-pass { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; display: flex; align-items: center; }
-        .toggle-pass svg { width: 20px; height: 20px; }
+        :root { 
+            --bg-deep: #05070a;
+            --primary: #3b82f6; 
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --glass-bg: rgba(13, 17, 23, 0.9); 
+            --glass-border: rgba(255, 255, 255, 0.08); 
+            --text-dim: #94a3b8; 
+            --card-inner: rgba(255, 255, 255, 0.04);
+        }
 
-        button { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer; margin-bottom: 0.75rem; box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3); transition: transform 0.2s; }
-        button:hover { transform: translateY(-2px); }
-        button.secondary { background: transparent; color: var(--text-light); box-shadow: none; border: 1px solid transparent; }
-        button.secondary:hover { color: var(--primary); background: rgba(99, 102, 241, 0.05); }
-        button.stripe-btn { background: #635bff; }
-        button.success-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
-
-        .forgot-link { display: block; font-size: 0.85rem; color: var(--primary); text-decoration: none; margin-bottom: 1.5rem; cursor: pointer; text-align: right; }
-        .forgot-link:hover { text-decoration: underline; }
-
-        .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; background-color: #050505; color: white; }
         
-        .error { color: #ef4444; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #fee2e2; padding: 8px; border-radius: 6px; }
-        .success-msg { color: #10b981; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #dcfce7; padding: 8px; border-radius: 6px; }
-        .loading { font-size: 0.85rem; color: var(--primary); margin-top: 10px; display: none; font-weight: 500; }
-        
-        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; margin-top: 1rem; }
-        .bento-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .bento-card h3 { margin: 0 0 5px 0; font-size: 1rem; color: var(--primary); }
-        .bento-card p { margin: 0; font-size: 0.85rem; }
-        .status-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px;}
+        /* Glass effect for auth panels */
+        .glass-auth {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Neon Hub Styles */
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .text-glow { text-shadow: 0 0 20px rgba(59, 130, 246, 0.7); }
+
+        .view { display: none; opacity: 0; }
+        .view.active { display: block; opacity: 1; transition: opacity 0.5s; }
+
+        .test-step { display: none; }
+        .test-step.active { display: block; animation: slideUp 0.6s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { border: 4px solid rgba(59, 130, 246, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s infinite linear; }
+
+        /* Carousel animation */
+        .review-slide { position: absolute; width: 100%; opacity: 0; transition: 0.5s; }
+        .review-slide.active { opacity: 1; }
     </style>
 </head>
-<body>
+<body class="bg-[#050505] min-h-screen selection:bg-primary selection:text-white overflow-x-hidden">
 
-<div class="container">
-    <script>
-        // =========================================================
-        // URL CONFIGURADA (NO TOCAR)
-        // =========================================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
-    </script>
-
-    <div id="view-welcome" class="view active">
-        <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
-        <h1>Divelun</h1>
-        <p>Plataforma exclusiva de gestión y recursos premium.</p>
-        <button onclick="nav('view-login')">Iniciar Sesión</button>
-        <button class="secondary" onclick="nav('view-register')">Crear Cuenta</button>
+    <!-- Background Decoration -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] opacity-40"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px]"></div>
     </div>
 
-    <div id="view-register" class="view">
-        <h2>Crear Cuenta</h2>
-        <p>Únete hoy para acceder al contenido.</p>
-        <div class="input-group">
-            <input type="email" id="reg-email" placeholder="Correo electrónico">
-        </div>
-        <div class="input-group">
-            <input type="password" id="reg-pass" placeholder="Crear contraseña">
-            <span class="toggle-pass" onclick="togglePass('reg-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
-        </div>
-        <button onclick="handleRegister()">Continuar al Pago</button>
-        <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        <div id="reg-msg" class="error"></div>
-        <div id="reg-load" class="loading">Creando cuenta...</div>
-    </div>
-
-    <div id="view-payment" class="view">
-        <h2>Casi listo...</h2>
-        <p>Cuenta creada. Realiza el pago para activarla.</p>
-        <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
-            <button class="stripe-btn">💳 Pagar Membresía Ahora</button>
-        </a>
-        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">🔒 Pago seguro vía Stripe SSL.</p>
-    </div>
-
-    <div id="view-success" class="view">
-        <div style="font-size: 4rem; color: #10b981; margin-bottom: 10px;">🎉</div>
-        <h2>¡Pago Exitoso!</h2>
-        <p>Tu suscripción está lista.</p>
-        <button class="success-btn" onclick="activateAccount()">🚀 Comencemos</button>
-        <div id="success-load" class="loading">Activando cuenta...</div>
-    </div>
-
-    <div id="view-login" class="view">
-        <h2>Bienvenido</h2>
-        <p>Ingresa tus credenciales.</p>
-        <div class="input-group">
-            <input type="email" id="login-email" placeholder="Correo electrónico">
-        </div>
-        <div class="input-group" style="margin-bottom: 0.5rem;">
-            <input type="password" id="login-pass" placeholder="Contraseña">
-            <span class="toggle-pass" onclick="togglePass('login-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
-        </div>
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-root" class="w-full flex justify-center items-center min-h-screen p-4">
         
-        <a class="forgot-link" onclick="nav('view-recover')">¿Olvidaste tu contraseña?</a>
+        <script>const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";</script>
 
-        <button onclick="handleLogin()">Entrar</button>
-        <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        <div id="login-msg" class="error"></div>
-        <div id="login-load" class="loading">Verificando...</div>
-    </div>
-
-    <div id="view-recover" class="view">
-        <h2>Recuperar Acceso</h2>
-        <p>Ingresa tu correo y te enviaremos tu contraseña.</p>
-        <div class="input-group">
-            <input type="email" id="rec-email" placeholder="Tu correo registrado">
+        <!-- BIENVENIDA -->
+        <div id="view-welcome" class="view active max-w-md w-full glass-auth p-10 rounded-[2.5rem] text-center border border-white/5">
+            <div class="text-6xl mb-6 filter drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">⚡</div>
+            <h1 class="text-4xl font-extrabold italic uppercase tracking-tighter mb-4 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">Divelun AI</h1>
+            <p class="text-gray-400 mb-8 leading-relaxed">Arquitectura de rendimiento humano mediante algoritmos de entrenamiento neon-precision.</p>
+            <button onclick="nav('view-register')" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon hover:scale-105 transition-all mb-4">INICIAR EVALUACIÓN</button>
+            <button onclick="nav('view-login')" class="w-full py-4 border border-white/10 text-gray-400 font-bold rounded-2xl hover:bg-white/5 transition-all">ENTRAR</button>
         </div>
-        <button onclick="handleRecover()">Enviar Contraseña</button>
-        <button class="secondary" onclick="nav('view-login')">Volver al Login</button>
-        <div id="rec-msg" class="error"></div>
-        <div id="rec-success" class="success-msg"></div>
-        <div id="rec-load" class="loading">Buscando en la base de datos...</div>
-    </div>
 
-    <div id="view-dashboard" class="view">
-        <div class="status-badge">● MIEMBRO ACTIVO</div>
-        <h2>Dashboard</h2>
-        <p>Bienvenido al área exclusiva.</p>
-        <div class="bento-grid">
-            <div class="bento-card"><h3>📁 Mis Recursos</h3><p>Accede a tus archivos.</p></div>
-            <div class="bento-card"><h3>📊 Analíticas</h3><p>Visualiza el rendimiento.</p></div>
-            <div class="bento-card"><h3>⚙️ Configuración</h3><p>Gestiona tu cuenta.</p></div>
+        <!-- REGISTRO -->
+        <div id="view-register" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem] border border-white/5">
+            <h2 class="text-2xl font-bold mb-2">Crear Expediente</h2>
+            <p class="text-gray-400 mb-8 text-sm">Registra tu identidad para procesar biometría.</p>
+            <input type="email" id="reg-email" placeholder="Email corporativo" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 focus:border-primary transition-all text-white">
+            <input type="password" id="reg-pass" placeholder="Contraseña de acceso" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6 focus:border-primary transition-all text-white">
+            <button id="btn-reg" onclick="handleRegister()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon hover:scale-105 transition-all">Siguiente</button>
+            <div id="reg-load" class="hidden mt-4 text-primary text-xs font-bold animate-pulse text-center">SINCRONIZANDO CON LA RED...</div>
+            <div id="reg-msg" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-xl text-center"></div>
+            <button onclick="nav('view-welcome')" class="w-full mt-4 text-gray-500 text-sm hover:text-white transition-all">Volver</button>
         </div>
-        <br>
-        <button class="secondary" onclick="logout()">Cerrar Sesión</button>
-    </div>
-</div>
 
-<script>
-    const eyeOpen = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>`;
-    const eyeClosed = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>`;
+        <!-- LOGIN -->
+        <div id="view-login" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem] border border-white/5">
+            <h2 class="text-2xl font-bold mb-2">Acceso Seguro</h2>
+            <p class="text-gray-400 mb-8 text-sm">Introduce tus credenciales de miembro.</p>
+            <input type="email" id="login-email" placeholder="Email" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 text-white">
+            <input type="password" id="login-pass" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-2 text-white">
+            <div class="text-right mb-6"><a onclick="nav('view-recover')" class="text-primary text-xs cursor-pointer hover:underline">¿Olvidaste tu contraseña?</a></div>
+            <button onclick="handleLogin()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon hover:scale-105 transition-all">Acceder</button>
+            <div id="login-load" class="hidden mt-4 text-primary text-xs font-bold text-center">VALIDANDO IDENTIDAD...</div>
+            <div id="login-msg" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-xl text-center"></div>
+            <button onclick="nav('view-welcome')" class="w-full mt-4 text-gray-500 text-sm hover:text-white">Atrás</button>
+        </div>
 
-    function togglePass(inputId, iconSpan) {
-        const input = document.getElementById(inputId);
-        if (input.type === "password") { input.type = "text"; iconSpan.innerHTML = eyeOpen; iconSpan.style.color = "var(--primary)"; } 
-        else { input.type = "password"; iconSpan.innerHTML = eyeClosed; iconSpan.style.color = "#94a3b8"; }
-    }
+        <!-- RECUPERAR -->
+        <div id="view-recover" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem] border border-white/5">
+            <h2 class="text-2xl font-bold mb-2">Restaurar Acceso</h2>
+            <p class="text-gray-400 mb-8 text-sm">Escaneamos la base de datos para recuperar tus credenciales.</p>
+            <input type="email" id="rec-email" placeholder="Correo electrónico" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6 text-white">
+            <button onclick="handleRecover()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl">SOLICITAR ENVÍO</button>
+            <div id="rec-load" class="hidden mt-4 text-primary text-xs font-bold text-center">BUSCANDO REGISTROS...</div>
+            <div id="rec-msg" class="hidden mt-4 p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-xl text-center"></div>
+            <div id="rec-success" class="hidden mt-4 p-3 bg-green-500/10 border border-green-500/20 text-green-500 text-xs rounded-xl text-center"></div>
+            <button onclick="nav('view-login')" class="w-full mt-4 text-gray-500 text-sm">Volver</button>
+        </div>
 
-    // --- LÓGICA DE MEMORIA (LocalStorage) ---
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // 1. Si viene de Stripe (pago exitoso)
-        if (urlParams.get('payment_success') === 'true') {
-            nav('view-success');
-            return;
-        }
-
-        // 2. Si hay sesión guardada en memoria, ir directo al dashboard
-        const sessionUser = localStorage.getItem('divelun_session_user');
-        if (sessionUser) {
-            nav('view-dashboard');
-        }
-    };
-
-    function nav(viewId) {
-        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-        document.getElementById(viewId).classList.add('active');
-        document.querySelectorAll('.error, .success-msg').forEach(el => el.style.display = 'none');
-    }
-
-    async function postData(action, data) {
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify({ action: action, ...data })
-            });
-            return await response.json();
-        } catch (error) { return { success: false, message: "Error de conexión." }; }
-    }
-
-    async function handleRegister() {
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
-        const loader = document.getElementById('reg-load');
-        const msg = document.getElementById('reg-msg');
-        if(!email || !pass) { msg.innerText = "Completa los campos"; msg.style.display = 'block'; return; }
-        loader.style.display = 'block';
-        const res = await postData('register', { email, password: pass });
-        loader.style.display = 'none';
-        if (res.success) { localStorage.setItem('tempUserEmail', email); nav('view-payment'); } 
-        else { msg.innerText = res.message; msg.style.display = 'block'; }
-    }
-
-    async function handleLogin() {
-        const email = document.getElementById('login-email').value;
-        const pass = document.getElementById('login-pass').value;
-        const loader = document.getElementById('login-load');
-        const msg = document.getElementById('login-msg');
-        loader.style.display = 'block';
-        const res = await postData('login', { email, password: pass });
-        loader.style.display = 'none';
-        
-        if (res.success) {
-            // AQUÍ GUARDAMOS LA SESIÓN AL ENTRAR
-            localStorage.setItem('divelun_session_user', email);
-            nav('view-dashboard');
-        }
-        else { msg.innerText = res.message; msg.style.display = 'block'; }
-    }
-
-    async function handleRecover() {
-        const email = document.getElementById('rec-email').value;
-        const loader = document.getElementById('rec-load');
-        const msg = document.getElementById('rec-msg');
-        const success = document.getElementById('rec-success');
-
-        if(!email) { msg.innerText = "Ingresa tu email"; msg.style.display = 'block'; return; }
-        
-        loader.style.display = 'block';
-        msg.style.display = 'none';
-        success.style.display = 'none';
-
-        const res = await postData('recover', { email: email });
-        
-        loader.style.display = 'none';
-
-        if(res.success) {
-            success.innerText = res.message;
-            success.style.display = 'block';
-        } else {
-            msg.innerText = res.message;
-            msg.style.display = 'block';
-        }
-    }
-
-    async function activateAccount() {
-        const savedEmail = localStorage.getItem('tempUserEmail');
-        if(!savedEmail) { alert("Inicia sesión para activar."); nav('view-login'); return; }
-        document.getElementById('success-load').style.display = 'block';
-        const res = await postData('payment_confirmation', { email: savedEmail });
-        if(res.success) { 
-            window.history.replaceState({}, document.title, window.location.pathname);
-            localStorage.removeItem('tempUserEmail');
+        <!-- FITNESS TEST -->
+        <div id="view-fitness-test" class="view max-w-lg w-full glass-auth p-8 rounded-[2.5rem] border border-white/5">
+            <div class="w-full h-1.5 bg-white/5 rounded-full mb-8 overflow-hidden"><div id="test-progress" class="h-full bg-primary shadow-neon w-0 transition-all duration-700"></div></div>
             
-            // Si activó, también guardamos sesión para que no tenga que loguearse de nuevo
-            localStorage.setItem('divelun_session_user', savedEmail);
-            nav('view-dashboard'); 
-        } else { alert("Error: " + res.message); }
-    }
+            <div class="test-step active" data-step="1">
+                <h2 class="text-xl font-bold mb-2">01. Fisiología Genética</h2>
+                <p class="text-gray-400 text-xs mb-6">Determina la tasa de recuperación basal.</p>
+                <div onclick="selectOption(1, 'Masculino')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer hover:bg-primary/10 transition-all font-bold">👨 Masculino</div>
+                <div onclick="selectOption(1, 'Femenino')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer hover:bg-primary/10 transition-all font-bold">👩 Femenino</div>
+            </div>
 
-    function logout() { 
-        // AQUÍ BORRAMOS LA SESIÓN AL SALIR
-        localStorage.removeItem('divelun_session_user');
-        location.href = window.location.pathname; 
-    }
-</script>
+            <div class="test-step" data-step="2">
+                <h2 class="text-xl font-bold mb-2">02. Métricas Corporales</h2>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <input type="number" id="test-age" placeholder="Edad" class="p-4 bg-black/40 border border-white/10 rounded-2xl text-white">
+                    <input type="number" id="test-weight" placeholder="Peso (kg)" class="p-4 bg-black/40 border border-white/10 rounded-2xl text-white">
+                </div>
+                <input type="number" id="test-height" placeholder="Altura (cm)" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl text-white mb-6">
+                <button onclick="nextStepManual(2)" class="w-full py-4 bg-primary text-white font-bold rounded-2xl">Continuar</button>
+            </div>
 
+            <div class="test-step" data-step="3">
+                <h2 class="text-xl font-bold mb-2">03. Arquitectura Deseada</h2>
+                <div onclick="selectOption(3, 'Definición')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer font-bold">🔥 Definición Extrema</div>
+                <div onclick="selectOption(3, 'Hipertrofia')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer font-bold">💪 Hipertrofia Máxima</div>
+            </div>
+
+            <div class="test-step" data-step="4">
+                <h2 class="text-xl font-bold mb-2">04. Equipo & Entorno</h2>
+                <div onclick="selectOption(4, 'Gimnasio')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer font-bold">🏋️ Gimnasio Completo</div>
+                <div onclick="selectOption(4, 'Casa')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer font-bold">🏠 Casa (Mancuernas)</div>
+            </div>
+
+            <div class="test-step" data-step="5">
+                <h2 class="text-xl font-bold mb-2">05. Procesando Algoritmo</h2>
+                <div class="flex flex-col items-center py-10">
+                    <div class="w-12 h-12 spinner mb-6"></div>
+                    <p class="text-xs font-mono text-primary animate-pulse tracking-widest uppercase">SYST_SYNC_BIOMETRY_COMPLETE...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYWALL -->
+        <div id="view-paywall" class="view max-w-lg w-full glass-auth p-8 rounded-[2.5rem] border border-white/5 text-center">
+            <span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-widest rounded-full mb-4 inline-block">DIAGNÓSTICO IA COMPLETADO</span>
+            <h2 class="text-2xl font-bold mb-4">Desbloquea tu Plan Elite</h2>
+            <p class="text-gray-400 text-sm mb-8">Programación estructural específica para tu perfil de <b class="text-white" id="res-goal"></b>.</p>
+            
+            <div class="relative h-28 mb-10 overflow-hidden bg-white/5 rounded-2xl p-4 flex items-center justify-center">
+                <div class="review-slide active"><p class="text-xs italic text-gray-300">"Bajé 8kg de grasa en 2 meses con este protocolo."</p><p class="text-primary text-[10px] font-bold mt-2">— Carlos R.</p></div>
+                <div class="review-slide"><p class="text-xs italic text-gray-300">"La IA detectó mis desbalances y ajustó los pesos."</p><p class="text-primary text-[10px] font-bold mt-2">— Elena M.</p></div>
+            </div>
+
+            <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" class="block w-full py-4 bg-white text-black font-bold rounded-2xl shadow-neon transition-all mb-4 hover:scale-[1.02]">🚀 INICIAR PLAN ELITE - 19.90€</a>
+            <button onclick="alert('Solicitud enviada')" class="w-full py-3 border border-primary/40 text-primary text-xs font-bold rounded-xl mb-6">PRUEBA 7 DÍAS GRATIS</button>
+            <p class="text-[10px] text-gray-500 border-t border-white/5 pt-4">Soporte IA y ajustes ilimitados incluidos.</p>
+        </div>
+
+        <!-- ÉXITO / ACTIVACIÓN -->
+        <div id="view-success" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem] text-center">
+            <div class="text-5xl mb-6">💎</div>
+            <h2 class="text-2xl font-bold mb-4">Pago Verificado</h2>
+            <p class="text-gray-400 text-sm mb-8">Integrando métricas en el motor de entrenamiento Neon.</p>
+            <button id="btn-activate" onclick="activateAccount()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">CONSTRUYENDO PERFIL IA</button>
+            <div id="success-load" class="hidden mt-6 flex flex-col items-center">
+                <div class="w-8 h-8 spinner mb-4"></div>
+                <p class="text-[10px] text-primary uppercase font-bold tracking-widest">Optimizando microciclo de carga...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HUB PROTOCOLO NEON (Dashboard) -->
+    <div id="view-hub" class="view min-h-screen">
+        <main class="max-w-7xl mx-auto px-6 pb-40 pt-8 md:pt-12">
+            <!-- Header Hub -->
+            <div class="flex justify-between items-center mb-12">
+                <div class="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/5 rounded-full pl-2 pr-5 py-1.5 shadow-sm">
+                    <div class="w-2 h-2 rounded-full bg-primary shadow-neon animate-pulse ml-2"></div>
+                    <h3 class="text-[10px] font-bold tracking-[0.15em] text-gray-300 uppercase">Bio-Performance Hub</h3>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 p-[2px] relative group cursor-pointer hover:shadow-neon transition-shadow duration-300">
+                        <img alt="User" class="w-full h-full rounded-full object-cover border-2 border-[#050505]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdm49pSeJ64DvEJEvLobXeS-gsjn5Tc2f4ZLVOi1ExbtIK-ekvgf_BBpWRIzxiTxTCOiHFG1Exi5clGlM8PU1QsE0XT1NmJBSYXl_VxHPtT3fjnA4R6-cjhoEt603AhB-xCLKzRhQ5_bw8visZcH_BIXJ39-AfKbfV3YQ4KcPDqIunf5MTVWkDdeR3Rqu3BB8QAYBZnJehFG8fSWUJ2lnw8tfiL3jug4jRyj1RshoJoiQn2BmHujLJiDEzWMHNkq34cwap7tHHIrdK"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="mb-16 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="flex h-3 w-3 relative"><span class="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="h-3 w-3 rounded-full bg-green-500"></span></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-primary">Protocolo Activo • Día 01</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-black italic uppercase leading-[0.85] tracking-tighter text-white mb-6">
+                        Protocolo <br/>
+                        <span class="text-primary text-glow relative inline-block">Neon<svg class="absolute -bottom-2 left-0 w-full h-3 text-primary opacity-50" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="2"></path></svg></span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-600">Build</span>
+                    </h1>
+                </div>
+                <div class="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-2xl p-6 lg:mb-4 max-w-md">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                            <span class="material-symbols-outlined text-[28px]">auto_awesome</span>
+                        </div>
+                        <div>
+                            <p class="text-white font-bold text-xl mb-1">Bienvenido, Alex.</p>
+                            <p class="text-gray-400 font-medium text-sm leading-relaxed">Hoy el algoritmo prioriza la carga mecánica en tren superior. Los niveles de energía son óptimos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Semanas -->
+            <section class="mb-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-white/5 pb-6 gap-6">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-lg font-black text-white uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-primary">calendar_view_week</span>Planificación</h2>
+                    </div>
+                    <div class="flex gap-6">
+                        <button class="text-2xl font-black text-primary border-b-2 border-primary pb-2 px-2">MES 1</button>
+                        <button class="text-2xl font-black text-gray-500 hover:text-white transition-colors pb-2 px-2">MES 2</button>
+                    </div>
+                </div>
+                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-6 pl-1">
+                    <div class="flex-shrink-0 w-28 h-32 rounded-2xl bg-primary shadow-neon-strong flex flex-col items-center justify-center relative overflow-hidden border border-blue-400/30">
+                        <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+                        <span class="text-[10px] font-black uppercase text-blue-100 z-10 mb-1">SEM</span>
+                        <span class="text-4xl font-black italic text-white z-10">01</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-32 rounded-2xl bg-[#111] border border-white/5 flex flex-col items-center justify-center opacity-40">
+                        <span class="text-[10px] font-black text-gray-400 mb-1">SEM</span>
+                        <span class="text-4xl font-black italic text-[#333]">02</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-32 rounded-2xl bg-[#111] border border-white/5 flex flex-col items-center justify-center opacity-40">
+                        <span class="text-[10px] font-black text-gray-400 mb-1">SEM</span>
+                        <span class="text-4xl font-black italic text-[#333]">03</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rutinas -->
+            <section class="mb-20">
+                <div class="flex items-center justify-between mb-6"><h3 class="text-xl font-bold text-white uppercase italic tracking-wide">Rutina Semanal</h3></div>
+                <div class="flex gap-5 overflow-x-auto no-scrollbar pb-8 snap-x">
+                    <!-- Card 1 -->
+                    <div class="snap-start flex-shrink-0 w-80 relative group">
+                        <div class="glass-panel h-96 rounded-[2rem] p-6 flex flex-col justify-between relative overflow-hidden border border-white/5 group-hover:border-primary/30 transition-all">
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-primary">DÍA 1</span><span class="material-symbols-outlined text-gray-500 group-hover:text-primary">fitness_center</span></div>
+                                <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-2">Push Day <br/><span class="text-primary">Power</span></h4>
+                                <p class="text-xs font-medium text-gray-400 uppercase">Pecho, Hombro y Tríceps</p>
+                            </div>
+                            <div class="relative z-10 mt-auto">
+                                <div class="flex items-center gap-2 mb-6 text-gray-400 text-[10px] font-bold uppercase"><span class="material-symbols-outlined text-[16px]">schedule</span> 65 min <span class="w-1 h-1 bg-gray-600 rounded-full"></span> Intensidad Alta</div>
+                                <button class="w-full py-4 rounded-xl bg-primary text-white font-bold uppercase text-xs shadow-neon hover:shadow-neon-strong transition-all flex items-center justify-center gap-2">Comenzar <span class="material-symbols-outlined text-[16px]">arrow_forward</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="snap-start flex-shrink-0 w-80 relative group">
+                        <div class="glass-panel h-96 rounded-[2rem] p-6 flex flex-col justify-between relative overflow-hidden border border-white/5 opacity-80">
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-gray-500">DÍA 2</span><span class="material-symbols-outlined text-gray-500">fitness_center</span></div>
+                                <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-2">Leg Day <br/><span class="text-gray-500">Focus</span></h4>
+                                <p class="text-xs font-medium text-gray-400 uppercase">Cuádriceps y Gemelo</p>
+                            </div>
+                            <div class="relative z-10 mt-auto">
+                                <button class="w-full py-4 rounded-xl bg-white/5 border border-white/10 text-gray-500 font-bold uppercase text-xs">Bloqueado</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Hub Nav Bar -->
+        <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm px-4">
+            <nav class="glass-panel rounded-[2rem] p-3 px-6 flex justify-between items-center shadow-2xl border border-white/5">
+                <a class="flex flex-col items-center gap-1 group relative" href="#">
+                    <div class="absolute -top-1 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-[#1a1a1a] z-10"></div>
+                    <div class="w-10 h-10 rounded-xl bg-primary shadow-neon flex items-center justify-center transition-transform group-hover:-translate-y-1"><span class="material-symbols-outlined text-white text-[22px]">grid_view</span></div>
+                    <span class="text-[9px] font-bold text-primary uppercase tracking-wide mt-1">Inicio</span>
+                </a>
+                <a class="flex flex-col items-center gap-1 opacity-50" href="#"><div class="w-10 h-10 flex items-center justify-center"><span class="material-symbols-outlined text-gray-300 text-[22px]">fitness_center</span></div><span class="text-[9px] font-bold text-gray-400 uppercase">Rutinas</span></a>
+                <a class="flex flex-col items-center gap-1 opacity-50" href="#"><div class="w-10 h-10 flex items-center justify-center"><span class="material-symbols-outlined text-gray-300 text-[22px]">bar_chart</span></div><span class="text-[9px] font-bold text-gray-400 uppercase">Stats</span></a>
+                <a class="flex flex-col items-center gap-1 opacity-50" href="#"><div class="w-10 h-10 flex items-center justify-center"><span class="material-symbols-outlined text-gray-300 text-[22px]">auto_awesome</span></div><span class="text-[9px] font-bold text-gray-400 uppercase">IA Coach</span></a>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let fitnessData = { gender: '', age: '', weight: '', height: '', goal: '', equip: '' };
+
+        // Carousel Reseñas
+        function startCarousel() {
+            let slides = document.querySelectorAll('.review-slide');
+            let idx = 0;
+            setInterval(() => {
+                slides[idx].classList.remove('active');
+                idx = (idx + 1) % slides.length;
+                slides[idx].classList.add('active');
+            }, 4000);
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment_success') === 'true') nav('view-success');
+            startCarousel();
+        };
+
+        function nav(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            // Si entramos al Hub, ocultamos el contenedor de login/registro
+            const root = document.getElementById('app-root');
+            if (viewId === 'view-hub') {
+                root.style.display = 'none';
+            } else {
+                root.style.display = 'flex';
+            }
+        }
+
+        async function postData(action, data) {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+                    body: JSON.stringify({ action: action, ...data })
+                });
+                return await response.json();
+            } catch (error) { return { success: false, message: "Error de red Neon-Link." }; }
+        }
+
+        async function handleRegister() {
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+            const load = document.getElementById('reg-load');
+            const msg = document.getElementById('reg-msg');
+            if(!email || !pass) return;
+            load.classList.remove('hidden'); msg.classList.add('hidden');
+            const res = await postData('register', { email, password: pass });
+            load.classList.add('hidden');
+            if(res.success) { localStorage.setItem('tempUserEmail', email); nav('view-fitness-test'); }
+            else { msg.innerText = res.message; msg.classList.remove('hidden'); }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const load = document.getElementById('login-load');
+            const msg = document.getElementById('login-msg');
+            load.classList.remove('hidden');
+            const res = await postData('login', { email, password: pass });
+            load.classList.add('hidden');
+            if(res.success) nav('view-hub');
+            else { msg.innerText = res.message; msg.classList.remove('hidden'); }
+        }
+
+        async function handleRecover() {
+            const email = document.getElementById('rec-email').value;
+            const load = document.getElementById('rec-load');
+            const succ = document.getElementById('rec-success');
+            load.classList.remove('hidden');
+            const res = await postData('recover', { email });
+            load.classList.add('hidden');
+            if(res.success) { succ.innerText = res.message; succ.classList.remove('hidden'); }
+        }
+
+        // Test Logic
+        function selectOption(step, val) {
+            if(step === 1) fitnessData.gender = val;
+            if(step === 3) fitnessData.goal = val;
+            if(step === 4) fitnessData.equip = val;
+            nextStep();
+        }
+
+        function nextStepManual(step) {
+            if(step === 2) {
+                fitnessData.age = document.getElementById('test-age').value;
+                fitnessData.weight = document.getElementById('test-weight').value;
+                fitnessData.height = document.getElementById('test-height').value;
+                if(!fitnessData.age || !fitnessData.weight) return;
+            }
+            nextStep();
+        }
+
+        function nextStep() {
+            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep++;
+            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.add('active');
+            document.getElementById('test-progress').style.width = (currentStep * 20) + "%";
+            if(currentStep === 5) {
+                setTimeout(() => {
+                    document.getElementById('res-goal').innerText = fitnessData.goal;
+                    nav('view-paywall');
+                }, 3000);
+            }
+        }
+
+        async function activateAccount() {
+            const email = localStorage.getItem('tempUserEmail');
+            const load = document.getElementById('success-load');
+            const btn = document.getElementById('btn-activate');
+            if(!email) return;
+            load.classList.remove('hidden'); btn.classList.add('hidden');
+            const res = await postData('payment_confirmation', { email });
+            if(res.success) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                nav('view-hub');
+            } else { alert(res.message); load.classList.add('hidden'); btn.classList.remove('hidden'); }
+        }
+
+        function logout() { localStorage.clear(); location.reload(); }
+    </script>
 </body>
 </html>
