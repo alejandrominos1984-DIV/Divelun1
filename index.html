@@ -3,248 +3,485 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divelun | Acceso Exclusivo</title>
+    <title>Divelun AI | Fitness Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- ESTILOS VISUALES (GLASSMORPHISM) --- */
-        :root { --primary: #6366f1; --primary-dark: #4f46e5; --accent: #ec4899; --glass-bg: rgba(255, 255, 255, 0.85); --glass-border: rgba(255, 255, 255, 0.6); --text: #1e293b; --text-light: #64748b; }
-        * { box-sizing: border-box; outline: none; }
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow-x: hidden; }
-        body::before { content: ''; position: absolute; top: -10%; left: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate; }
-        body::after { content: ''; position: absolute; bottom: -10%; right: -10%; width: 50%; height: 50%; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); opacity: 0.15; filter: blur(80px); z-index: -1; animation: float 10s infinite alternate-reverse; }
-        @keyframes float { from { transform: translate(0,0); } to { transform: translate(20px, 20px); } }
-        
-        .container { background: var(--glass-bg); backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 1.5rem; border: 1px solid var(--glass-border); box-shadow: 0 20px 40px -5px rgba(0,0,0,0.05); width: 100%; max-width: 420px; text-align: center; position: relative; }
-        h1, h2 { margin: 0 0 0.5rem 0; color: #0f172a; font-weight: 700; }
-        h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; }
-        p { color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
-        
-        .input-group { position: relative; margin-bottom: 1rem; text-align: left; }
-        input { width: 100%; padding: 14px 16px; padding-right: 45px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.75rem; font-size: 0.95rem; color: var(--text); transition: all 0.2s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
-        
-        .toggle-pass { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; display: flex; align-items: center; }
-        .toggle-pass svg { width: 20px; height: 20px; }
+        :root { 
+            --bg-deep: #05070a;
+            --primary: #3b82f6; 
+            --primary-glow: rgba(59, 130, 246, 0.5);
+            --accent: #00f2ff; 
+            --glass-bg: rgba(13, 17, 23, 0.8); 
+            --glass-border: rgba(255, 255, 255, 0.08); 
+            --text: #f8fafc; 
+            --text-dim: #94a3b8; 
+            --card-inner: rgba(255, 255, 255, 0.04);
+            --nav-height: 75px;
+        }
 
-        button { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; border-radius: 0.75rem; font-weight: 600; cursor: pointer; margin-bottom: 0.75rem; box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3); transition: transform 0.2s; }
-        button:hover { transform: translateY(-2px); }
-        button.secondary { background: transparent; color: var(--text-light); box-shadow: none; border: 1px solid transparent; }
-        button.secondary:hover { color: var(--primary); background: rgba(99, 102, 241, 0.05); }
-        button.stripe-btn { background: #635bff; }
-        button.success-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3); }
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
-        .forgot-link { display: block; font-size: 0.85rem; color: var(--primary); text-decoration: none; margin-bottom: 1.5rem; cursor: pointer; text-align: right; }
-        .forgot-link:hover { text-decoration: underline; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+            color: var(--text); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px; 
+            transition: padding 0.3s;
+        }
 
-        .view { display: none; opacity: 0; animation: fadeIn 0.4s forwards; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .container { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(30px); 
+            -webkit-backdrop-filter: blur(30px);
+            padding: 2.2rem; 
+            border-radius: 2.5rem; 
+            border: 1px solid var(--glass-border); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            width: 100%; 
+            max-width: 460px; 
+            text-align: center; 
+            position: relative; 
+            z-index: 10;
+        }
+
+        /* --- TIPOGRAFÍA --- */
+        h1, h2, h3 { margin: 0 0 0.5rem 0; font-weight: 800; letter-spacing: -0.02em; }
+        h1 { font-size: 2.4rem; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 1.6rem; line-height: 1.2; }
+        p { color: var(--text-dim); margin-bottom: 1.8rem; font-size: 0.95rem; line-height: 1.6; }
+
+        /* --- BOTONES E INPUTS --- */
+        button { 
+            width: 100%; padding: 18px; 
+            background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); 
+            color: white; border: none; border-radius: 1.2rem; 
+            font-weight: 700; font-size: 1rem; cursor: pointer; margin-bottom: 1rem; 
+            transition: all 0.3s; box-shadow: 0 8px 25px -5px var(--primary-glow);
+        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -5px var(--primary-glow); filter: brightness(1.1); }
+        button:active { transform: translateY(-1px); }
+        button.secondary { background: transparent; color: var(--text-dim); border: 1px solid var(--glass-border); box-shadow: none; }
+        button.secondary:hover { color: #fff; background: rgba(255,255,255,0.05); }
         
-        .error { color: #ef4444; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #fee2e2; padding: 8px; border-radius: 6px; }
-        .success-msg { color: #10b981; font-size: 0.85rem; margin-top: 0.5rem; display: none; background: #dcfce7; padding: 8px; border-radius: 6px; }
-        .loading { font-size: 0.85rem; color: var(--primary); margin-top: 10px; display: none; font-weight: 500; }
-        
-        .bento-grid { display: grid; grid-template-columns: 1fr; gap: 10px; text-align: left; margin-top: 1rem; }
-        .bento-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #f1f5f9; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .bento-card h3 { margin: 0 0 5px 0; font-size: 1rem; color: var(--primary); }
-        .bento-card p { margin: 0; font-size: 0.85rem; }
-        .status-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px;}
+        button.checkout-btn {
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            color: #000;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px -5px rgba(255,255,255,0.2);
+        }
+
+        input { 
+            width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid var(--glass-border); border-radius: 1rem; 
+            color: #fff; margin-bottom: 1.2rem; transition: 0.3s;
+            font-size: 1rem;
+        }
+        input:focus { border-color: var(--primary); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+
+        /* --- MENU GLASSMORPHIC --- */
+        .glass-nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 420px;
+            height: var(--nav-height);
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: none; 
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            padding: 0 10px;
+        }
+
+        .nav-item {
+            color: var(--text-dim);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .nav-item.active { color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .nav-item svg { width: 24px; height: 24px; margin-bottom: 4px; }
+
+        /* --- TEST INTERACTIVO --- */
+        .test-step { display: none; text-align: left; }
+        .test-step.active { display: block; animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .option-card {
+            background: var(--card-inner);
+            border: 1px solid var(--glass-border);
+            padding: 18px;
+            border-radius: 1.2rem;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        .option-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); transform: translateX(5px); }
+        .option-card.selected { 
+            border-color: var(--primary); 
+            background: rgba(59, 130, 246, 0.15); 
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); 
+            color: #fff;
+        }
+        .option-card span.icon { font-size: 1.4rem; }
+
+        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 2.5rem; overflow: hidden; position: relative; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(to right, var(--primary), var(--accent)); transition: 0.6s cubic-bezier(0.65, 0, 0.35, 1); box-shadow: 0 0 15px var(--primary); }
+
+        /* --- VISTAS --- */
+        .view { display: none; opacity: 0; }
+        .view.active { display: block; opacity: 1; animation: fadeIn 0.6s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- DASHBOARD / RUTINA --- */
+        .routine-card {
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(0,0,0,0) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.8rem;
+            padding: 24px;
+            text-align: left;
+            margin-top: 1rem;
+        }
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .exercise-item:last-child { border: none; }
+        .exercise-name { font-weight: 600; color: #fff; font-size: 1rem; }
+        .exercise-meta { background: rgba(59, 130, 246, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; }
+
+        /* --- LOADING IA --- */
+        .loading-ia { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 40px 0; }
+        .spinner { 
+            width: 50px; height: 50px; 
+            border: 4px solid rgba(59, 130, 246, 0.1); 
+            border-top-color: var(--primary); 
+            border-radius: 50%; 
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- PAYWALL / CHECKOUT --- */
+        .paywall-badge {
+            background: linear-gradient(to right, #f59e0b, #ef4444);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
 
+<!-- MENU GLASSMORPHIC (Visible solo en Dashboard) -->
+<nav id="main-nav" class="glass-nav">
+    <div class="nav-item active" onclick="nav('view-dashboard')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>Hoy</span>
+    </div>
+    <div class="nav-item" onclick="alert('Próximamente: Seguimiento de Progreso')">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Progreso</span>
+    </div>
+    <div class="nav-item" onclick="logout()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        <span>Salir</span>
+    </div>
+</nav>
+
 <div class="container">
-    <script>
-        // =========================================================
-        // VERIFICA QUE ESTE LINK SEA EL QUE DICE "GESTIONAR IMPLEMENTACIONES"
-        // =========================================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
-    </script>
+    <script>const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";</script>
 
+    <!-- VISTA: BIENVENIDA -->
     <div id="view-welcome" class="view active">
-        <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
-        <h1>Divelun</h1>
-        <p>Plataforma exclusiva de gestión y recursos premium.</p>
-        <button onclick="nav('view-login')">Iniciar Sesión</button>
-        <button class="secondary" onclick="nav('view-register')">Crear Cuenta</button>
+        <div style="font-size: 4rem; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--primary-glow));">⚡</div>
+        <h1>Divelun AI</h1>
+        <p>Tu cuerpo, optimizado por algoritmos. Diseñamos el plan perfecto para tu genética.</p>
+        <button onclick="nav('view-register')">Comenzar Cambio</button>
+        <button class="secondary" onclick="nav('view-login')">Tengo una cuenta</button>
     </div>
 
+    <!-- VISTA: REGISTRO -->
     <div id="view-register" class="view">
-        <h2>Crear Cuenta</h2>
-        <p>Únete hoy para acceder al contenido.</p>
-        <div class="input-group">
-            <input type="email" id="reg-email" placeholder="Correo electrónico">
-        </div>
-        <div class="input-group">
-            <input type="password" id="reg-pass" placeholder="Crear contraseña">
-            <span class="toggle-pass" onclick="togglePass('reg-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
-        </div>
-        <button onclick="handleRegister()">Continuar al Pago</button>
-        <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        <div id="reg-msg" class="error"></div>
-        <div id="reg-load" class="loading">Creando cuenta...</div>
+        <h2>Crea tu Perfil</h2>
+        <p>Inicia tu suscripción premium.</p>
+        <input type="email" id="reg-email" placeholder="Email corporativo o personal">
+        <input type="password" id="reg-pass" placeholder="Contraseña segura">
+        <button onclick="handleRegister()">Registrar e Ir al Test</button>
+        <button class="secondary" onclick="nav('view-welcome')">Atrás</button>
     </div>
 
-    <div id="view-payment" class="view">
-        <h2>Casi listo...</h2>
-        <p>Cuenta creada. Realiza el pago para activarla.</p>
-        <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
-            <button class="stripe-btn">💳 Pagar Membresía Ahora</button>
-        </a>
-        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 15px;">🔒 Pago seguro vía Stripe SSL.</p>
-    </div>
-
-    <div id="view-success" class="view">
-        <div style="font-size: 4rem; color: #10b981; margin-bottom: 10px;">🎉</div>
-        <h2>¡Pago Exitoso!</h2>
-        <p>Tu suscripción está lista.</p>
-        <button class="success-btn" onclick="activateAccount()">🚀 Comencemos</button>
-        <div id="success-load" class="loading">Activando cuenta...</div>
-    </div>
-
+    <!-- VISTA: LOGIN -->
     <div id="view-login" class="view">
         <h2>Bienvenido</h2>
-        <p>Ingresa tus credenciales.</p>
-        <div class="input-group">
-            <input type="email" id="login-email" placeholder="Correo electrónico">
-        </div>
-        <div class="input-group" style="margin-bottom: 0.5rem;">
-            <input type="password" id="login-pass" placeholder="Contraseña">
-            <span class="toggle-pass" onclick="togglePass('login-pass', this)"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg></span>
-        </div>
-        
-        <a class="forgot-link" onclick="nav('view-recover')">¿Olvidaste tu contraseña?</a>
-
+        <p>Accede a tu panel de entrenamiento.</p>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-pass" placeholder="Contraseña">
         <button onclick="handleLogin()">Entrar</button>
-        <button class="secondary" onclick="nav('view-welcome')">Volver</button>
-        <div id="login-msg" class="error"></div>
-        <div id="login-load" class="loading">Verificando...</div>
+        <button class="secondary" onclick="nav('view-welcome')">Atrás</button>
     </div>
 
-    <div id="view-recover" class="view">
-        <h2>Recuperar Acceso</h2>
-        <p>Ingresa tu correo y te enviaremos tu contraseña.</p>
-        <div class="input-group">
-            <input type="email" id="rec-email" placeholder="Tu correo registrado">
+    <!-- VISTA: FITNESS TEST INTERACTIVO -->
+    <div id="view-fitness-test" class="view">
+        <div class="progress-container"><div id="test-progress" class="progress-bar"></div></div>
+        
+        <!-- Paso 1: Género -->
+        <div class="test-step active" data-step="1">
+            <h2>Hablemos de ti</h2>
+            <p>La IA ajusta las cargas según tu fisiología.</p>
+            <div class="option-card" onclick="selectOption(1, 'Masculino')"><span class="icon">👨</span> Masculino</div>
+            <div class="option-card" onclick="selectOption(1, 'Femenino')"><span class="icon">👩</span> Femenino</div>
+            <div class="option-card" onclick="selectOption(1, 'Otro')"><span class="icon">✨</span> Prefiero no decir</div>
         </div>
-        <button onclick="handleRecover()">Enviar Contraseña</button>
-        <button class="secondary" onclick="nav('view-login')">Volver al Login</button>
-        <div id="rec-msg" class="error"></div>
-        <div id="rec-success" class="success-msg"></div>
-        <div id="rec-load" class="loading">Buscando en la base de datos...</div>
+
+        <!-- Paso 2: Objetivo -->
+        <div class="test-step" data-step="2">
+            <h2>¿Cuál es tu meta?</h2>
+            <p>Define tu prioridad para los próximos 90 días.</p>
+            <div class="option-card" onclick="selectOption(2, 'Perder Grasa')"><span class="icon">🔥</span> Quema de Grasa</div>
+            <div class="option-card" onclick="selectOption(2, 'Ganar Músculo')"><span class="icon">💪</span> Hipertrofia (Músculo)</div>
+            <div class="option-card" onclick="selectOption(2, 'Tonificar')"><span class="icon">💎</span> Definición y Tono</div>
+            <div class="option-card" onclick="selectOption(2, 'Fuerza')"><span class="icon">🏋️</span> Fuerza Máxima</div>
+        </div>
+
+        <!-- Paso 3: Experiencia -->
+        <div class="test-step" data-step="3">
+            <h2>Nivel de Experiencia</h2>
+            <p>Calcularemos tu curva de aprendizaje.</p>
+            <div class="option-card" onclick="selectOption(3, 'Novato')"><span class="icon">🌱</span> Novato (0-6 meses)</div>
+            <div class="option-card" onclick="selectOption(3, 'Intermedio')"><span class="icon">🥈</span> Intermedio (1-2 años)</div>
+            <div class="option-card" onclick="selectOption(3, 'Pro')"><span class="icon">🏆</span> Avanzado (+3 años)</div>
+        </div>
+
+        <!-- Paso 4: Lugar -->
+        <div class="test-step" data-step="4">
+            <h2>¿Dónde entrenarás?</h2>
+            <p>Selecciona tu equipamiento disponible.</p>
+            <div class="option-card" onclick="selectOption(4, 'Gimnasio')"><span class="icon">🏢</span> Gimnasio Completo</div>
+            <div class="option-card" onclick="selectOption(4, 'Mancuernas')"><span class="icon">🏋️</span> Solo Mancuernas / Casa</div>
+            <div class="option-card" onclick="selectOption(4, 'Calistenia')"><span class="icon">🤸</span> Peso Corporal</div>
+        </div>
+
+        <!-- Paso 5: Frecuencia -->
+        <div class="test-step" data-step="5">
+            <h2>Disponibilidad Semanal</h2>
+            <p>¿Cuántos días puedes dedicar al cambio?</p>
+            <div class="option-card" onclick="selectOption(5, '3 Días')"><span class="icon">🗓️</span> 3 días (Mantenerse)</div>
+            <div class="option-card" onclick="selectOption(5, '4-5 Días')"><span class="icon">⚡</span> 4-5 días (Transformación)</div>
+            <div class="option-card" onclick="selectOption(5, 'Diario')"><span class="icon">🔥</span> 6 días (Atleta)</div>
+        </div>
+
+        <!-- Paso 6: Generando -->
+        <div class="test-step" data-step="6" style="text-align: center;">
+            <div class="loading-ia">
+                <div class="spinner"></div>
+                <h2>Analizando Datos...</h2>
+                <p>Nuestra red neuronal está estructurando tu microciclo de entrenamiento.</p>
+            </div>
+        </div>
     </div>
 
+    <!-- VISTA: PAYWALL / BARREIRA DE PAGO -->
+    <div id="view-paywall" class="view">
+        <div class="paywall-badge">Plan IA Generado</div>
+        <h2>¡Tu Rutina está lista!</h2>
+        <p>Hemos diseñado una rutina de <b><span id="res-freq">...</span></b> para tu objetivo de <b><span id="res-goal">...</span></b>.</p>
+        
+        <div class="routine-card" style="margin-bottom: 1.5rem; opacity: 0.6; pointer-events: none;">
+            <div class="exercise-item"><span>Ejercicios bloqueados</span><span>?? sets</span></div>
+            <div class="exercise-item"><span>Cargas personalizadas</span><span>?? kg</span></div>
+            <div class="exercise-item"><span>Guía de nutrición</span><span>🔒</span></div>
+        </div>
+
+        <p style="font-size: 0.85rem;">Para desbloquear el acceso y comenzar hoy mismo, activa tu suscripción premium.</p>
+        
+        <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
+            <button class="checkout-btn">🚀 Desbloquear por 19.99€/mes</button>
+        </a>
+        <button class="secondary" onclick="simulatePaymentSuccess()">Tengo un código / Ya pagué</button>
+    </div>
+
+    <!-- VISTA: DASHBOARD / RUTINA REAL -->
     <div id="view-dashboard" class="view">
-        <div class="status-badge">● MIEMBRO ACTIVO</div>
-        <h2>Dashboard</h2>
-        <p>Bienvenido al área exclusiva.</p>
-        <div class="bento-grid">
-            <div class="bento-card"><h3>📁 Mis Recursos</h3><p>Accede a tus archivos.</p></div>
-            <div class="bento-card"><h3>📊 Analíticas</h3><p>Visualiza el rendimiento.</p></div>
-            <div class="bento-card"><h3>⚙️ Configuración</h3><p>Gestiona tu cuenta.</p></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+            <div style="text-align:left;">
+                <h2 id="dash-user">¡Plan Activo!</h2>
+                <span style="font-size:0.75rem; color:var(--primary); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Inteligencia Artificial Divelun</span>
+            </div>
+            <div style="width:48px; height:48px; border-radius:18px; background:linear-gradient(45deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem; box-shadow: 0 5px 15px var(--primary-glow);">D</div>
         </div>
-        <br>
-        <button class="secondary" onclick="logout()">Cerrar Sesión</button>
+
+        <div class="routine-card">
+            <h3 id="routine-title">Cargando...</h3>
+            <p id="routine-desc" style="font-size:0.85rem; margin-bottom:1.2rem;"></p>
+            
+            <div id="routine-list">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </div>
+
+        <button style="margin-top:2rem;" onclick="alert('Iniciando cronómetro... ¡Dale duro!')">▶️ Comenzar Entrenamiento</button>
+        <p style="font-size:0.75rem; color:var(--text-dim); margin-top:10px;">Tu progreso se guarda automáticamente.</p>
     </div>
 </div>
 
 <script>
-    const eyeOpen = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>`;
-    const eyeClosed = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>`;
-
-    function togglePass(inputId, iconSpan) {
-        const input = document.getElementById(inputId);
-        if (input.type === "password") { input.type = "text"; iconSpan.innerHTML = eyeOpen; iconSpan.style.color = "var(--primary)"; } 
-        else { input.type = "password"; iconSpan.innerHTML = eyeClosed; iconSpan.style.color = "#94a3b8"; }
-    }
-
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('payment_success') === 'true') nav('view-success');
-    };
+    let fitnessData = { gender: '', goal: '', level: '', place: '', freq: '' };
+    let currentStep = 1;
 
     function nav(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
-        document.querySelectorAll('.error, .success-msg').forEach(el => el.style.display = 'none');
+        
+        // El menú solo aparece en el Dashboard
+        const navBar = document.getElementById('main-nav');
+        navBar.style.display = (viewId === 'view-dashboard') ? 'flex' : 'none';
+        
+        // Ajuste de scroll según la vista
+        if(viewId === 'view-dashboard') document.body.style.paddingBottom = "120px";
+        else document.body.style.paddingBottom = "20px";
     }
 
-    async function postData(action, data) {
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify({ action: action, ...data })
-            });
-            return await response.json();
-        } catch (error) { return { success: false, message: "Error de conexión." }; }
+    // --- LÓGICA DEL TEST ---
+    function selectOption(step, value) {
+        const stepDiv = document.querySelector(`.test-step[data-step="${step}"]`);
+        stepDiv.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+
+        if(step === 1) fitnessData.gender = value;
+        if(step === 2) fitnessData.goal = value;
+        if(step === 3) fitnessData.level = value;
+        if(step === 4) fitnessData.place = value;
+        if(step === 5) fitnessData.freq = value;
+
+        setTimeout(() => nextStep(), 350);
     }
 
-    // --- ACCIONES ---
+    function nextStep() {
+        if(currentStep < 6) {
+            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep++;
+            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.add('active');
+            
+            // Actualizar barra de progreso (dividido en 6 pasos)
+            document.getElementById('test-progress').style.width = ((currentStep / 6) * 100) + "%";
+            
+            if(currentStep === 6) {
+                setTimeout(() => showPaywall(), 3000);
+            }
+        }
+    }
 
+    function showPaywall() {
+        document.getElementById('res-freq').innerText = fitnessData.freq;
+        document.getElementById('res-goal').innerText = fitnessData.goal;
+        nav('view-paywall');
+    }
+
+    function simulatePaymentSuccess() {
+        // En una app real, esto lo activaría el webhook de Stripe
+        buildRoutine();
+        nav('view-dashboard');
+    }
+
+    function buildRoutine() {
+        const list = document.getElementById('routine-list');
+        const title = document.getElementById('routine-title');
+        const desc = document.getElementById('routine-desc');
+        list.innerHTML = '';
+
+        title.innerText = "Día 1: " + (fitnessData.goal.includes('Grasa') ? 'Cardio & Core' : 'Empuje (Push)');
+        desc.innerText = `Nivel ${fitnessData.level} • Entorno: ${fitnessData.place}`;
+
+        let exercises = [];
+        if(fitnessData.goal.includes('Músculo')) {
+            exercises = [
+                {n: "Press de Banca", m: "4 x 10"},
+                {n: "Press Militar", m: "3 x 12"},
+                {n: "Sentadilla Libre", m: "4 x 10"},
+                {n: "Extensiones Tríceps", m: "3 x 15"}
+            ];
+        } else {
+            exercises = [
+                {n: "Burpees", m: "4 x 20"},
+                {n: "Saltos al Cajón", m: "3 x 15"},
+                {n: "Flexiones Diamante", m: "4 x Fallo"},
+                {n: "Plancha Abdominal", m: "4 x 45s"}
+            ];
+        }
+
+        exercises.forEach((ex, i) => {
+            setTimeout(() => {
+                const div = document.createElement('div');
+                div.className = 'exercise-item';
+                div.style.animation = 'fadeIn 0.5s forwards';
+                div.innerHTML = `<span class="exercise-name">${ex.n}</span><span class="exercise-meta">${ex.m}</span>`;
+                list.appendChild(div);
+            }, i * 150);
+        });
+    }
+
+    // --- ACCIONES DE CUENTA ---
     async function handleRegister() {
         const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
-        const loader = document.getElementById('reg-load');
-        const msg = document.getElementById('reg-msg');
-        if(!email || !pass) { msg.innerText = "Completa los campos"; msg.style.display = 'block'; return; }
-        loader.style.display = 'block';
-        const res = await postData('register', { email, password: pass });
-        loader.style.display = 'none';
-        if (res.success) { localStorage.setItem('tempUserEmail', email); nav('view-payment'); } 
-        else { msg.innerText = res.message; msg.style.display = 'block'; }
+        if(!email) { alert("Ingresa un email"); return; }
+        // Simulación de registro exitoso
+        localStorage.setItem('divelun_user', email);
+        nav('view-fitness-test');
+        document.getElementById('test-progress').style.width = "16%";
     }
 
     async function handleLogin() {
         const email = document.getElementById('login-email').value;
-        const pass = document.getElementById('login-pass').value;
-        const loader = document.getElementById('login-load');
-        const msg = document.getElementById('login-msg');
-        loader.style.display = 'block';
-        const res = await postData('login', { email, password: pass });
-        loader.style.display = 'none';
-        if (res.success) nav('view-dashboard');
-        else { msg.innerText = res.message; msg.style.display = 'block'; }
-    }
-
-    // NUEVO: MANEJO DE RECUPERACIÓN
-    async function handleRecover() {
-        const email = document.getElementById('rec-email').value;
-        const loader = document.getElementById('rec-load');
-        const msg = document.getElementById('rec-msg');
-        const success = document.getElementById('rec-success');
-
-        if(!email) { msg.innerText = "Ingresa tu email"; msg.style.display = 'block'; return; }
-        
-        loader.style.display = 'block';
-        msg.style.display = 'none';
-        success.style.display = 'none';
-
-        const res = await postData('recover', { email: email });
-        
-        loader.style.display = 'none';
-
-        if(res.success) {
-            success.innerText = res.message;
-            success.style.display = 'block';
-        } else {
-            msg.innerText = res.message;
-            msg.style.display = 'block';
+        if(email) {
+            buildRoutine(); // Generamos una basada en datos previos o por defecto
+            nav('view-dashboard');
         }
     }
 
-    async function activateAccount() {
-        const savedEmail = localStorage.getItem('tempUserEmail');
-        if(!savedEmail) { alert("Inicia sesión para activar."); nav('view-login'); return; }
-        document.getElementById('success-load').style.display = 'block';
-        const res = await postData('payment_confirmation', { email: savedEmail });
-        if(res.success) { 
-            window.history.replaceState({}, document.title, window.location.pathname);
-            localStorage.removeItem('tempUserEmail');
-            nav('view-dashboard'); 
-        } else { alert("Error: " + res.message); }
+    function logout() { 
+        localStorage.removeItem('divelun_user');
+        location.reload(); 
     }
-
-    function logout() { location.href = window.location.pathname; }
 </script>
 
 </body>
