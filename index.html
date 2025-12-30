@@ -2,13 +2,14 @@
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Divelun AI | Bio-Performance Hub</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
@@ -22,9 +23,10 @@
                         "card-dark": "#121212",
                     },
                     boxShadow: {
-                        'neon': '0 0 20px rgba(59, 130, 246, 0.5)',
-                        'neon-strong': '0 0 30px rgba(59, 130, 246, 0.6)',
-                        'neon-sm': '0 0-10px rgba(59, 130, 246, 0.4)',
+                        'neon': '0 0 20px rgba(59, 130, 246, 0.4)',
+                        'neon-strong': '0 0 30px rgba(59, 130, 246, 0.5)',
+                        'neon-sm': '0 0 10px rgba(59, 130, 246, 0.3)',
+                        'neon-green': '0 0 20px rgba(34, 197, 94, 0.4)',
                     }
                 },
             },
@@ -33,257 +35,416 @@
     <style>
         :root { 
             --primary: #3b82f6; 
-            --glass-bg: rgba(13, 17, 23, 0.9); 
+            --glass-bg: rgba(13, 17, 23, 0.96); 
             --glass-border: rgba(255, 255, 255, 0.08); 
         }
 
-        body { font-family: 'Inter', 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: white; }
+        body { 
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif; 
+            background-color: #050505; 
+            color: white;
+            overscroll-behavior: none;
+        }
         
-        /* Estilos Base Neon */
-        .glass-auth { background: var(--glass-bg); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid var(--glass-border); }
-        .glass-panel { background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+        .glass-auth { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(30px); 
+            -webkit-backdrop-filter: blur(30px); 
+            border: 1px solid var(--glass-border); 
+        }
+
+        .glass-panel { 
+            background: rgba(15, 15, 15, 0.7); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); 
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .text-glow { text-shadow: 0 0 20px rgba(59, 130, 246, 0.7); }
+        .text-glow { text-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
 
-        /* Vistas */
         .view { display: none; opacity: 0; }
-        .view.active { display: block; opacity: 1; transition: opacity 0.5s; }
+        .view.active { display: block; opacity: 1; transition: opacity 0.4s ease; }
 
-        /* Animaciones Test */
         .test-step { display: none; }
-        .test-step.active { display: block; animation: slideUp 0.6s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .test-step.active { display: block; animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
         @keyframes spin { to { transform: rotate(360deg); } }
-        .spinner { border: 4px solid rgba(59, 130, 246, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s infinite linear; }
-        .review-slide { position: absolute; width: 100%; opacity: 0; transition: 0.5s; }
-        .review-slide.active { opacity: 1; }
+        .spinner { border: 3px solid rgba(59, 130, 246, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s infinite linear; }
+        
+        .review-slide { position: absolute; width: 100%; opacity: 0; transition: 0.5s; pointer-events: none; }
+        .review-slide.active { opacity: 1; pointer-events: auto; }
+
+        /* Carousel snapping */
+        .carousel-snap {
+            scroll-snap-type: x mandatory;
+            display: flex;
+            overflow-x: auto;
+            gap: 1.25rem;
+            padding-bottom: 1.5rem;
+        }
+        .carousel-snap > div {
+            scroll-snap-align: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body class="bg-[#050505] min-h-screen selection:bg-primary selection:text-white overflow-x-hidden dark">
 
-    <!-- Fondo Decorativo Global -->
+    <!-- Orbes de fondo dinámicos -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] opacity-40"></div>
-        <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px]"></div>
+        <div class="absolute top-[-5%] right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/10 rounded-full blur-[100px] opacity-40"></div>
+        <div class="absolute bottom-[-5%] left-[-10%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-purple-900/10 rounded-full blur-[120px]"></div>
     </div>
 
-    <!-- CONTENEDOR DE AUTENTICACIÓN Y TEST -->
-    <div id="auth-root" class="w-full flex justify-center items-center min-h-screen p-4">
-        
-        <script>const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";</script>
-
-        <!-- BIENVENIDA -->
-        <div id="view-welcome" class="view active max-w-md w-full glass-auth p-10 rounded-[2.5rem] text-center">
-            <div class="text-6xl mb-6 filter drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">⚡</div>
-            <h1 class="text-4xl font-extrabold italic uppercase tracking-tighter mb-4 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">Divelun AI</h1>
-            <p class="text-gray-400 mb-8 leading-relaxed">Arquitectura de rendimiento humano mediante algoritmos de entrenamiento neon-precision.</p>
-            <button onclick="nav('view-register')" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon hover:scale-105 transition-all mb-4">INICIAR EVALUACIÓN</button>
-            <button onclick="nav('view-login')" class="w-full py-4 border border-white/10 text-gray-400 font-bold rounded-2xl hover:bg-white/5 transition-all">ENTRAR</button>
-        </div>
-
-        <!-- REGISTRO -->
-        <div id="view-register" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem]">
-            <h2 class="text-2xl font-bold mb-2">Crear Expediente</h2>
-            <p class="text-gray-400 mb-8 text-sm">Registra tu identidad para procesar biometría.</p>
-            <input type="email" id="reg-email" placeholder="Email corporativo" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 focus:border-primary transition-all text-white outline-none">
-            <input type="password" id="reg-pass" placeholder="Contraseña de acceso" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6 focus:border-primary transition-all text-white outline-none">
-            <button id="btn-reg" onclick="handleRegister()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">Siguiente</button>
-            <div id="reg-load" class="hidden mt-4 text-primary text-xs font-bold animate-pulse text-center">SINCRONIZANDO CON LA RED...</div>
-            <div id="reg-msg" class="hidden mt-4 text-red-500 text-xs text-center"></div>
-            <button onclick="nav('view-welcome')" class="w-full mt-4 text-gray-500 text-sm">Volver</button>
-        </div>
-
-        <!-- LOGIN -->
-        <div id="view-login" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem]">
-            <h2 class="text-2xl font-bold mb-2">Acceso Seguro</h2>
-            <p class="text-gray-400 mb-8 text-sm">Introduce tus credenciales de miembro.</p>
-            <input type="email" id="login-email" placeholder="Email" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 text-white outline-none">
-            <input type="password" id="login-pass" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-2 text-white outline-none">
-            <div class="text-right mb-6"><a onclick="nav('view-recover')" class="text-primary text-xs cursor-pointer hover:underline">¿Olvidaste tu contraseña?</a></div>
-            <button onclick="handleLogin()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">Acceder</button>
-            <div id="login-load" class="hidden mt-4 text-primary text-xs font-bold text-center">VALIDANDO IDENTIDAD...</div>
-            <div id="login-msg" class="hidden mt-4 text-red-500 text-xs text-center"></div>
-        </div>
-
-        <!-- RECUPERAR -->
-        <div id="view-recover" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem]">
-            <h2 class="text-2xl font-bold mb-2">Restaurar Acceso</h2>
-            <p class="text-gray-400 mb-8 text-sm">Escaneamos la base de datos para recuperar tus credenciales.</p>
-            <input type="email" id="rec-email" placeholder="Correo electrónico" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6 text-white outline-none">
-            <button onclick="handleRecover()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl">SOLICITAR ENVÍO</button>
-            <div id="rec-load" class="hidden mt-4 text-primary text-xs font-bold text-center">BUSCANDO REGISTROS...</div>
-            <div id="rec-success" class="hidden mt-4 text-green-500 text-xs text-center"></div>
-            <button onclick="nav('view-login')" class="w-full mt-4 text-gray-500 text-sm">Volver</button>
-        </div>
-
-        <!-- FITNESS TEST -->
-        <div id="view-fitness-test" class="view max-w-lg w-full glass-auth p-8 rounded-[2.5rem]">
-            <div class="w-full h-1.5 bg-white/5 rounded-full mb-8 overflow-hidden"><div id="test-progress" class="h-full bg-primary shadow-neon w-0 transition-all duration-700"></div></div>
-            <div class="test-step active" data-step="1">
-                <h2 class="text-xl font-bold mb-4">01. Fisiología Genética</h2>
-                <div onclick="selectOption(1, 'Masculino')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer hover:bg-primary/10 font-bold">👨 Masculino</div>
-                <div onclick="selectOption(1, 'Femenino')" class="p-4 bg-white/5 border border-white/10 rounded-2xl mb-3 cursor-pointer hover:bg-primary/10 font-bold">👩 Femenino</div>
-            </div>
-            <div class="test-step" data-step="2">
-                <h2 class="text-xl font-bold mb-4">02. Biometría</h2>
-                <div class="grid grid-cols-2 gap-4 mb-4"><input type="number" id="test-age" placeholder="Edad" class="p-4 bg-black/40 border border-white/10 rounded-2xl"><input type="number" id="test-weight" placeholder="Peso (kg)" class="p-4 bg-black/40 border border-white/10 rounded-2xl"></div>
-                <input type="number" id="test-height" placeholder="Altura (cm)" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6">
-                <button onclick="nextStepManual(2)" class="w-full py-4 bg-primary text-white font-bold rounded-2xl">Continuar</button>
-            </div>
-            <div class="test-step" data-step="3"><h2 class="text-xl font-bold mb-4">03. Procesando Datos</h2><div class="flex flex-col items-center py-10"><div class="w-12 h-12 spinner mb-6"></div><p class="text-xs font-mono text-primary animate-pulse tracking-widest uppercase">SYNC_NEON_CORE...</p></div></div>
-        </div>
-
-        <!-- PAYWALL -->
-        <div id="view-paywall" class="view max-w-lg w-full glass-auth p-8 rounded-[2.5rem] text-center">
-            <span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-widest rounded-full mb-4 inline-block uppercase">Diagnóstico Completado</span>
-            <h2 class="text-2xl font-bold mb-4">Plan Elite Generado</h2>
-            <p class="text-gray-400 text-sm mb-8">Programación específica para tu perfil de rendimiento.</p>
-            <div class="relative h-20 mb-8 overflow-hidden bg-white/5 rounded-2xl flex items-center justify-center p-4">
-                <div class="review-slide active"><p class="text-xs italic">"Optimización total de mis cargas."</p><p class="text-primary text-[10px] font-bold mt-1">— Carlos R.</p></div>
-                <div class="review-slide"><p class="text-xs italic">"Resultados visibles en solo 4 semanas."</p><p class="text-primary text-[10px] font-bold mt-1">— Elena M.</p></div>
-            </div>
-            <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" class="block w-full py-4 bg-white text-black font-bold rounded-2xl shadow-neon mb-4">🚀 INICIAR PLAN ELITE - 19.90€</a>
-            <button onclick="alert('Solicitud enviada')" class="w-full py-3 border border-primary/40 text-primary text-xs font-bold rounded-xl mb-4">PRUEBA 7 DÍAS GRATIS</button>
-        </div>
-
-        <!-- ÉXITO / ACTIVACIÓN -->
-        <div id="view-success" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem] text-center">
-            <div class="text-5xl mb-6">💎</div>
-            <h2 class="text-2xl font-bold mb-4">Pago Verificado</h2>
-            <p class="text-gray-400 text-sm mb-8">Configurando tu entorno de entrenamiento personal.</p>
-            <button id="btn-activate" onclick="activateAccount()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">CONSTRUYENDO PERFIL IA</button>
-            <div id="success-load" class="hidden mt-6 flex flex-col items-center"><div class="w-8 h-8 spinner mb-4"></div><p class="text-[10px] text-primary font-bold uppercase tracking-widest">Sincronizando mesociclo...</p></div>
-        </div>
-    </div>
-
-    <!-- APP HUB: PROTOCOLO NEON -->
-    <div id="view-hub" class="view min-h-screen">
-        <main class="max-w-7xl mx-auto px-6 pb-40 pt-8 md:pt-12">
-            <div class="flex justify-between items-center mb-12">
-                <div class="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/5 rounded-full pl-2 pr-5 py-1.5 shadow-sm">
-                    <div class="w-2 h-2 rounded-full bg-primary shadow-neon animate-pulse ml-2"></div>
-                    <h3 class="text-[10px] font-bold tracking-[0.15em] text-gray-300 uppercase">Bio-Performance Hub</h3>
+    <!-- NAVEGACIÓN GLOBAL -->
+    <div id="hub-nav" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm hidden">
+        <nav class="glass-panel rounded-[2.5rem] p-2.5 px-6 flex justify-between items-center shadow-2xl border border-white/10">
+            <a class="flex flex-col items-center gap-1 group cursor-pointer" id="nav-btn-hub" onclick="nav('view-hub')">
+                <div class="nav-icon-container w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300">
+                    <span class="material-symbols-outlined text-[26px]">grid_view</span>
                 </div>
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 p-[2px] relative group cursor-pointer hover:shadow-neon transition-shadow duration-300">
-                    <img alt="User" class="w-full h-full rounded-full object-cover border-2 border-[#050505]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdm49pSeJ64DvEJEvLobXeS-gsjn5Tc2f4ZLVOi1ExbtIK-ekvgf_BBpWRIzxiTxTCOiHFG1Exi5clGlM8PU1QsE0XT1NmJBSYXl_VxHPtT3fjnA4R6-cjhoEt603AhB-xCLKzRhQ5_bw8visZcH_BIXJ39-AfKbfV3YQ4KcPDqIunf5MTVWkDdeR3Rqu3BB8QAYBZnJehFG8fSWUJ2lnw8tfiL3jug4jRyj1RshoJoiQn2BmHujLJiDEzWMHNkq34cwap7tHHIrdK"/>
-                </div>
-            </div>
-
-            <div class="mb-16 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="flex h-3 w-3 relative"><span class="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="h-3 w-3 rounded-full bg-green-500"></span></span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-primary">Sistema Activo • Protocolo Neon</span>
-                    </div>
-                    <h1 class="text-6xl md:text-8xl font-black italic uppercase leading-[0.85] tracking-tighter text-white mb-6">Protocolo <br/><span class="text-primary text-glow relative inline-block">Neon<svg class="absolute -bottom-2 left-0 w-full h-3 text-primary opacity-50" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="2"></path></svg></span> <span class="text-transparent bg-clip-text bg-gradient-to-br from-white to-gray-600">Build</span></h1>
-                </div>
-                <div class="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-2xl p-6 lg:mb-4 max-w-md">
-                    <div class="flex items-start gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-[28px]">auto_awesome</span></div>
-                        <div><p class="text-white font-bold text-xl mb-1">Bienvenido, Alex.</p><p class="text-gray-400 font-medium text-sm leading-relaxed">Hoy el algoritmo prioriza carga mecánica en Torso. Energía basal óptima detectada.</p></div>
-                    </div>
-                </div>
-            </div>
-
-            <section class="mb-10">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-white/5 pb-6 gap-6">
-                    <div class="flex flex-col gap-1"><h2 class="text-lg font-black text-white uppercase tracking-widest flex items-center gap-2"><span class="material-symbols-outlined text-primary">calendar_view_week</span>Planificación</h2></div>
-                    <div class="flex gap-6"><button class="text-2xl font-black text-primary border-b-2 border-primary pb-2 px-2">MES 1</button><button class="text-2xl font-black text-gray-500 hover:text-white transition-colors pb-2 px-2">MES 2</button></div>
-                </div>
-                <div class="flex gap-4 overflow-x-auto no-scrollbar pb-6 pl-1">
-                    <div class="flex-shrink-0 w-28 h-32 rounded-2xl bg-primary shadow-neon-strong flex flex-col items-center justify-center relative overflow-hidden border border-blue-400/30">
-                        <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
-                        <span class="text-[10px] font-black uppercase text-blue-100 z-10 mb-1">SEM</span><span class="text-4xl font-black italic text-white z-10">01</span>
-                    </div>
-                    <div class="flex-shrink-0 w-28 h-32 rounded-2xl bg-[#111] border border-white/5 flex flex-col items-center justify-center opacity-40">
-                        <span class="text-[10px] font-black text-gray-400 mb-1">SEM</span><span class="text-4xl font-black italic text-[#333]">02</span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="mb-20">
-                <div class="flex items-center justify-between mb-6"><h3 class="text-xl font-bold text-white uppercase italic tracking-wide">Sesión Recomendada</h3></div>
-                <div class="snap-start flex-shrink-0 w-full md:w-80 group">
-                    <div class="glass-panel h-96 rounded-[2rem] p-6 flex flex-col justify-between relative overflow-hidden group-hover:border-primary/30 transition-all">
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-start mb-4"><span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-primary uppercase">Día 1</span><span class="material-symbols-outlined text-gray-500 group-hover:text-primary">fitness_center</span></div>
-                            <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-2">Push Day <br/><span class="text-primary text-glow">Power</span></h4>
-                            <p class="text-xs font-medium text-gray-400 uppercase tracking-widest">Pecho, Hombro y Tríceps</p>
-                        </div>
-                        <button class="w-full py-4 rounded-xl bg-primary text-white font-bold uppercase text-xs shadow-neon hover:shadow-neon-strong transition-all flex items-center justify-center gap-2">Comenzar Protocolo <span class="material-symbols-outlined text-[16px]">arrow_forward</span></button>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- APP HUB: BIBLIOTECA (RUTINAS) -->
-    <div id="view-library" class="view min-h-screen">
-        <main class="max-w-7xl mx-auto px-6 pb-40 pt-8 md:pt-12">
-            <!-- Header Biblioteca -->
-            <div class="flex justify-between items-center mb-12">
-                <div class="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/5 rounded-full pl-2 pr-5 py-1.5 shadow-sm">
-                    <div class="w-2 h-2 rounded-full bg-primary shadow-neon ml-2"></div>
-                    <h3 class="text-[10px] font-bold tracking-[0.15em] text-gray-300 uppercase">Biblioteca Neon</h3>
-                </div>
-                <div class="flex items-center gap-4">
-                    <button class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1a1a1a] border border-white/5 hover:scale-105 transition-transform"><span class="material-symbols-outlined text-gray-400 text-[20px]">search</span></button>
-                </div>
-            </div>
-
-            <div class="mb-10">
-                <div class="flex items-center gap-2 mb-2"><span class="flex h-2 w-2 relative"><span class="animate-ping absolute h-full w-full rounded-full bg-primary opacity-75"></span><span class="h-2 w-2 rounded-full bg-primary"></span></span><span class="text-[10px] font-bold uppercase tracking-widest text-primary">Bio-Engine</span></div>
-                <h1 class="text-4xl md:text-6xl font-black italic uppercase leading-none tracking-tighter text-white">Grupos <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white">Musculares</span></h1>
-                <p class="text-gray-400 mt-4 max-w-xl text-sm font-medium">Explora variantes biomecánicas y técnicas de ejecución sugeridas por la IA.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Tarjeta Grupo -->
-                <div class="group glass-panel p-4 rounded-[1.5rem] flex items-center gap-5 cursor-pointer hover:border-primary/50 transition-all hover:shadow-neon-sm hover:-translate-y-1 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <div class="w-20 h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-3xl">accessibility_new</span></div>
-                    <div class="flex-grow z-10"><h3 class="text-xl font-black italic text-white uppercase group-hover:text-primary transition-colors">Pectorales</h3><p class="text-[10px] font-bold text-gray-500 uppercase mt-1">12 Ejercicios IA</p></div>
-                    <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-white text-sm">arrow_forward</span></div>
-                </div>
-                <div class="group glass-panel p-4 rounded-[1.5rem] flex items-center gap-5 cursor-pointer hover:border-primary/50 transition-all hover:shadow-neon-sm hover:-translate-y-1 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <div class="w-20 h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-3xl">fitness_center</span></div>
-                    <div class="flex-grow z-10"><h3 class="text-xl font-black italic text-white uppercase group-hover:text-primary transition-colors">Espalda</h3><p class="text-[10px] font-bold text-gray-500 uppercase mt-1">18 Ejercicios IA</p></div>
-                    <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-white text-sm">arrow_forward</span></div>
-                </div>
-                <div class="group glass-panel p-4 rounded-[1.5rem] flex items-center gap-5 cursor-pointer hover:border-primary/50 transition-all hover:shadow-neon-sm hover:-translate-y-1 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <div class="w-20 h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-3xl">directions_run</span></div>
-                    <div class="flex-grow z-10"><h3 class="text-xl font-black italic text-white uppercase group-hover:text-primary transition-colors">Piernas</h3><p class="text-[10px] font-bold text-gray-500 uppercase mt-1">22 Ejercicios IA</p></div>
-                    <div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-colors z-10"><span class="material-symbols-outlined text-gray-500 group-hover:text-white text-sm">arrow_forward</span></div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- NAVEGACIÓN GLOBAL (Hub & Biblioteca) -->
-    <div id="hub-nav" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm px-4 hidden">
-        <nav class="glass-panel rounded-[2rem] p-3 px-6 flex justify-between items-center shadow-2xl border border-white/5">
-            <a class="flex flex-col items-center gap-1 group" id="nav-btn-hub" onclick="nav('view-hub')">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-nav-hub-bg shadow-nav-hub-sh"><span class="material-symbols-outlined text-nav-hub-txt text-[22px]">grid_view</span></div>
-                <span class="text-[9px] font-bold text-nav-hub-txt uppercase tracking-wide mt-1">Inicio</span>
+                <span class="nav-text text-[8px] font-black uppercase tracking-widest">Inicio</span>
             </a>
-            <a class="flex flex-col items-center gap-1 group" id="nav-btn-library" onclick="nav('view-library')">
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-nav-lib-bg shadow-nav-lib-sh"><span class="material-symbols-outlined text-nav-lib-txt text-[22px]">fitness_center</span></div>
-                <span class="text-[9px] font-bold text-nav-lib-txt uppercase tracking-wide mt-1">Rutinas</span>
+            <a class="flex flex-col items-center gap-1 group cursor-pointer" id="nav-btn-library" onclick="nav('view-library')">
+                <div class="nav-icon-container w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300">
+                    <span class="material-symbols-outlined text-[26px]">fitness_center</span>
+                </div>
+                <span class="nav-text text-[8px] font-black uppercase tracking-widest">Rutinas</span>
             </a>
-            <a class="flex flex-col items-center gap-1 opacity-50"><div class="w-10 h-10 flex items-center justify-center"><span class="material-symbols-outlined text-gray-400 text-[22px]">bar_chart</span></div><span class="text-[9px] font-bold text-gray-500 uppercase">Stats</span></a>
-            <a class="flex flex-col items-center gap-1 group" onclick="logout()">
-                <div class="w-10 h-10 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-all"><span class="material-symbols-outlined text-gray-400 text-[22px]">logout</span></div>
-                <span class="text-[9px] font-bold text-gray-500 uppercase">Salir</span>
+            <a class="flex flex-col items-center gap-1 opacity-30 cursor-not-allowed">
+                <div class="w-11 h-11 flex items-center justify-center"><span class="material-symbols-outlined text-gray-400 text-[26px]">bar_chart</span></div>
+                <span class="text-[8px] font-black text-gray-500 uppercase">Stats</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 group cursor-pointer opacity-60" onclick="logout()">
+                <div class="w-11 h-11 flex items-center justify-center hover:bg-red-500/10 rounded-2xl transition-colors"><span class="material-symbols-outlined text-gray-300 text-[26px]">logout</span></div>
+                <span class="text-[8px] font-black text-gray-500 uppercase">Salir</span>
             </a>
         </nav>
     </div>
 
+    <!-- CONTENEDOR DE FLUJO PRINCIPAL -->
+    <div id="auth-root" class="w-full flex justify-center items-center min-h-screen p-5">
+        
+        <script>const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";</script>
+
+        <!-- BIENVENIDA -->
+        <div id="view-welcome" class="view active max-w-md w-full glass-auth p-10 md:p-14 rounded-[3rem] text-center border border-white/5">
+            <div class="text-7xl mb-8 filter drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]">💎</div>
+            <h1 class="text-4xl font-black italic uppercase tracking-tighter mb-5 bg-gradient-to-r from-white to-primary bg-clip-text text-transparent">Divelun AI</h1>
+            <p class="text-gray-400 mb-10 text-sm leading-relaxed">Arquitectura de rendimiento humano mediante algoritmos de entrenamiento de precisión bio-mecánica.</p>
+            <button onclick="nav('view-register')" class="w-full py-5 bg-primary text-white font-black italic uppercase tracking-tighter rounded-2xl shadow-neon mb-5 hover:scale-[1.02] transition-transform">INICIAR EVALUACIÓN</button>
+            <button onclick="nav('view-login')" class="w-full py-4 border border-white/10 text-gray-400 font-bold rounded-2xl hover:bg-white/5 transition-all text-xs tracking-widest">IDENTIFICARSE</button>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="view-register" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem]">
+            <h2 class="text-2xl font-black mb-1 italic uppercase">Nuevo Expediente</h2>
+            <p class="text-gray-500 mb-8 text-[10px] uppercase font-bold tracking-widest">Crea tu identidad en la red Divelun</p>
+            <input type="email" id="reg-email" placeholder="Email corporativo" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 focus:border-primary transition-all text-white outline-none">
+            <input type="password" id="reg-pass" placeholder="Contraseña de seguridad" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-6 focus:border-primary transition-all text-white outline-none">
+            <button id="btn-reg" onclick="handleRegister()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">GENERAR PERFIL</button>
+            <div id="reg-load" class="hidden mt-4 text-primary text-[10px] font-bold animate-pulse text-center uppercase tracking-widest">Estableciendo enlace seguro...</div>
+            <div id="reg-msg" class="hidden mt-4 text-red-500 text-[10px] text-center font-bold"></div>
+            <button onclick="nav('view-welcome')" class="w-full mt-6 text-gray-500 text-xs font-bold uppercase tracking-widest">Volver</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="view-login" class="view max-w-md w-full glass-auth p-10 rounded-[2.5rem]">
+            <h2 class="text-2xl font-black mb-1 italic uppercase">Acceso Autorizado</h2>
+            <p class="text-gray-500 mb-8 text-[10px] uppercase font-bold tracking-widest">Introduce tus credenciales de miembro</p>
+            <input type="email" id="login-email" placeholder="Email" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-4 text-white outline-none">
+            <input type="password" id="login-pass" placeholder="Contraseña" class="w-full p-4 bg-black/40 border border-white/10 rounded-2xl mb-2 text-white outline-none">
+            <div class="text-right mb-6"><a onclick="nav('view-recover')" class="text-primary text-[10px] cursor-pointer hover:underline font-bold uppercase tracking-wider">¿Clave olvidada?</a></div>
+            <button onclick="handleLogin()" class="w-full py-4 bg-primary text-white font-bold rounded-2xl shadow-neon">AUTENTICAR</button>
+            <div id="login-load" class="hidden mt-4 text-primary text-[10px] font-bold text-center uppercase">Validando biometría digital...</div>
+            <div id="login-msg" class="hidden mt-4 text-red-500 text-[10px] text-center font-bold"></div>
+        </div>
+
+        <!-- FITNESS TEST -->
+        <div id="view-fitness-test" class="view max-w-lg w-full glass-auth p-10 rounded-[2.5rem]">
+            <div class="w-full h-1.5 bg-white/5 rounded-full mb-10 overflow-hidden"><div id="test-progress" class="h-full bg-primary shadow-neon w-0 transition-all duration-700"></div></div>
+            
+            <div class="test-step active" data-step="1">
+                <h2 class="text-2xl font-black mb-1 italic uppercase tracking-tighter">01. Genética</h2>
+                <p class="text-gray-500 text-[10px] uppercase font-bold tracking-widest mb-8">Define tu fisiología basal</p>
+                <div onclick="selectOption(1, 'Masculino')" class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-4 cursor-pointer hover:bg-primary/10 transition-all font-black uppercase italic flex items-center justify-between tracking-tighter"><span>Masculino</span><span class="text-2xl">👨</span></div>
+                <div onclick="selectOption(1, 'Femenino')" class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-4 cursor-pointer hover:bg-primary/10 transition-all font-black uppercase italic flex items-center justify-between tracking-tighter"><span>Femenino</span><span class="text-2xl">👩</span></div>
+            </div>
+
+            <div class="test-step" data-step="2">
+                <h2 class="text-2xl font-black mb-1 italic uppercase tracking-tighter">02. Biometría</h2>
+                <p class="text-gray-500 text-[10px] uppercase font-bold tracking-widest mb-8">Métricas estructurales actuales</p>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <input type="number" id="test-age" placeholder="Edad" class="p-5 bg-black/40 border border-white/10 rounded-2xl text-white outline-none font-bold">
+                    <input type="number" id="test-weight" placeholder="Peso (kg)" class="p-5 bg-black/40 border border-white/10 rounded-2xl text-white outline-none font-bold">
+                </div>
+                <input type="number" id="test-height" placeholder="Altura (cm)" class="w-full p-5 bg-black/40 border border-white/10 rounded-2xl mb-8 text-white outline-none font-bold">
+                <button onclick="nextStepManual(2)" class="w-full py-5 bg-primary text-white font-black italic uppercase tracking-tighter rounded-2xl shadow-neon">CONFIRMAR MÉTRICAS</button>
+            </div>
+
+            <div class="test-step" data-step="3">
+                <h2 class="text-2xl font-black mb-1 italic uppercase tracking-tighter">03. Arquitectura</h2>
+                <p class="text-gray-500 text-[10px] uppercase font-bold tracking-widest mb-8">Objetivo de desarrollo bio-mecánico</p>
+                <div onclick="selectOption(3, 'Definición')" class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-4 cursor-pointer hover:bg-primary/10 transition-all font-black flex items-center gap-5 italic uppercase tracking-tighter">🔥 <span>Definición Extrema</span></div>
+                <div onclick="selectOption(3, 'Hipertrofia')" class="p-6 bg-white/5 border border-white/10 rounded-2xl mb-4 cursor-pointer hover:bg-primary/10 transition-all font-black flex items-center gap-5 italic uppercase tracking-tighter">💪 <span>Hipertrofia Máxima</span></div>
+            </div>
+        </div>
+
+        <!-- PAYWALL -->
+        <div id="view-paywall" class="view max-w-lg w-full glass-auth p-10 rounded-[3rem] text-center">
+            <span class="px-5 py-2 bg-primary/15 text-primary text-[10px] font-black tracking-[0.2em] rounded-full mb-8 inline-block uppercase border border-primary/20">Protocolo IA Estructurado</span>
+            <h2 class="text-3xl font-black mb-4 italic uppercase leading-none">Desbloquea tu <br/><span class="text-primary text-glow">Plan Elite</span></h2>
+            <p class="text-gray-400 text-xs mb-10 leading-relaxed px-4">Hemos analizado 42 variables estructurales. Tu programación personalizada está lista para ser ejecutada.</p>
+            
+            <div class="relative h-24 mb-10 overflow-hidden bg-white/5 rounded-3xl flex items-center justify-center p-6 border border-white/5">
+                <div class="review-slide active text-center"><p class="text-xs italic">"La IA detectó mis desbalances de hombro al instante."</p><p class="text-primary text-[9px] font-black mt-2 uppercase tracking-[0.2em]">— Carlos R.</p></div>
+                <div class="review-slide text-center"><p class="text-xs italic">"Progreso medible en mi primer mesociclo."</p><p class="text-primary text-[9px] font-black mt-2 uppercase tracking-[0.2em]">— Elena M.</p></div>
+            </div>
+
+            <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" class="block w-full py-5 bg-white text-black font-black uppercase italic tracking-tighter rounded-2xl shadow-neon transition-all mb-5 text-base">🚀 INICIAR CAMBIO - 19.90€</a>
+            <button onclick="alert('Solicitud enviada')" class="w-full py-3 border border-primary/40 text-primary text-[10px] font-black rounded-xl mb-6 uppercase tracking-[0.15em] hover:bg-primary/5 transition-all">PRUEBA 7 DÍAS GRATIS</button>
+            <p class="text-[9px] text-gray-600 uppercase font-black tracking-[0.25em]">🔒 Transacción Bio-Encriptada</p>
+        </div>
+
+        <!-- ÉXITO -->
+        <div id="view-success" class="view max-w-md w-full glass-auth p-12 rounded-[3rem] text-center">
+            <div class="text-7xl mb-8 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]">💎</div>
+            <h2 class="text-3xl font-black mb-5 uppercase italic leading-tight">Pago <br/>Confirmado</h2>
+            <p class="text-gray-400 text-xs mb-10 leading-relaxed">Integrando tu biometría en el motor de entrenamiento Neon.</p>
+            <button id="btn-activate" onclick="activateAccount()" class="w-full py-5 bg-primary text-white font-black italic uppercase tracking-tighter rounded-2xl shadow-neon">GENERAR PERFIL IA</button>
+            <div id="success-load" class="hidden mt-10 flex flex-col items-center">
+                <div class="w-12 h-12 spinner mb-5"></div>
+                <p class="text-[10px] text-primary font-black uppercase tracking-[0.3em] animate-pulse">Sincronizando mesociclo...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HUB PROTOCOLO NEON (PÁGINA DE INICIO) -->
+    <div id="view-hub" class="view min-h-screen">
+        <main class="max-w-7xl mx-auto px-6 pb-40 pt-12">
+            <!-- Header Hub -->
+            <div class="flex justify-between items-center mb-14">
+                <div class="flex items-center gap-4 bg-white/5 backdrop-blur-xl border border-white/5 rounded-full pl-3 pr-6 py-2 shadow-2xl">
+                    <div class="w-2.5 h-2.5 rounded-full bg-primary shadow-neon animate-pulse ml-1"></div>
+                    <h3 class="text-[10px] font-black tracking-[0.2em] text-gray-300 uppercase">Divelun Bio-Hub</h3>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 p-[2px] relative group cursor-pointer hover:shadow-neon">
+                    <img alt="User" class="w-full h-full rounded-full object-cover border-2 border-[#050505]" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop"/>
+                </div>
+            </div>
+
+            <!-- Hero Hub -->
+            <div class="mb-20">
+                <div class="flex items-center gap-2 mb-5">
+                    <span class="flex h-3.5 w-3.5 relative"><span class="animate-ping absolute h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="h-3.5 w-3.5 rounded-full bg-green-500"></span></span>
+                    <span class="text-[11px] font-black uppercase tracking-[0.2em] text-primary">Protocolo Activo</span>
+                </div>
+                <h1 class="text-6xl md:text-9xl font-black italic uppercase leading-[0.8] tracking-tighter text-white mb-10">
+                    Protocolo <br/>
+                    <span class="text-primary text-glow relative inline-block">Neon<svg class="absolute -bottom-3 left-0 w-full h-4 text-primary opacity-40" preserveAspectRatio="none" viewBox="0 0 100 10"><path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="2.5"></path></svg></span> 
+                </h1>
+                
+                <div class="bg-white/[0.03] backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 shadow-2xl max-w-xl">
+                    <div class="flex items-start gap-6">
+                        <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 shadow-neon-sm"><span class="material-symbols-outlined text-[32px]">auto_awesome</span></div>
+                        <div>
+                            <p class="text-white font-black text-2xl mb-1 italic uppercase tracking-tighter">Sugerencia IA</p>
+                            <p class="text-gray-400 text-sm leading-relaxed">Hoy priorizamos <span class="text-white font-bold">Carga Mecánica (Push Day)</span>. Recuperación muscular optimizada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planificación (Meses/Semanas) -->
+            <section class="mb-14">
+                <div class="flex justify-between items-end mb-10 border-b border-white/5 pb-8">
+                    <h2 class="text-xl font-black text-white uppercase tracking-[0.3em] italic">Mesociclo</h2>
+                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-1">
+                        <button class="text-2xl font-black text-primary border-b-2 border-primary pb-2 px-3 italic">M01</button>
+                        <button class="text-2xl font-black text-gray-700 hover:text-white transition-all pb-2 px-3 italic">M02</button>
+                        <button class="text-2xl font-black text-gray-700 hover:text-white transition-all pb-2 px-3 italic">M03</button>
+                        <button class="text-2xl font-black text-gray-700 hover:text-white transition-all pb-2 px-3 italic">M04</button>
+                    </div>
+                </div>
+                <div class="flex gap-6 overflow-x-auto no-scrollbar pb-8">
+                    <div class="flex-shrink-0 w-36 h-40 rounded-[2.5rem] bg-primary shadow-neon-strong flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-all cursor-pointer">
+                        <span class="text-[11px] font-black uppercase text-blue-100 z-10 opacity-80 tracking-widest">SEM</span><span class="text-6xl font-black italic text-white z-10">01</span>
+                    </div>
+                    <div class="flex-shrink-0 w-36 h-40 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center hover:bg-white/10 transition-all cursor-pointer">
+                        <span class="text-[11px] font-black text-gray-500 tracking-widest">SEM</span><span class="text-6xl font-black italic text-gray-800">02</span>
+                    </div>
+                    <div class="flex-shrink-0 w-36 h-40 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center hover:bg-white/10 transition-all cursor-pointer">
+                        <span class="text-[11px] font-black text-gray-500 tracking-widest">SEM</span><span class="text-6xl font-black italic text-gray-800">03</span>
+                    </div>
+                    <div class="flex-shrink-0 w-36 h-40 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center hover:bg-white/10 transition-all cursor-pointer">
+                        <span class="text-[11px] font-black text-gray-500 tracking-widest">SEM</span><span class="text-6xl font-black italic text-gray-800">04</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CAROUSEL DE 7 DÍAS -->
+            <section class="mb-28">
+                <h3 class="text-2xl font-black text-white uppercase italic tracking-wider mb-10">Protocolo Semanal (01-07)</h3>
+                <div class="carousel-snap no-scrollbar">
+                    <!-- Cards D01-D07 -->
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 01</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Push <br/><span class="text-primary text-glow">Power</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 02</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Pull <br/><span class="text-primary text-glow">Strength</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 03</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Legs <br/><span class="text-primary text-glow">Hyper</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 04</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Upper <br/><span class="text-primary text-glow">Pump</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 05</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Lower <br/><span class="text-primary text-glow">Power</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase">DÍA 06</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Full <br/><span class="text-primary text-glow">Engine</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-primary text-white font-black uppercase italic tracking-tighter text-xs shadow-neon">INICIAR SESIÓN</button>
+                        </div>
+                    </div>
+                    <div class="w-[300px] md:w-[350px]">
+                        <div class="glass-panel h-[450px] rounded-[3rem] p-9 flex flex-col justify-between relative overflow-hidden border border-white/5">
+                            <div><span class="px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-black text-green-400 uppercase">DÍA 07</span><h4 class="text-4xl md:text-5xl font-black italic text-white uppercase mt-8 leading-none">Active <br/><span class="text-green-400 text-glow">Rest</span></h4></div>
+                            <button class="w-full py-5 rounded-2xl bg-green-500 text-white font-black uppercase italic tracking-tighter text-xs shadow-neon-green">RELAX ACTIVO</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- BIBLIOTECA (15 GRUPOS MUSCULARES) -->
+    <div id="view-library" class="view min-h-screen">
+        <main class="max-w-7xl mx-auto px-6 pb-40 pt-12">
+            <div class="mb-14">
+                <div class="flex items-center gap-2 mb-3"><span class="text-[11px] font-black uppercase tracking-[0.25em] text-primary">Anatomía IA</span></div>
+                <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-[0.85] tracking-tighter text-white">Bio <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white uppercase">Library</span></h1>
+                <p class="text-gray-400 mt-6 max-w-2xl text-sm font-medium leading-relaxed italic">Selecciona un módulo estructural para optimizar el patrón de reclutamiento muscular.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- 01. Pectoral -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">accessibility_new</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Pectoral</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">12 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 02. Dorsales -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">fitness_center</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Dorsales</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">18 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 03. Deltoides -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">sports_handball</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Deltoides</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">10 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 04. Bíceps -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">handyman</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Bíceps</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">8 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 05. Tríceps -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">sports_gymnastics</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Tríceps</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">9 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 06. Antebrazos -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">pan_tool</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Antebrazo</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">6 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 07. Abdominales -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">self_improvement</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Core</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">15 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 08. Oblicuos -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">rotate_right</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Oblicuos</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">7 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 09. Lumbares -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">monitor_heart</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Lumbar</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">5 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 10. Glúteos -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">body_system</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Glúteo</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">10 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 11. Cuádriceps -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">directions_run</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Cuádriceps</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">14 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 12. Isquiotibiales -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">sprint</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Isquios</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">8 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 13. Aductores/Abductores -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">accessible_forward</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Aductores</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">7 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 14. Gemelos -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">directions_walk</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Gemelos</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">6 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+                <!-- 15. Trapecios -->
+                <div class="glass-panel p-6 rounded-[2.5rem] flex items-center gap-6 cursor-pointer border border-white/5 hover:border-primary/40 transition-all group">
+                    <div class="w-20 h-20 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-gray-500 group-hover:text-primary text-4xl">shutter_speed</span></div>
+                    <div class="flex-grow"><h3 class="text-2xl font-black italic text-white uppercase group-hover:text-primary transition-colors tracking-tight">Trapecio</h3><p class="text-[9px] font-black text-gray-500 uppercase tracking-widest mt-1">4 Protocolos</p></div>
+                    <span class="material-symbols-outlined text-gray-700">chevron_right</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script>
         let currentStep = 1;
-        let fitnessData = { gender: '', age: '', weight: '', height: '', goal: '', equip: '' };
+        let fitnessData = { gender: '', age: '', weight: '', height: '', goal: '' };
 
         function startCarousel() {
             let slides = document.querySelectorAll('.review-slide');
@@ -301,43 +462,50 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('payment_success') === 'true') nav('view-success');
             startCarousel();
+            if(localStorage.getItem('userSession')) nav('view-hub');
         };
 
         function nav(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             const target = document.getElementById(viewId);
             if (!target) return;
+
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             target.classList.add('active');
 
             const authRoot = document.getElementById('auth-root');
             const hubNav = document.getElementById('hub-nav');
 
-            // Lógica de visibilidad de los contenedores principales
             if (viewId === 'view-hub' || viewId === 'view-library') {
-                authRoot.classList.add('hidden');
-                hubNav.classList.remove('hidden');
-                updateNavStyles(viewId);
+                if (authRoot) authRoot.style.display = 'none';
+                if (hubNav) {
+                    hubNav.classList.remove('hidden');
+                    updateNavStyles(viewId);
+                }
             } else {
-                authRoot.classList.remove('hidden');
-                hubNav.classList.add('hidden');
+                if (authRoot) authRoot.style.display = 'flex';
+                if (hubNav) hubNav.classList.add('hidden');
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function updateNavStyles(activeView) {
+            const hubBtn = document.getElementById('nav-btn-hub');
+            const libBtn = document.getElementById('nav-btn-library');
+            if (!hubBtn || !libBtn) return;
+
             const isHub = activeView === 'view-hub';
             const isLib = activeView === 'view-library';
 
-            // Estilos para Inicio
-            const hubBtn = document.getElementById('nav-btn-hub');
-            hubBtn.querySelector('div').className = `w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isHub ? 'bg-primary shadow-neon' : 'bg-transparent text-gray-500'}`;
-            hubBtn.querySelector('span:last-child').className = `text-[9px] font-bold uppercase tracking-wide mt-1 ${isHub ? 'text-primary' : 'text-gray-500'}`;
-            hubBtn.querySelector('.material-symbols-outlined').className = `material-symbols-outlined text-[22px] ${isHub ? 'text-white' : 'text-gray-500'}`;
+            [hubBtn, libBtn].forEach((btn, i) => {
+                const isActive = (i === 0 && isHub) || (i === 1 && isLib);
+                const iconContainer = btn.querySelector('.nav-icon-container');
+                const textLabel = btn.querySelector('.nav-text');
+                const icon = btn.querySelector('.material-symbols-outlined');
 
-            // Estilos para Rutinas
-            const libBtn = document.getElementById('nav-btn-library');
-            libBtn.querySelector('div').className = `w-10 h-10 rounded-xl flex items-center justify-center transition-all ${isLib ? 'bg-primary shadow-neon' : 'bg-transparent text-gray-500'}`;
-            libBtn.querySelector('span:last-child').className = `text-[9px] font-bold uppercase tracking-wide mt-1 ${isLib ? 'text-primary' : 'text-gray-500'}`;
-            libBtn.querySelector('.material-symbols-outlined').className = `material-symbols-outlined text-[22px] ${isLib ? 'text-white' : 'text-gray-500'}`;
+                if(iconContainer) iconContainer.className = `nav-icon-container w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-primary shadow-neon text-white' : 'bg-transparent text-gray-500'}`;
+                if(textLabel) textLabel.className = `nav-text text-[8px] font-black uppercase tracking-widest ${isActive ? 'text-primary' : 'text-gray-500'}`;
+                if(icon) icon.className = `material-symbols-outlined text-[26px] ${isActive ? 'text-white' : 'text-gray-500'}`;
+            });
         }
 
         async function postData(action, data) {
@@ -348,7 +516,7 @@
                     body: JSON.stringify({ action: action, ...data })
                 });
                 return await response.json();
-            } catch (error) { return { success: false, message: "Error Neon-Link." }; }
+            } catch (error) { return { success: false, message: "Neon Link Connection Error." }; }
         }
 
         async function handleRegister() {
@@ -372,18 +540,17 @@
             load.classList.remove('hidden');
             const res = await postData('login', { email, password: pass });
             load.classList.add('hidden');
-            if(res.success) nav('view-hub');
-            else { msg.innerText = res.message; msg.classList.remove('hidden'); }
+            if(res.success) {
+                localStorage.setItem('userSession', 'active');
+                nav('view-hub');
+            } else { msg.innerText = res.message; msg.classList.remove('hidden'); }
         }
 
         async function handleRecover() {
             const email = document.getElementById('rec-email').value;
-            const load = document.getElementById('rec-load');
-            const succ = document.getElementById('rec-success');
-            load.classList.remove('hidden');
-            const res = await postData('recover', { email });
-            load.classList.add('hidden');
-            if(res.success) { succ.innerText = res.message; succ.classList.remove('hidden'); }
+            if(!email) return;
+            await postData('recover', { email });
+            alert("Protocolo de recuperación enviado.");
         }
 
         function selectOption(step, val) {
@@ -402,13 +569,14 @@
         }
 
         function nextStep() {
-            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.remove('active');
+            const currentStepEl = document.querySelector(`.test-step[data-step="${currentStep}"]`);
+            if (currentStepEl) currentStepEl.classList.remove('active');
             currentStep++;
-            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.add('active');
-            document.getElementById('test-progress').style.width = (currentStep * 33) + "%";
-            if(currentStep === 3) {
-                setTimeout(() => nav('view-paywall'), 3000);
-            }
+            const nextStepEl = document.querySelector(`.test-step[data-step="${currentStep}"]`);
+            if (nextStepEl) nextStepEl.classList.add('active');
+            const progressBar = document.getElementById('test-progress');
+            if (progressBar) progressBar.style.width = (currentStep * 33) + "%";
+            if(currentStep === 3) setTimeout(() => nav('view-paywall'), 3000);
         }
 
         async function activateAccount() {
@@ -419,6 +587,7 @@
             load.classList.remove('hidden'); btn.classList.add('hidden');
             const res = await postData('payment_confirmation', { email });
             if(res.success) {
+                localStorage.setItem('userSession', 'active');
                 window.history.replaceState({}, document.title, window.location.pathname);
                 nav('view-hub');
             } else { alert(res.message); load.classList.add('hidden'); btn.classList.remove('hidden'); }
