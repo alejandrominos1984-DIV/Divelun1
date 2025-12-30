@@ -13,7 +13,7 @@
             --primary: #3b82f6; 
             --primary-glow: rgba(59, 130, 246, 0.5);
             --accent: #00f2ff; 
-            --glass-bg: rgba(13, 17, 23, 0.8); 
+            --glass-bg: rgba(13, 17, 23, 0.85); 
             --glass-border: rgba(255, 255, 255, 0.08); 
             --text: #f8fafc; 
             --text-dim: #94a3b8; 
@@ -36,7 +36,6 @@
             min-height: 100vh; 
             margin: 0; 
             padding: 20px; 
-            transition: padding 0.3s;
         }
 
         .container { 
@@ -54,13 +53,11 @@
             z-index: 10;
         }
 
-        /* --- TIPOGRAFÍA --- */
         h1, h2, h3 { margin: 0 0 0.5rem 0; font-weight: 800; letter-spacing: -0.02em; }
         h1 { font-size: 2.4rem; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         h2 { font-size: 1.6rem; line-height: 1.2; }
         p { color: var(--text-dim); margin-bottom: 1.8rem; font-size: 0.95rem; line-height: 1.6; }
 
-        /* --- BOTONES E INPUTS --- */
         button { 
             width: 100%; padding: 18px; 
             background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%); 
@@ -69,420 +66,292 @@
             transition: all 0.3s; box-shadow: 0 8px 25px -5px var(--primary-glow);
         }
         button:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -5px var(--primary-glow); filter: brightness(1.1); }
-        button:active { transform: translateY(-1px); }
         button.secondary { background: transparent; color: var(--text-dim); border: 1px solid var(--glass-border); box-shadow: none; }
         button.secondary:hover { color: #fff; background: rgba(255,255,255,0.05); }
         
-        button.checkout-btn {
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            color: #000;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 30px -5px rgba(255,255,255,0.2);
-        }
+        button.checkout-btn { background: #fff; color: #000; font-size: 1.1rem; box-shadow: 0 10px 30px -5px rgba(255,255,255,0.2); }
 
         input { 
             width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.4); 
             border: 1px solid var(--glass-border); border-radius: 1rem; 
             color: #fff; margin-bottom: 1.2rem; transition: 0.3s;
-            font-size: 1rem;
         }
-        input:focus { border-color: var(--primary); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
 
-        /* --- MENU GLASSMORPHIC --- */
+        /* MENU GLASSMORPHIC */
         .glass-nav {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 420px;
-            height: var(--nav-height);
-            background: rgba(13, 17, 23, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            display: none; 
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            padding: 0 10px;
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 420px; height: var(--nav-height);
+            background: rgba(13, 17, 23, 0.85); backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            display: none; justify-content: space-around; align-items: center; z-index: 1000;
         }
 
-        .nav-item {
-            color: var(--text-dim);
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: 0.3s;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 15px;
-        }
-
-        .nav-item.active { color: var(--primary); background: rgba(59, 130, 246, 0.1); }
+        .nav-item { color: var(--text-dim); cursor: pointer; display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; font-weight: 600; }
+        .nav-item.active { color: var(--primary); }
         .nav-item svg { width: 24px; height: 24px; margin-bottom: 4px; }
 
-        /* --- TEST INTERACTIVO --- */
+        /* TEST */
         .test-step { display: none; text-align: left; }
-        .test-step.active { display: block; animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
+        .test-step.active { display: block; animation: slideIn 0.5s forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         .option-card {
-            background: var(--card-inner);
-            border: 1px solid var(--glass-border);
-            padding: 18px;
-            border-radius: 1.2rem;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 600;
+            background: var(--card-inner); border: 1px solid var(--glass-border);
+            padding: 18px; border-radius: 1.2rem; margin-bottom: 12px;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px;
         }
-        .option-card:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); transform: translateX(5px); }
-        .option-card.selected { 
-            border-color: var(--primary); 
-            background: rgba(59, 130, 246, 0.15); 
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); 
-            color: #fff;
-        }
-        .option-card span.icon { font-size: 1.4rem; }
+        .option-card.selected { border-color: var(--primary); background: rgba(59, 130, 246, 0.15); color: #fff; }
 
-        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 2.5rem; overflow: hidden; position: relative; }
-        .progress-bar { width: 0%; height: 100%; background: linear-gradient(to right, var(--primary), var(--accent)); transition: 0.6s cubic-bezier(0.65, 0, 0.35, 1); box-shadow: 0 0 15px var(--primary); }
+        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-bottom: 2.5rem; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(to right, var(--primary), var(--accent)); transition: 0.6s; }
 
-        /* --- VISTAS --- */
         .view { display: none; opacity: 0; }
-        .view.active { display: block; opacity: 1; animation: fadeIn 0.6s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .view.active { display: block; opacity: 1; }
 
-        /* --- DASHBOARD / RUTINA --- */
-        .routine-card {
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(0,0,0,0) 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 1.8rem;
-            padding: 24px;
-            text-align: left;
-            margin-top: 1rem;
-        }
-        .exercise-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .exercise-item:last-child { border: none; }
-        .exercise-name { font-weight: 600; color: #fff; font-size: 1rem; }
-        .exercise-meta { background: rgba(59, 130, 246, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; }
+        .loading { font-size: 0.85rem; color: var(--primary); margin-top: 15px; display: none; font-weight: 600; }
+        .error { color: #ff4b4b; background: rgba(255, 75, 75, 0.1); padding: 12px; border-radius: 0.75rem; display: none; margin-top: 10px; }
 
-        /* --- LOADING IA --- */
-        .loading-ia { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 40px 0; }
-        .spinner { 
-            width: 50px; height: 50px; 
-            border: 4px solid rgba(59, 130, 246, 0.1); 
-            border-top-color: var(--primary); 
-            border-radius: 50%; 
-            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- PAYWALL / CHECKOUT --- */
-        .paywall-badge {
-            background: linear-gradient(to right, #f59e0b, #ef4444);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-
+        /* RUTINA */
+        .routine-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 1.8rem; padding: 24px; text-align: left; margin-top: 1rem; }
+        .exercise-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .exercise-name { font-weight: 600; color: #fff; }
+        .exercise-meta { background: rgba(59, 130, 246, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-<!-- MENU GLASSMORPHIC (Visible solo en Dashboard) -->
 <nav id="main-nav" class="glass-nav">
-    <div class="nav-item active" onclick="nav('view-dashboard')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-        <span>Hoy</span>
-    </div>
-    <div class="nav-item" onclick="alert('Próximamente: Seguimiento de Progreso')">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span>Progreso</span>
-    </div>
-    <div class="nav-item" onclick="logout()">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-        <span>Salir</span>
-    </div>
+    <div class="nav-item active" onclick="nav('view-dashboard')"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Hoy</span></div>
+    <div class="nav-item" onclick="logout()"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg><span>Salir</span></div>
 </nav>
 
 <div class="container">
     <script>const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";</script>
 
-    <!-- VISTA: BIENVENIDA -->
+    <!-- BIENVENIDA -->
     <div id="view-welcome" class="view active">
-        <div style="font-size: 4rem; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--primary-glow));">⚡</div>
+        <div style="font-size: 4rem; margin-bottom: 10px;">⚡</div>
         <h1>Divelun AI</h1>
-        <p>Tu cuerpo, optimizado por algoritmos. Diseñamos el plan perfecto para tu genética.</p>
-        <button onclick="nav('view-register')">Comenzar Cambio</button>
-        <button class="secondary" onclick="nav('view-login')">Tengo una cuenta</button>
+        <p>Entrenamiento inteligente basado en biometría avanzada.</p>
+        <button onclick="nav('view-register')">Empezar ahora</button>
+        <button class="secondary" onclick="nav('view-login')">Entrar</button>
     </div>
 
-    <!-- VISTA: REGISTRO -->
+    <!-- REGISTRO -->
     <div id="view-register" class="view">
-        <h2>Crea tu Perfil</h2>
-        <p>Inicia tu suscripción premium.</p>
-        <input type="email" id="reg-email" placeholder="Email corporativo o personal">
-        <input type="password" id="reg-pass" placeholder="Contraseña segura">
-        <button onclick="handleRegister()">Registrar e Ir al Test</button>
+        <h2>Crear Cuenta</h2>
+        <p>Tu progreso comienza aquí.</p>
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-pass" placeholder="Contraseña">
+        <button id="btn-reg" onclick="handleRegister()">Registrar e ir al Test</button>
+        <div id="reg-load" class="loading">Sincronizando con base de datos...</div>
+        <div id="reg-msg" class="error"></div>
         <button class="secondary" onclick="nav('view-welcome')">Atrás</button>
     </div>
 
-    <!-- VISTA: LOGIN -->
+    <!-- LOGIN -->
     <div id="view-login" class="view">
         <h2>Bienvenido</h2>
-        <p>Accede a tu panel de entrenamiento.</p>
+        <p>Accede a tu cuenta.</p>
         <input type="email" id="login-email" placeholder="Email">
         <input type="password" id="login-pass" placeholder="Contraseña">
         <button onclick="handleLogin()">Entrar</button>
+        <div id="login-load" class="loading">Verificando...</div>
+        <div id="login-msg" class="error"></div>
         <button class="secondary" onclick="nav('view-welcome')">Atrás</button>
     </div>
 
-    <!-- VISTA: FITNESS TEST INTERACTIVO -->
+    <!-- FITNESS TEST -->
     <div id="view-fitness-test" class="view">
         <div class="progress-container"><div id="test-progress" class="progress-bar"></div></div>
         
-        <!-- Paso 1: Género -->
         <div class="test-step active" data-step="1">
-            <h2>Hablemos de ti</h2>
-            <p>La IA ajusta las cargas según tu fisiología.</p>
-            <div class="option-card" onclick="selectOption(1, 'Masculino')"><span class="icon">👨</span> Masculino</div>
-            <div class="option-card" onclick="selectOption(1, 'Femenino')"><span class="icon">👩</span> Femenino</div>
-            <div class="option-card" onclick="selectOption(1, 'Otro')"><span class="icon">✨</span> Prefiero no decir</div>
+            <h2>Género</h2>
+            <div class="option-card" onclick="selectOption(1, 'Masculino')">👨 Masculino</div>
+            <div class="option-card" onclick="selectOption(1, 'Femenino')">👩 Femenino</div>
         </div>
 
-        <!-- Paso 2: Objetivo -->
         <div class="test-step" data-step="2">
-            <h2>¿Cuál es tu meta?</h2>
-            <p>Define tu prioridad para los próximos 90 días.</p>
-            <div class="option-card" onclick="selectOption(2, 'Perder Grasa')"><span class="icon">🔥</span> Quema de Grasa</div>
-            <div class="option-card" onclick="selectOption(2, 'Ganar Músculo')"><span class="icon">💪</span> Hipertrofia (Músculo)</div>
-            <div class="option-card" onclick="selectOption(2, 'Tonificar')"><span class="icon">💎</span> Definición y Tono</div>
-            <div class="option-card" onclick="selectOption(2, 'Fuerza')"><span class="icon">🏋️</span> Fuerza Máxima</div>
+            <h2>Objetivo</h2>
+            <div class="option-card" onclick="selectOption(2, 'Grasa')">🔥 Perder Grasa</div>
+            <div class="option-card" onclick="selectOption(2, 'Músculo')">💪 Ganar Músculo</div>
         </div>
 
-        <!-- Paso 3: Experiencia -->
         <div class="test-step" data-step="3">
-            <h2>Nivel de Experiencia</h2>
-            <p>Calcularemos tu curva de aprendizaje.</p>
-            <div class="option-card" onclick="selectOption(3, 'Novato')"><span class="icon">🌱</span> Novato (0-6 meses)</div>
-            <div class="option-card" onclick="selectOption(3, 'Intermedio')"><span class="icon">🥈</span> Intermedio (1-2 años)</div>
-            <div class="option-card" onclick="selectOption(3, 'Pro')"><span class="icon">🏆</span> Avanzado (+3 años)</div>
+            <h2>Frecuencia</h2>
+            <div class="option-card" onclick="selectOption(3, '3 Días')">🗓️ 3 Días</div>
+            <div class="option-card" onclick="selectOption(3, '5 Días')">⚡ 5 Días</div>
         </div>
 
-        <!-- Paso 4: Lugar -->
-        <div class="test-step" data-step="4">
-            <h2>¿Dónde entrenarás?</h2>
-            <p>Selecciona tu equipamiento disponible.</p>
-            <div class="option-card" onclick="selectOption(4, 'Gimnasio')"><span class="icon">🏢</span> Gimnasio Completo</div>
-            <div class="option-card" onclick="selectOption(4, 'Mancuernas')"><span class="icon">🏋️</span> Solo Mancuernas / Casa</div>
-            <div class="option-card" onclick="selectOption(4, 'Calistenia')"><span class="icon">🤸</span> Peso Corporal</div>
-        </div>
-
-        <!-- Paso 5: Frecuencia -->
-        <div class="test-step" data-step="5">
-            <h2>Disponibilidad Semanal</h2>
-            <p>¿Cuántos días puedes dedicar al cambio?</p>
-            <div class="option-card" onclick="selectOption(5, '3 Días')"><span class="icon">🗓️</span> 3 días (Mantenerse)</div>
-            <div class="option-card" onclick="selectOption(5, '4-5 Días')"><span class="icon">⚡</span> 4-5 días (Transformación)</div>
-            <div class="option-card" onclick="selectOption(5, 'Diario')"><span class="icon">🔥</span> 6 días (Atleta)</div>
-        </div>
-
-        <!-- Paso 6: Generando -->
-        <div class="test-step" data-step="6" style="text-align: center;">
-            <div class="loading-ia">
-                <div class="spinner"></div>
-                <h2>Analizando Datos...</h2>
-                <p>Nuestra red neuronal está estructurando tu microciclo de entrenamiento.</p>
+        <div class="test-step" data-step="4" style="text-align: center;">
+            <div style="padding:40px 0;">
+                <div style="width:50px; height:50px; border:4px solid var(--primary); border-top-color:transparent; border-radius:50%; animation:spin 1s infinite linear; margin:0 auto 20px;"></div>
+                <h2>Generando Plan IA...</h2>
             </div>
         </div>
     </div>
 
-    <!-- VISTA: PAYWALL / BARREIRA DE PAGO -->
+    <!-- PAYWALL -->
     <div id="view-paywall" class="view">
-        <div class="paywall-badge">Plan IA Generado</div>
-        <h2>¡Tu Rutina está lista!</h2>
-        <p>Hemos diseñado una rutina de <b><span id="res-freq">...</span></b> para tu objetivo de <b><span id="res-goal">...</span></b>.</p>
-        
-        <div class="routine-card" style="margin-bottom: 1.5rem; opacity: 0.6; pointer-events: none;">
-            <div class="exercise-item"><span>Ejercicios bloqueados</span><span>?? sets</span></div>
-            <div class="exercise-item"><span>Cargas personalizadas</span><span>?? kg</span></div>
-            <div class="exercise-item"><span>Guía de nutrición</span><span>🔒</span></div>
+        <h2>Plan Preparado</h2>
+        <p>Tu rutina de <b id="res-freq"></b> está lista para ser activada.</p>
+        <div class="routine-card" style="opacity: 0.5; pointer-events: none; filter: blur(2px);">
+            <div class="exercise-item"><span>Ejercicio IA</span><span>4 x 12</span></div>
+            <div class="exercise-item"><span>Carga Estimada</span><span>🔒</span></div>
         </div>
-
-        <p style="font-size: 0.85rem;">Para desbloquear el acceso y comenzar hoy mismo, activa tu suscripción premium.</p>
-        
+        <br>
         <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_self" style="text-decoration: none;">
-            <button class="checkout-btn">🚀 Desbloquear por 19.99€/mes</button>
+            <button class="checkout-btn">💳 Ir al Pago (Stripe)</button>
         </a>
-        <button class="secondary" onclick="simulatePaymentSuccess()">Tengo un código / Ya pagué</button>
+        <p style="font-size:0.75rem; color:var(--text-dim);">Tras pagar, serás redirigido para activar tu cuenta.</p>
     </div>
 
-    <!-- VISTA: DASHBOARD / RUTINA REAL -->
+    <!-- ÉXITO TRAS STRIPE -->
+    <div id="view-success" class="view">
+        <div style="font-size: 4rem; color: #10b981;">🎉</div>
+        <h2>¡Pago Confirmado!</h2>
+        <p>Stripe ha validado tu suscripción. Haz clic abajo para activar tu acceso en nuestra base de datos.</p>
+        <button id="btn-activate" class="checkout-btn" style="background:#10b981; color:#fff;" onclick="activateAccount()">🚀 Activar mi Plan IA</button>
+        <div id="success-load" class="loading">Marcando como pagado en Google Sheets...</div>
+    </div>
+
+    <!-- DASHBOARD -->
     <div id="view-dashboard" class="view">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
-            <div style="text-align:left;">
-                <h2 id="dash-user">¡Plan Activo!</h2>
-                <span style="font-size:0.75rem; color:var(--primary); font-weight:800; text-transform:uppercase; letter-spacing:1px;">Inteligencia Artificial Divelun</span>
-            </div>
-            <div style="width:48px; height:48px; border-radius:18px; background:linear-gradient(45deg, var(--primary), var(--accent)); display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem; box-shadow: 0 5px 15px var(--primary-glow);">D</div>
-        </div>
-
+        <h2 id="dash-title">Tu Rutina IA</h2>
         <div class="routine-card">
-            <h3 id="routine-title">Cargando...</h3>
-            <p id="routine-desc" style="font-size:0.85rem; margin-bottom:1.2rem;"></p>
-            
-            <div id="routine-list">
-                <!-- Se llena dinámicamente -->
-            </div>
+            <div id="routine-list"></div>
         </div>
-
-        <button style="margin-top:2rem;" onclick="alert('Iniciando cronómetro... ¡Dale duro!')">▶️ Comenzar Entrenamiento</button>
-        <p style="font-size:0.75rem; color:var(--text-dim); margin-top:10px;">Tu progreso se guarda automáticamente.</p>
+        <button style="margin-top:20px;" onclick="alert('¡A darle!')">Comenzar Sesión</button>
     </div>
 </div>
 
 <script>
-    let fitnessData = { gender: '', goal: '', level: '', place: '', freq: '' };
+    let fitnessData = { gender: '', goal: '', freq: '' };
     let currentStep = 1;
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('payment_success') === 'true') {
+            nav('view-success');
+        }
+    };
 
     function nav(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
-        
-        // El menú solo aparece en el Dashboard
-        const navBar = document.getElementById('main-nav');
-        navBar.style.display = (viewId === 'view-dashboard') ? 'flex' : 'none';
-        
-        // Ajuste de scroll según la vista
-        if(viewId === 'view-dashboard') document.body.style.paddingBottom = "120px";
-        else document.body.style.paddingBottom = "20px";
+        document.getElementById('main-nav').style.display = (viewId === 'view-dashboard') ? 'flex' : 'none';
+        document.querySelectorAll('.error, .loading').forEach(e => e.style.display = 'none');
     }
 
-    // --- LÓGICA DEL TEST ---
-    function selectOption(step, value) {
-        const stepDiv = document.querySelector(`.test-step[data-step="${step}"]`);
-        stepDiv.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
-        event.currentTarget.classList.add('selected');
-
-        if(step === 1) fitnessData.gender = value;
-        if(step === 2) fitnessData.goal = value;
-        if(step === 3) fitnessData.level = value;
-        if(step === 4) fitnessData.place = value;
-        if(step === 5) fitnessData.freq = value;
-
-        setTimeout(() => nextStep(), 350);
+    async function postData(action, data) {
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+                body: JSON.stringify({ action: action, ...data })
+            });
+            return await response.json();
+        } catch (error) { return { success: false, message: "Error de red." }; }
     }
 
-    function nextStep() {
-        if(currentStep < 6) {
-            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.remove('active');
-            currentStep++;
-            document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.add('active');
-            
-            // Actualizar barra de progreso (dividido en 6 pasos)
-            document.getElementById('test-progress').style.width = ((currentStep / 6) * 100) + "%";
-            
-            if(currentStep === 6) {
-                setTimeout(() => showPaywall(), 3000);
-            }
-        }
-    }
-
-    function showPaywall() {
-        document.getElementById('res-freq').innerText = fitnessData.freq;
-        document.getElementById('res-goal').innerText = fitnessData.goal;
-        nav('view-paywall');
-    }
-
-    function simulatePaymentSuccess() {
-        // En una app real, esto lo activaría el webhook de Stripe
-        buildRoutine();
-        nav('view-dashboard');
-    }
-
-    function buildRoutine() {
-        const list = document.getElementById('routine-list');
-        const title = document.getElementById('routine-title');
-        const desc = document.getElementById('routine-desc');
-        list.innerHTML = '';
-
-        title.innerText = "Día 1: " + (fitnessData.goal.includes('Grasa') ? 'Cardio & Core' : 'Empuje (Push)');
-        desc.innerText = `Nivel ${fitnessData.level} • Entorno: ${fitnessData.place}`;
-
-        let exercises = [];
-        if(fitnessData.goal.includes('Músculo')) {
-            exercises = [
-                {n: "Press de Banca", m: "4 x 10"},
-                {n: "Press Militar", m: "3 x 12"},
-                {n: "Sentadilla Libre", m: "4 x 10"},
-                {n: "Extensiones Tríceps", m: "3 x 15"}
-            ];
-        } else {
-            exercises = [
-                {n: "Burpees", m: "4 x 20"},
-                {n: "Saltos al Cajón", m: "3 x 15"},
-                {n: "Flexiones Diamante", m: "4 x Fallo"},
-                {n: "Plancha Abdominal", m: "4 x 45s"}
-            ];
-        }
-
-        exercises.forEach((ex, i) => {
-            setTimeout(() => {
-                const div = document.createElement('div');
-                div.className = 'exercise-item';
-                div.style.animation = 'fadeIn 0.5s forwards';
-                div.innerHTML = `<span class="exercise-name">${ex.n}</span><span class="exercise-meta">${ex.m}</span>`;
-                list.appendChild(div);
-            }, i * 150);
-        });
-    }
-
-    // --- ACCIONES DE CUENTA ---
+    // --- FLUJO DE REGISTRO REAL ---
     async function handleRegister() {
         const email = document.getElementById('reg-email').value;
-        if(!email) { alert("Ingresa un email"); return; }
-        // Simulación de registro exitoso
-        localStorage.setItem('divelun_user', email);
-        nav('view-fitness-test');
-        document.getElementById('test-progress').style.width = "16%";
+        const pass = document.getElementById('reg-pass').value;
+        const load = document.getElementById('reg-load');
+        const msg = document.getElementById('reg-msg');
+
+        if(!email || !pass) { msg.innerText = "Completa los campos"; msg.style.display = 'block'; return; }
+        
+        load.style.display = 'block';
+        msg.style.display = 'none';
+
+        const res = await postData('register', { email, password: pass });
+        load.style.display = 'none';
+
+        if(res.success) {
+            localStorage.setItem('tempUserEmail', email);
+            nav('view-fitness-test');
+        } else {
+            msg.innerText = res.message;
+            msg.style.display = 'block';
+        }
+    }
+
+    // --- TEST ---
+    function selectOption(step, val) {
+        if(step === 1) fitnessData.gender = val;
+        if(step === 2) fitnessData.goal = val;
+        if(step === 3) fitnessData.freq = val;
+        
+        document.querySelector(`.test-step[data-step="${step}"]`).classList.remove('active');
+        currentStep++;
+        document.querySelector(`.test-step[data-step="${currentStep}"]`).classList.add('active');
+        document.getElementById('test-progress').style.width = (currentStep * 25) + "%";
+
+        if(currentStep === 4) {
+            setTimeout(() => {
+                document.getElementById('res-freq').innerText = fitnessData.freq;
+                // Guardamos el test en local por si se refresca al volver de Stripe
+                localStorage.setItem('tempFitness', JSON.stringify(fitnessData));
+                nav('view-paywall');
+            }, 2500);
+        }
+    }
+
+    // --- ACTIVACIÓN POST-PAGO ---
+    async function activateAccount() {
+        const email = localStorage.getItem('tempUserEmail');
+        const load = document.getElementById('success-load');
+        if(!email) { alert("Sesión perdida. Por favor inicia sesión."); nav('view-login'); return; }
+
+        load.style.display = 'block';
+        const res = await postData('payment_confirmation', { email: email });
+        load.style.display = 'none';
+
+        if(res.success) {
+            // Limpiar URL y entrar
+            window.history.replaceState({}, document.title, window.location.pathname);
+            buildRoutine();
+            nav('view-dashboard');
+        } else {
+            alert("Error al confirmar: " + res.message);
+        }
     }
 
     async function handleLogin() {
         const email = document.getElementById('login-email').value;
-        if(email) {
-            buildRoutine(); // Generamos una basada en datos previos o por defecto
+        const pass = document.getElementById('login-pass').value;
+        const load = document.getElementById('login-load');
+        const msg = document.getElementById('login-msg');
+
+        load.style.display = 'block';
+        const res = await postData('login', { email, password: pass });
+        load.style.display = 'none';
+
+        if(res.success) {
+            buildRoutine();
             nav('view-dashboard');
+        } else {
+            msg.innerText = res.message;
+            msg.style.display = 'block';
         }
     }
 
-    function logout() { 
-        localStorage.removeItem('divelun_user');
-        location.reload(); 
+    function buildRoutine() {
+        const list = document.getElementById('routine-list');
+        const data = JSON.parse(localStorage.getItem('tempFitness')) || {goal: 'Fitness'};
+        list.innerHTML = `
+            <div class="exercise-item"><span>Press de Banca</span><span>4 x 10</span></div>
+            <div class="exercise-item"><span>Sentadillas</span><span>4 x 12</span></div>
+            <div class="exercise-item"><span>Remo con Barra</span><span>3 x 12</span></div>
+            <div class="exercise-item"><span>Plancha IA</span><span>3 x 1 min</span></div>
+        `;
     }
+
+    function logout() { localStorage.clear(); location.reload(); }
 </script>
 
+<style> @keyframes spin { to { transform: rotate(360deg); } } </style>
 </body>
 </html>
