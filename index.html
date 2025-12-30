@@ -55,7 +55,7 @@
 <div class="container">
     <script>
         // =========================================================
-        // VERIFICA QUE ESTE LINK SEA EL QUE DICE "GESTIONAR IMPLEMENTACIONES"
+        // URL CONFIGURADA (NO TOCAR)
         // =========================================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
     </script>
@@ -157,9 +157,21 @@
         else { input.type = "password"; iconSpan.innerHTML = eyeClosed; iconSpan.style.color = "#94a3b8"; }
     }
 
+    // --- LÓGICA DE MEMORIA (LocalStorage) ---
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('payment_success') === 'true') nav('view-success');
+        
+        // 1. Si viene de Stripe (pago exitoso)
+        if (urlParams.get('payment_success') === 'true') {
+            nav('view-success');
+            return;
+        }
+
+        // 2. Si hay sesión guardada en memoria, ir directo al dashboard
+        const sessionUser = localStorage.getItem('divelun_session_user');
+        if (sessionUser) {
+            nav('view-dashboard');
+        }
     };
 
     function nav(viewId) {
@@ -178,8 +190,6 @@
             return await response.json();
         } catch (error) { return { success: false, message: "Error de conexión." }; }
     }
-
-    // --- ACCIONES ---
 
     async function handleRegister() {
         const email = document.getElementById('reg-email').value;
@@ -202,11 +212,15 @@
         loader.style.display = 'block';
         const res = await postData('login', { email, password: pass });
         loader.style.display = 'none';
-        if (res.success) nav('view-dashboard');
+        
+        if (res.success) {
+            // AQUÍ GUARDAMOS LA SESIÓN AL ENTRAR
+            localStorage.setItem('divelun_session_user', email);
+            nav('view-dashboard');
+        }
         else { msg.innerText = res.message; msg.style.display = 'block'; }
     }
 
-    // NUEVO: MANEJO DE RECUPERACIÓN
     async function handleRecover() {
         const email = document.getElementById('rec-email').value;
         const loader = document.getElementById('rec-load');
@@ -240,13 +254,19 @@
         if(res.success) { 
             window.history.replaceState({}, document.title, window.location.pathname);
             localStorage.removeItem('tempUserEmail');
+            
+            // Si activó, también guardamos sesión para que no tenga que loguearse de nuevo
+            localStorage.setItem('divelun_session_user', savedEmail);
             nav('view-dashboard'); 
         } else { alert("Error: " + res.message); }
     }
 
-    function logout() { location.href = window.location.pathname; }
+    function logout() { 
+        // AQUÍ BORRAMOS LA SESIÓN AL SALIR
+        localStorage.removeItem('divelun_session_user');
+        location.href = window.location.pathname; 
+    }
 </script>
 
 </body>
 </html>
-
