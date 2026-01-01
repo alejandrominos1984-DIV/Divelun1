@@ -109,8 +109,8 @@
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* --- DASHBOARD ELEMENTS --- */
-        #view-dashboard, #view-coach, #view-train, #view-routine-detail, #view-nutrition {
+        /* --- DASHBOARD & GENERAL ELEMENTS --- */
+        #view-dashboard, #view-coach, #view-train, #view-routine-detail, #view-profile {
             padding-bottom: 120px;
         }
 
@@ -137,11 +137,7 @@
         }
         .daily-challenge h2 { font-size: 2.2rem; margin: 0; line-height: 1.1; font-weight: 800; position: relative; z-index: 2; }
         .daily-challenge p { color: rgba(255,255,255,0.9); font-weight: 500; margin-top: 10px; font-size: 0.95rem; position: relative; z-index: 2; }
-        .daily-challenge .avatars-stack { display: flex; margin-top: 20px; position: relative; z-index: 2; align-items: center; }
-        .stack-item { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--primary-accent); margin-left: -8px; background: #222; overflow: hidden; }
-        .stack-item:first-child { margin-left: 0; }
-        .stack-plus { margin-left: 8px; font-size: 0.8rem; font-weight: 800; color: #fff; }
-        .daily-challenge .hero-img { position: absolute; right: -10px; bottom: 0; height: 110%; z-index: 1; pointer-events: none; filter: drop-shadow(-10px 0 15px rgba(0,0,0,0.2)); }
+        .daily-challenge .hero-img { position: absolute; right: -10px; bottom: 0; height: 110%; z-index: 1; pointer-events: none; }
 
         .calendar-row {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 24px;
@@ -154,89 +150,76 @@
             border: 1px solid var(--card-border); cursor: pointer; transition: 0.3s;
         }
         .day-card.active { background: var(--primary-accent); border-color: var(--primary-accent); color: #fff; transform: scale(1.05); }
-        .day-card span:first-child { font-size: 0.75rem; opacity: 0.7; font-weight: 600; margin-bottom: 4px; }
-        .day-card span:last-child { font-size: 1.2rem; font-weight: 800; }
-
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .section-header h3 { font-size: 1.3rem; font-weight: 800; }
-        .section-header a { color: var(--text-dim); font-size: 0.85rem; text-decoration: none; font-weight: 600; }
-
-        .tabs-row { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 24px; scrollbar-width: none; }
-        .tabs-row::-webkit-scrollbar { display: none; }
-        .tab {
-            padding: 12px 24px; background: #1c1c1e; border-radius: 30px; font-size: 0.9rem;
-            white-space: nowrap; font-weight: 600; color: var(--text-dim); cursor: pointer;
-            border: 1px solid var(--card-border); transition: 0.3s;
-        }
-        .tab.active { background: var(--primary-accent); color: #fff; border-color: var(--primary-accent); }
 
         .programs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .program-card {
             height: 240px; border-radius: 28px; background: #111; position: relative; overflow: hidden;
-            cursor: pointer; border: 1px solid var(--card-border); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer; border: 1px solid var(--card-border);
         }
-        .program-card:active { transform: scale(0.97); }
-        .program-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; }
-        .program-card:hover img { transform: scale(1.1); opacity: 0.9; }
+        .program-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
         .program-info {
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px 15px;
             background: linear-gradient(transparent, rgba(0,0,0,0.95));
         }
-        .program-info h4 { margin: 0; font-size: 1rem; font-weight: 800; }
-        .program-info p { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; font-weight: 500; }
+        .tag { background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; color: #fff; }
+
+        /* --- PROFILE VIEW SPECIFICS --- */
+        .profile-hero { text-align: center; margin-bottom: 30px; margin-top: 10px; }
+        .avatar-large { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary-accent); margin: 0 auto 15px; padding: 5px; background: var(--bg-black); }
+        .avatar-large img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         
-        .tag-row { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 2; width: 90%; flex-wrap: wrap; }
-        .tag { background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; color: #fff; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 15px 10px; border-radius: 20px; text-align: center; }
+        .stat-card span:first-child { display: block; font-size: 1.1rem; font-weight: 800; color: var(--primary-accent); }
+        .stat-card span:last-child { display: block; font-size: 0.7rem; opacity: 0.6; font-weight: 600; text-transform: uppercase; margin-top: 4px; }
 
-        /* --- INPUTS & BUTTONS --- */
+        .settings-list { display: flex; flex-direction: column; gap: 10px; }
+        .settings-item { 
+            display: flex; align-items: center; justify-content: space-between; 
+            background: var(--card-dark); padding: 18px 24px; border-radius: 22px; 
+            border: 1px solid var(--card-border); cursor: pointer; transition: 0.3s;
+        }
+        .settings-item:active { background: #222; }
+        .settings-item .item-left { display: flex; align-items: center; gap: 15px; }
+        .settings-item .item-left svg { width: 20px; color: var(--primary-accent); }
+        .settings-item span { font-size: 0.95rem; font-weight: 600; }
+        
+        .logout-btn { 
+            margin-top: 30px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.2); 
+            color: #ff3b30; font-weight: 800; padding: 20px; border-radius: 40px; cursor: pointer; 
+            text-align: center; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+        .logout-btn:active { background: rgba(255,59,48,0.2); transform: scale(0.98); }
+
+        /* --- BUTTONS & INPUTS --- */
         .card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 24px; border-radius: 28px; margin-bottom: 16px; }
-        .glass-card { background: rgba(28, 28, 30, 0.45); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); }
-        input { width: 100%; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 40px; font-size: 1rem; color: #fff; margin-bottom: 14px; transition: 0.3s; }
-        input:focus { border-color: var(--primary-accent); }
-        .btn-row { display: flex; gap: 12px; width: 100%; margin-top: 20px; }
-        button { width: 100%; padding: 20px; background: var(--primary-accent); color: #fff; border: none; border-radius: 50px; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: 0.3s; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        button.outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.6); }
+        input { width: 100%; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 40px; font-size: 1rem; color: #fff; margin-bottom: 14px; }
+        button { width: 100%; padding: 20px; background: var(--primary-accent); color: #fff; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* --- AUTH TITLES --- */
-        .main-title { font-size: 3.8rem; font-weight: 900; line-height: 0.9; letter-spacing: -2px; margin-bottom: 24px; text-transform: uppercase; color: white; }
-        .highlight { display: inline-block; background: var(--primary-accent); color: #fff; padding: 0 10px; border-radius: 6px; margin-left: 5px; }
-        .sub-text { font-size: 0.95rem; opacity: 0.85; margin-bottom: 35px; line-height: 1.4; max-width: 95%; }
-
-        /* --- NAVIGATION DOCK (ISLAND STYLE) --- */
+        /* --- NAVIGATION DOCK --- */
         .bottom-nav {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 85%; max-width: 400px;
-            background: #111111; 
-            border-radius: 45px; display: none; justify-content: space-around;
-            padding: 10px; border: 1px solid rgba(255,255,255,0.08); 
-            z-index: 1000;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+            width: 85%; max-width: 400px; background: #111111; border-radius: 45px; 
+            display: none; justify-content: space-around; padding: 10px; 
+            border: 1px solid rgba(255,255,255,0.08); z-index: 1000; box-shadow: 0 20px 45px rgba(0,0,0,0.7);
         }
         .nav-item { 
             color: var(--text-dim); display: flex; flex-direction: column; align-items: center; 
-            cursor: pointer; padding: 14px 22px; transition: 0.3s; 
-            position: relative; border-radius: 35px;
+            cursor: pointer; padding: 14px 22px; transition: 0.3s; border-radius: 35px;
         }
-        .nav-item svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.3; transition: 0.3s; }
         .nav-item.active { color: var(--primary-accent); background: var(--primary-accent-dim); }
-        .nav-item.active svg { stroke: var(--primary-accent); transform: scale(1.1); }
+        .nav-item svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.3; }
 
-        .error { color: var(--error-red); font-size: 0.8rem; background: rgba(255,59,48,0.1); padding: 12px; border-radius: 20px; display: none; margin-bottom: 12px; text-align: center; }
         .loading { color: var(--primary-accent); text-align: center; font-size: 0.9rem; padding: 10px; display: none; font-weight: 600; }
+        .error { color: var(--error-red); font-size: 0.8rem; background: rgba(255,59,48,0.1); padding: 12px; border-radius: 20px; display: none; margin-bottom: 12px; text-align: center; }
     </style>
 </head>
 <body>
 
-<!-- AUTH VISUAL LAYER -->
 <div id="auth-visuals">
     <div class="auth-overlay"></div>
     <div class="auth-gradient"></div>
-    <div class="marker marker-1"><span>↑</span> 200 cal</div>
-    <div class="marker-line line-1"></div>
-    <div class="dot dot-1"></div>
-    <div class="marker marker-2"><span>15</span> kilogram</div>
-    <div class="marker-line line-2"></div>
-    <div class="dot dot-2"></div>
 </div>
 
 <div class="container">
@@ -247,91 +230,74 @@
 
     <!-- 1. WELCOME -->
     <div id="view-welcome" class="view active" style="height: 100vh;">
-        <div class="welcome-content" style="margin-top: auto; padding-bottom: 40px;">
-            <h1 class="main-title">LET'S GET TO<br>NOW YOU<span class="highlight">BETTER</span></h1>
-            <p class="sub-text">Get your personalized workout and meal plan in just 1 minute to help you achieve your fitness goals</p>
-            <div class="btn-row">
-                <button onclick="nav('view-login')">SIGN IN</button>
-                <button class="outline" onclick="nav('view-register')">SIGN UP</button>
-            </div>
+        <div class="welcome-content" style="margin-top: auto; padding-bottom: 60px; padding-left: 20px; padding-right: 20px;">
+            <h1 style="font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 20px;">BECOME<br><span style="color:var(--primary-accent)">ELITE</span></h1>
+            <p style="opacity: 0.7; margin-bottom: 40px; line-height: 1.5;">Personalized training powered by Neural Intelligence.</p>
+            <button onclick="nav('view-login')">Get Started</button>
+            <button onclick="nav('view-register')" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); margin-top: 10px;">Create Account</button>
         </div>
     </div>
 
     <!-- 2. LOGIN -->
     <div id="view-login" class="view" style="justify-content: center; height: 100vh;">
-        <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">Sign In</h2>
-        <p style="margin-bottom: 30px; opacity: 0.8; font-weight: 500;">Enter your credentials to continue.</p>
-        <div class="card glass-card">
+        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">SIGN IN</h2>
+        <div class="card">
             <input type="email" id="login-email" placeholder="Email Address">
             <input type="password" id="login-pass" placeholder="Password">
             <div id="login-msg" class="error"></div>
-            <button onclick="handleLogin()">SIGN IN</button>
-            <button class="outline" onclick="nav('view-welcome')" style="border: none; margin-top: 10px;">← Back to home</button>
+            <button onclick="handleLogin()">Login</button>
             <div id="login-load" class="loading">Authenticating...</div>
         </div>
+        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Go Back</button>
     </div>
 
     <!-- 3. REGISTER -->
     <div id="view-register" class="view" style="justify-content: center; height: 100vh;">
-        <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase;">Join the Elite</h2>
-        <p style="margin-bottom: 30px; opacity: 0.8; font-weight: 500;">Start your 1-minute transformation.</p>
-        <div class="card glass-card">
+        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">REGISTER</h2>
+        <div class="card">
             <input type="email" id="reg-email" placeholder="Email Address">
-            <input type="password" id="reg-pass" placeholder="Create Password">
+            <input type="password" id="reg-pass" placeholder="Password">
             <div id="reg-msg" class="error"></div>
-            <button onclick="handleRegister()">CREATE ACCOUNT</button>
-            <button class="outline" onclick="nav('view-welcome')" style="border: none; margin-top: 10px;">← Cancel</button>
+            <button onclick="handleRegister()">Register</button>
             <div id="reg-load" class="loading">Creating account...</div>
         </div>
+        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Go Back</button>
     </div>
 
     <!-- 4. PAYMENT -->
     <div id="view-payment" class="view" style="justify-content: center; height: 100vh; text-align: center;">
-        <h2 style="color: var(--primary-accent); font-size: 2.2rem; font-weight: 900;">PREMIUM ACCESS</h2>
-        <div class="card glass-card">
-            <p style="margin-bottom: 24px; opacity: 0.9; font-weight: 500;">Unlock Neural Coach, unlimited routines and advanced tracking.</p>
+        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 20px;">PRO ACCESS</h2>
+        <div class="card">
+            <p style="margin-bottom: 30px; opacity: 0.8;">Unlock all AI features and tracking.</p>
             <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_blank" style="text-decoration: none;">
-                <button style="background: white; color: black; font-weight: 900;">1. ACTIVATE PRO PLAN (STRIPE)</button>
+                <button>1. Buy Subscription</button>
             </a>
-            
             <div style="margin: 20px 0; height: 1px; background: rgba(255,255,255,0.1);"></div>
-            
-            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 12px;">¿Ya realizaste el pago?</p>
-            <button onclick="handleConfirmPayment()" id="btn-confirm-pay" style="background: var(--primary-accent-dim); border: 1px solid var(--primary-accent); color: var(--primary-accent); font-size: 0.75rem;">
-                2. CONFIRMAR PAGO Y ACTIVAR
-            </button>
-            
-            <button class="outline" onclick="logout()" style="margin-top: 12px; border: none; font-size: 0.75rem; opacity: 0.5;">Logout</button>
-            <div id="pay-load" class="loading">Verificando transacción con el servidor...</div>
+            <button onclick="handleConfirmPayment()" style="background: var(--primary-accent-dim); border: 1px solid var(--primary-accent); color: var(--primary-accent);">2. Confirm Payment</button>
+            <div id="pay-load" class="loading">Verifying...</div>
             <div id="pay-msg" class="error"></div>
         </div>
     </div>
 
-    <!-- 6. DASHBOARD (MAIN) -->
+    <!-- 6. DASHBOARD -->
     <div id="view-dashboard" class="view">
         <div class="header-profile">
             <div class="user-info">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="avatar"></div>
+                <div class="avatar"><img src="https://i.pravatar.cc/100?u=martin" alt="avatar"></div>
                 <div>
-                    <p style="font-size: 0.8rem; margin: 0; font-weight: 600; opacity: 0.6;">Hello,</p>
-                    <p style="font-size: 1.1rem; margin: 0; font-weight: 800;" id="user-display">Martin</p>
+                    <p style="font-size: 0.8rem; margin: 0; opacity: 0.6;">Welcome back,</p>
+                    <p style="font-size: 1.1rem; margin: 0; font-weight: 800;" id="user-display">User</p>
                 </div>
             </div>
             <div class="notif-bell">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
             </div>
         </div>
 
-        <div class="daily-challenge" onclick="nav('view-dashboard')">
+        <div class="daily-challenge">
             <h2>Daily<br>Challenge</h2>
             <p>Do your plan before 09:00 AM</p>
-            <div class="avatars-stack">
-                <div class="stack-item"><img src="https://i.pravatar.cc/50?u=1" width="28"></div>
-                <div class="stack-item"><img src="https://i.pravatar.cc/50?u=2" width="28"></div>
-                <div class="stack-item"><img src="https://i.pravatar.cc/50?u=3" width="28"></div>
-                <span class="stack-plus">+12</span>
-            </div>
-            <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?fit=crop&w=400&h=600&q=80" class="hero-img" alt="challenge">
+            <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?fit=crop&w=300&h=500&q=80" class="hero-img" alt="fit">
         </div>
 
         <div class="calendar-row">
@@ -340,75 +306,107 @@
             <div class="day-card"><span>Wed</span><span>24</span></div>
             <div class="day-card active"><span>Thu</span><span>25</span></div>
             <div class="day-card"><span>Fri</span><span>26</span></div>
-            <div class="day-card"><span>Sat</span><span>27</span></div>
-            <div class="day-card"><span>Sun</span><span>28</span></div>
         </div>
 
-        <div class="section-header">
-            <h3>Daily Program</h3>
-            <a href="#">See All</a>
-        </div>
-
-        <div class="tabs-row">
-            <div class="tab active">All Type</div>
-            <div class="tab">Chest</div>
-            <div class="tab">Arms</div>
-            <div class="tab">Cardio</div>
-            <div class="tab">Yoga</div>
-        </div>
-
+        <h3 style="margin-top: 30px; margin-bottom: 20px;">Active Programs</h3>
         <div class="programs-grid">
-            <div class="program-card" onclick="openRoutine('Chest Program', ['Incline Press', 'Cable Flys', 'Pushups'])">
-                <div class="tag-row">
-                    <div class="tag">⏱ 12 min</div>
-                    <div class="tag">3 x 15 reps</div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=600&fit=crop" alt="chest">
+            <div class="program-card">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" alt="chest">
                 <div class="program-info">
-                    <h4>Chest Program</h4>
-                    <p>Focus on proper form</p>
+                    <span class="tag">Chest</span>
+                    <h4 style="margin: 8px 0 0 0;">Power Press</h4>
                 </div>
             </div>
-            <div class="program-card" onclick="openRoutine('Arms Program', ['Bicep Curls', 'Tricep Ext', 'Hammer Curls'])">
-                <div class="tag-row">
-                    <div class="tag">⏱ 15 min</div>
-                    <div class="tag">3 x 12 reps</div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400&h=600&fit=crop" alt="arms">
+            <div class="program-card">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400" alt="arms">
                 <div class="program-info">
-                    <h4>Arms Program</h4>
-                    <p>Increase volume gradually</p>
+                    <span class="tag">Arms</span>
+                    <h4 style="margin: 8px 0 0 0;">Bicep Burn</h4>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 7. COACH IA -->
+    <!-- 7. PROFILE VIEW -->
+    <div id="view-profile" class="view">
+        <div class="profile-hero">
+            <div class="avatar-large">
+                <img src="https://i.pravatar.cc/150?u=martin" alt="avatar">
+            </div>
+            <h2 id="profile-name" style="margin: 0; font-weight: 900; font-size: 1.5rem;">USER NAME</h2>
+            <p style="opacity: 0.5; font-size: 0.85rem; margin-top: 5px;">Pro Member since 2024</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>24</span>
+                <span>Workouts</span>
+            </div>
+            <div class="stat-card">
+                <span>12.5k</span>
+                <span>Kcal</span>
+            </div>
+            <div class="stat-card">
+                <span>Lvl 5</span>
+                <span>Rank</span>
+            </div>
+        </div>
+
+        <div class="settings-list">
+            <div class="settings-item">
+                <div class="item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <span>Edit Profile</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+            <div class="settings-item">
+                <div class="item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span>Notifications</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+            <div class="settings-item">
+                <div class="item-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    <span>Privacy & Security</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+        </div>
+
+        <div class="logout-btn" onclick="logout()">
+            Sign Out
+        </div>
+    </div>
+
+    <!-- COACH AI -->
     <div id="view-coach" class="view" style="height: 100vh;">
-        <h2 style="margin-bottom: 20px; font-weight: 800; text-transform: uppercase;">Coach <span style="color: var(--primary-accent)">Neural</span></h2>
-        <div class="card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 15px; background: #111; border: 1px solid var(--card-border);">
-            <div id="chat-messages" style="height: 60vh; overflow-y: auto;">
-                <div class="message ai" style="background: #222; padding: 12px; border-radius: 15px; margin-bottom: 10px; font-size: 0.9rem;">Protocol initiated... How can I optimize your performance today?</div>
+        <h2 style="margin-bottom: 20px; font-weight: 800;">Neural Coach</h2>
+        <div class="card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 15px; background: #111;">
+            <div id="chat-messages" style="height: 60vh; overflow-y: auto; padding-bottom: 20px;">
+                <div style="background: #222; padding: 12px; border-radius: 15px; margin-bottom: 10px; font-size: 0.9rem;">I am ready to optimize your performance. Ask me anything.</div>
             </div>
-            <div style="display: flex; gap: 10px; padding: 10px; border-top: 1px solid #222; margin-top: auto;">
-                <input type="text" id="chat-input" placeholder="Message Coach..." style="margin: 0; background: #222; padding: 15px;">
-                <button onclick="sendChatMessage()" style="width: auto; padding: 0 20px; margin: 0; border-radius: 20px;">↑</button>
+            <div style="display: flex; gap: 10px; margin-top: auto;">
+                <input type="text" id="chat-input" placeholder="Type..." style="margin: 0; padding: 15px;">
+                <button style="width: auto; padding: 0 20px;">↑</button>
             </div>
         </div>
     </div>
 
-    <!-- GLASSMOPRHIC DOCK MENU -->
+    <!-- NAVIGATION DOCK -->
     <nav class="bottom-nav" id="main-nav">
-        <div class="nav-item active" id="nav-home" onclick="nav('view-dashboard')">
+        <div class="nav-item active" onclick="nav('view-dashboard')">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         </div>
-        <div class="nav-item" id="nav-train" onclick="nav('view-dashboard')">
+        <div class="nav-item" onclick="nav('view-dashboard')">
             <svg viewBox="0 0 24 24"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
         </div>
-        <div class="nav-item" id="nav-coach" onclick="nav('view-coach')">
+        <div class="nav-item" onclick="nav('view-coach')">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         </div>
-        <div class="nav-item" id="nav-nutri" onclick="nav('view-dashboard')">
+        <div class="nav-item" onclick="nav('view-profile')">
             <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </div>
     </nav>
@@ -416,35 +414,36 @@
 </div>
 
 <script>
-    // =========================================================
-    // LÓGICA DE APLICACIÓN (INTACTA SEGÚN REGLA)
-    // =========================================================
-
+    // --- LÓGICA DE NAVEGACIÓN ---
     window.onload = function() {
         const sessionUser = localStorage.getItem('cyberfit_session');
         if (sessionUser) {
-            document.getElementById('user-display').innerText = sessionUser.split('@')[0];
+            updateUserDisplay(sessionUser);
             nav('view-dashboard');
         }
     };
+
+    function updateUserDisplay(email) {
+        const name = email.split('@')[0].toUpperCase();
+        document.getElementById('user-display').innerText = name;
+        document.getElementById('profile-name').innerText = name;
+    }
 
     function nav(viewId) {
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
-        
         const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment'];
         const navBar = document.getElementById('main-nav');
-        const authVisuals = document.getElementById('auth-visuals');
+        const authVis = document.getElementById('auth-visuals');
 
         if (publicViews.includes(viewId)) {
             navBar.style.display = 'none';
-            if(authVisuals) authVisuals.style.display = 'block';
+            if(authVis) authVis.style.display = 'block';
         } else {
             navBar.style.display = 'flex';
-            if(authVisuals) authVisuals.style.display = 'none';
+            if(authVis) authVis.style.display = 'none';
         }
 
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -455,6 +454,7 @@
         });
     }
 
+    // --- LÓGICA SAGRADA (NO TOCAR) ---
     async function postData(action, data) {
         try {
             const response = await fetch(SCRIPT_URL, {
@@ -474,7 +474,7 @@
         const loader = document.getElementById('login-load');
         const msg = document.getElementById('login-msg');
 
-        if(!email || !pass) { msg.innerText = "DENIED: Missing credentials"; msg.style.display = 'block'; return; }
+        if(!email || !pass) { msg.innerText = "Denied: Missing fields"; msg.style.display='block'; return; }
         loader.style.display = 'block';
         msg.style.display = 'none';
 
@@ -483,15 +483,14 @@
         
         if (res.success) {
             localStorage.setItem('cyberfit_session', email);
-            document.getElementById('user-display').innerText = email.split('@')[0];
+            updateUserDisplay(email);
             nav('view-dashboard');
         } else { 
             if (res.message.includes("pago")) {
                 localStorage.setItem('tempUserEmail', email);
                 nav('view-payment');
             } else {
-                msg.innerText = res.message.toUpperCase(); 
-                msg.style.display = 'block'; 
+                msg.innerText = res.message.toUpperCase(); msg.style.display='block'; 
             }
         }
     }
@@ -502,7 +501,7 @@
         const loader = document.getElementById('reg-load');
         const msg = document.getElementById('reg-msg');
 
-        if(!email || !pass) { msg.innerText = "ERROR: Critical data missing"; msg.style.display = 'block'; return; }
+        if(!email || !pass) { msg.innerText = "Error: Missing fields"; msg.style.display='block'; return; }
         loader.style.display = 'block';
         const res = await postData('register', { email, password: pass });
         loader.style.display = 'none';
@@ -511,53 +510,36 @@
             localStorage.setItem('tempUserEmail', email); 
             nav('view-payment'); 
         } else { 
-            msg.innerText = res.message.toUpperCase(); 
-            msg.style.display = 'block'; 
+            msg.innerText = res.message.toUpperCase(); msg.style.display='block'; 
         }
     }
 
-    // --- NUEVA LÓGICA DE CONFIRMACIÓN DE PAGO ---
     async function handleConfirmPayment() {
         const email = localStorage.getItem('tempUserEmail');
         const loader = document.getElementById('pay-load');
         const msg = document.getElementById('pay-msg');
         
-        if (!email) {
-            msg.innerText = "ERROR: No se encontró registro temporal.";
-            msg.style.display = 'block';
-            return;
-        }
-
+        if (!email) return;
         loader.style.display = 'block';
         msg.style.display = 'none';
 
-        // Usando la Lógica Sagrada para sincronizar con Google Sheets
         const res = await postData('confirmPayment', { email: email });
         loader.style.display = 'none';
 
         if (res.success) {
             localStorage.setItem('cyberfit_session', email);
             localStorage.removeItem('tempUserEmail');
-            document.getElementById('user-display').innerText = email.split('@')[0];
-            finishTraining(); // Efecto de confeti azul
+            updateUserDisplay(email);
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0084ff', '#ffffff'] });
             nav('view-dashboard');
         } else {
-            msg.innerText = res.message.toUpperCase();
-            msg.style.display = 'block';
+            msg.innerText = res.message.toUpperCase(); msg.style.display='block';
         }
     }
 
     function logout() { 
         localStorage.removeItem('cyberfit_session');
         nav('view-welcome');
-    }
-
-    function openRoutine(name, exercises) {
-        alert("Preparing " + name + ": " + exercises.join(", "));
-    }
-
-    function finishTraining() {
-        confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#0084ff', '#ffffff', '#000000'] });
     }
 </script>
 
