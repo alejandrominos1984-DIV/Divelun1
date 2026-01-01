@@ -42,18 +42,31 @@
             flex-direction: column;
         }
 
+        /* --- OVERLAY DE VERIFICACIÓN INTELIGENTE --- */
+        #payment-verify-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+        }
+        .diamond-icon { font-size: 50px; margin-bottom: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+
         /* --- AUTH BACKGROUND SYSTEM --- */
         .auth-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--auth-bg);
-            background-size: cover;
-            background-position: center;
+            background-size: cover; background-position: center;
             z-index: -2;
         }
         .auth-gradient {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.95) 100%);
             z-index: -1;
         }
@@ -68,20 +81,12 @@
             padding: 24px;
         }
         .view.active { display: flex; }
-
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(10px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- DASHBOARD & GENERAL ELEMENTS --- */
-        #view-dashboard, #view-coach, #view-profile {
-            padding-bottom: 120px;
-        }
+        #view-dashboard, #view-coach, #view-profile { padding-bottom: 120px; }
 
-        .header-profile {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
-        }
+        .header-profile { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .user-info { display: flex; align-items: center; gap: 12px; }
         .avatar { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 1.5px solid var(--card-border); }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -89,42 +94,24 @@
 
         .daily-challenge {
             background: var(--primary-accent);
-            border-radius: 35px;
-            padding: 25px;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 24px;
-            min-height: 180px;
-            display: flex; flex-direction: column; justify-content: center;
+            border-radius: 35px; padding: 25px; color: #fff;
+            position: relative; overflow: hidden; margin-bottom: 24px;
+            min-height: 180px; display: flex; flex-direction: column; justify-content: center;
             box-shadow: 0 15px 30px rgba(0, 132, 255, 0.2);
         }
         .daily-challenge h2 { font-size: 2.2rem; margin: 0; line-height: 1.1; font-weight: 800; position: relative; z-index: 2; }
         .daily-challenge p { color: rgba(255,255,255,0.9); font-weight: 500; margin-top: 10px; font-size: 0.95rem; position: relative; z-index: 2; }
         .daily-challenge .hero-img { position: absolute; right: -10px; bottom: 0; height: 110%; z-index: 1; pointer-events: none; }
 
-        .calendar-row {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 24px;
-            scrollbar-width: none;
-        }
+        .calendar-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 24px; scrollbar-width: none; }
         .calendar-row::-webkit-scrollbar { display: none; }
-        .day-card {
-            min-width: 58px; height: 85px; background: #1c1c1e; border-radius: 22px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border: 1px solid var(--card-border); cursor: pointer; transition: 0.3s;
-        }
+        .day-card { min-width: 58px; height: 85px; background: #1c1c1e; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--card-border); cursor: pointer; transition: 0.3s; }
         .day-card.active { background: var(--primary-accent); border-color: var(--primary-accent); color: #fff; transform: scale(1.05); }
 
         .programs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .program-card {
-            height: 240px; border-radius: 28px; background: #111; position: relative; overflow: hidden;
-            cursor: pointer; border: 1px solid var(--card-border);
-        }
+        .program-card { height: 240px; border-radius: 28px; background: #111; position: relative; overflow: hidden; cursor: pointer; border: 1px solid var(--card-border); }
         .program-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .program-info {
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px 15px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.95));
-        }
+        .program-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); }
         .tag { background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; color: #fff; }
 
         /* --- PROFILE VIEW --- */
@@ -135,30 +122,18 @@
         .stat-card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 15px 10px; border-radius: 20px; text-align: center; }
         .stat-card span:first-child { display: block; font-size: 1.1rem; font-weight: 800; color: var(--primary-accent); }
         .stat-card span:last-child { display: block; font-size: 0.7rem; opacity: 0.6; font-weight: 600; text-transform: uppercase; margin-top: 4px; }
-        .logout-btn { 
-            margin-top: 30px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.2); 
-            color: #ff3b30; font-weight: 800; padding: 20px; border-radius: 40px; cursor: pointer; 
-            text-align: center; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-            font-size: 0.85rem;
-        }
+        .logout-btn { margin-top: 30px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.2); color: #ff3b30; font-weight: 800; padding: 20px; border-radius: 40px; cursor: pointer; text-align: center; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
 
         /* --- BUTTONS & INPUTS --- */
         .card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 24px; border-radius: 28px; margin-bottom: 16px; }
         input { width: 100%; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 40px; font-size: 1rem; color: #fff; margin-bottom: 14px; }
-        button { width: 100%; padding: 20px; background: var(--primary-accent); color: #fff; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        button { width: 100%; padding: 20px; background: var(--primary-accent); color: #fff; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        button:active { transform: scale(0.96); opacity: 0.8; }
         button.outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); }
 
-        /* --- NAVIGATION DOCK (FLOATING ISLAND) --- */
-        .bottom-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 85%; max-width: 400px; background: #111111; border-radius: 45px; 
-            display: none; justify-content: space-around; padding: 10px; 
-            border: 1px solid rgba(255,255,255,0.08); z-index: 1000; box-shadow: 0 20px 45px rgba(0,0,0,0.7);
-        }
-        .nav-item { 
-            color: var(--text-dim); display: flex; flex-direction: column; align-items: center; 
-            cursor: pointer; padding: 14px 22px; transition: 0.3s; border-radius: 35px;
-        }
+        /* --- NAVIGATION DOCK --- */
+        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 85%; max-width: 400px; background: #111111; border-radius: 45px; display: none; justify-content: space-around; padding: 10px; border: 1px solid rgba(255,255,255,0.08); z-index: 1000; box-shadow: 0 20px 45px rgba(0,0,0,0.7); }
+        .nav-item { color: var(--text-dim); display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 14px 22px; transition: 0.3s; border-radius: 35px; }
         .nav-item.active { color: var(--primary-accent); background: var(--primary-accent-dim); }
         .nav-item svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.3; }
 
@@ -167,6 +142,13 @@
     </style>
 </head>
 <body>
+
+<!-- OVERLAY DE VERIFICACIÓN DINÁMICO -->
+<div id="payment-verify-overlay">
+    <div class="diamond-icon">💎</div>
+    <h2 style="font-weight: 900; margin-bottom: 10px;">VERIFICANDO PAGO</h2>
+    <p style="opacity: 0.7; font-size: 0.9rem;">Sincronizando con Stripe Pro... Un momento.</p>
+</div>
 
 <div id="auth-visuals">
     <div class="auth-overlay"></div>
@@ -178,6 +160,7 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
         const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
+        const PAYMENT_TOKEN = "AZ82_XJ91_LQ00_PRO_DIVE"; // Token de Seguridad para Smart URL
     </script>
 
     <!-- 1. WELCOME -->
@@ -218,31 +201,23 @@
         <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Volver</button>
     </div>
 
-    <!-- 4. VIEW PAYMENT STRIPE (NUEVA) -->
+    <!-- 4. VIEW PAYMENT SIMPLIFICADO -->
     <div id="view-payment-stripe" class="view" style="justify-content: center; height: 100vh; text-align: center;">
-        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 10px;">PRO UPGRADE</h2>
-        <p style="opacity: 0.7; margin-bottom: 30px;">Paso 1: Activa tu suscripción premium.</p>
-        <div class="card">
-            <p style="margin-bottom: 30px; font-weight: 500;">Acceso ilimitado al Coach IA y rutinas avanzadas.</p>
-            <a href="#" onclick="window.open(STRIPE_LINK, '_blank'); nav('view-payment-confirm');" style="text-decoration: none; width: 100%;">
-                <button>Pagar con Stripe</button>
+        <div class="diamond-icon">⚡</div>
+        <h2 style="color: var(--primary-accent); font-size: 2.5rem; font-weight: 900; margin-bottom: 10px;">NIVEL ÉLITE</h2>
+        <p style="opacity: 0.7; margin-bottom: 40px;">Último paso para desbloquear tu potencial.</p>
+        <div class="card" style="background: linear-gradient(145deg, #2c2c2e, #1c1c1e); border: 1px solid var(--primary-accent);">
+            <ul style="text-align: left; font-size: 0.9rem; list-style: none; padding: 0; margin-bottom: 30px; opacity: 0.9;">
+                <li style="margin-bottom: 10px;">✓ Coach IA 24/7 sin límites</li>
+                <li style="margin-bottom: 10px;">✓ Rutinas de Hipertrofia Pro</li>
+                <li style="margin-bottom: 10px;">✓ Sincronización en la Nube</li>
+            </ul>
+            <a href="#" onclick="window.open(STRIPE_LINK, '_blank');" style="text-decoration: none; width: 100%;">
+                <button style="font-size: 1.1rem; padding: 25px;">💳 SUSCRIBIRSE AHORA</button>
             </a>
-            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.5;">Tras el pago, serás llevado a la confirmación.</p>
         </div>
-        <button onclick="nav('view-payment-confirm')" style="background:transparent; opacity:0.5; font-size:0.8rem; border: none;">Ya realicé el pago anteriormente →</button>
-    </div>
-
-    <!-- 5. VIEW PAYMENT CONFIRM (NUEVA) -->
-    <div id="view-payment-confirm" class="view" style="justify-content: center; height: 100vh; text-align: center;">
-        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 10px;">VALIDACIÓN</h2>
-        <p style="opacity: 0.7; margin-bottom: 30px;">Paso 2: Confirmar activación.</p>
-        <div class="card">
-            <p style="margin-bottom: 30px; font-weight: 600;">¿Has completado el pago en Stripe?</p>
-            <button onclick="handleConfirmPayment()" style="background: #fff; color: #000;">Confirmar que ya pagué</button>
-            <div id="pay-load" class="loading">Validando con el servidor...</div>
-            <div id="pay-msg" class="error"></div>
-        </div>
-        <button onclick="nav('view-payment-stripe')" style="background:transparent; opacity:0.5; font-size:0.8rem; border: none;">← Volver al pago</button>
+        <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 20px;">Una vez realizado el pago, la aplicación se activará automáticamente al regresar.</p>
+        <button onclick="logout()" style="background:transparent; opacity:0.3; font-size:0.7rem; margin-top: 30px; border: none;">Cerrar sesión</button>
     </div>
 
     <!-- 6. DASHBOARD -->
@@ -264,14 +239,6 @@
             <h2>Daily<br>Challenge</h2>
             <p>Completa tu plan antes de las 09:00 AM</p>
             <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?fit=crop&w=300&h=500&q=80" class="hero-img" alt="fit">
-        </div>
-
-        <div class="calendar-row">
-            <div class="day-card"><span>Lun</span><span>22</span></div>
-            <div class="day-card"><span>Mar</span><span>23</span></div>
-            <div class="day-card"><span>Mie</span><span>24</span></div>
-            <div class="day-card active"><span>Jue</span><span>25</span></div>
-            <div class="day-card"><span>Vie</span><span>26</span></div>
         </div>
 
         <h3 style="margin-top: 30px; margin-bottom: 20px;">Programas Activos</h3>
@@ -300,13 +267,11 @@
             <h2 id="profile-name" style="margin: 0; font-weight: 900; font-size: 1.5rem;">NOMBRE</h2>
             <p style="opacity: 0.5; font-size: 0.85rem; margin-top: 5px;">Miembro Pro Elite</p>
         </div>
-
         <div class="stats-grid">
             <div class="stat-card"><span>24</span><span>Sesiones</span></div>
             <div class="stat-card"><span>12k</span><span>Kcal</span></div>
             <div class="stat-card"><span>Lvl 5</span><span>Nivel</span></div>
         </div>
-
         <div class="logout-btn" onclick="logout()">Cerrar Sesión</div>
     </div>
 
@@ -343,12 +308,56 @@
 </div>
 
 <script>
-    // --- LÓGICA DE NAVEGACIÓN ---
+    // --- LÓGICA DE ACTIVACIÓN POR TOKEN (SMART URL) ---
+    async function checkPaymentToken() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (token === PAYMENT_TOKEN) {
+            // Buscamos el email en el almacenamiento temporal de registro o sesión activa
+            const email = localStorage.getItem('tempUserEmail') || localStorage.getItem('cyberfit_session');
+            
+            if (!email) return;
+
+            const overlay = document.getElementById('payment-verify-overlay');
+            overlay.style.display = 'flex';
+
+            // Llamada automática al backend
+            const res = await postData('payment_confirmation', { email: email });
+
+            if (res.success) {
+                localStorage.setItem('cyberfit_session', email);
+                localStorage.removeItem('tempUserEmail');
+                
+                // Limpiamos URL (Security & Cleanliness)
+                window.history.replaceState({}, document.title, window.location.pathname);
+                
+                confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#0084ff', '#ffffff'] });
+                alert("¡CUENTA ACTIVADA! Bienvenido a la élite.");
+                updateUserDisplay(email);
+                nav('view-dashboard');
+            } else {
+                alert("ERROR DE VERIFICACIÓN: " + res.message);
+                nav('view-payment-stripe');
+            }
+            overlay.style.display = 'none';
+        }
+    }
+
+    // --- NAVEGACIÓN ---
     window.onload = function() {
+        // 1. Verificar si hay un token de activación en la URL primero
+        checkPaymentToken();
+
+        // 2. Manejar sesión normal
         const sessionUser = localStorage.getItem('cyberfit_session');
         if (sessionUser) {
             updateUserDisplay(sessionUser);
-            nav('view-dashboard');
+            // Solo redirigir al dashboard si no estamos en proceso de verificación de token
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('token')) {
+                nav('view-dashboard');
+            }
         }
     };
 
@@ -363,7 +372,7 @@
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe', 'view-payment-confirm'];
+        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe'];
         const navBar = document.getElementById('main-nav');
         const authVis = document.getElementById('auth-visuals');
 
@@ -443,37 +452,9 @@
         }
     }
 
-    async function handleConfirmPayment() {
-        const email = localStorage.getItem('tempUserEmail');
-        const loader = document.getElementById('pay-load');
-        const msg = document.getElementById('pay-msg');
-        
-        if (!email) {
-            msg.innerText = "Sesión no encontrada. Re-intenta login.";
-            msg.style.display = 'block';
-            return;
-        }
-
-        loader.style.display = 'block';
-        msg.style.display = 'none';
-
-        // Acción: payment_confirmation según requerimiento
-        const res = await postData('payment_confirmation', { email: email });
-        loader.style.display = 'none';
-
-        if (res.success) {
-            localStorage.setItem('cyberfit_session', email);
-            localStorage.removeItem('tempUserEmail');
-            updateUserDisplay(email);
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0084ff', '#ffffff'] });
-            nav('view-dashboard'); // O "TEST INICIAL" si existe la vista
-        } else {
-            msg.innerText = res.message.toUpperCase(); msg.style.display='block';
-        }
-    }
-
     function logout() { 
         localStorage.removeItem('cyberfit_session');
+        localStorage.removeItem('tempUserEmail');
         nav('view-welcome');
     }
 </script>
