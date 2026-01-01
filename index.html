@@ -58,41 +58,6 @@
             z-index: -1;
         }
 
-        /* --- DECORATIVE MARKERS --- */
-        .marker {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            z-index: 5;
-            color: white;
-        }
-        .marker-1 { top: 22%; left: 12%; }
-        .marker-2 { top: 30%; right: 12%; }
-        
-        .marker-line {
-            position: absolute;
-            border-left: 1px dashed rgba(255,255,255,0.4);
-            z-index: 4;
-        }
-        .line-1 { top: 24%; left: 24%; height: 50px; transform: rotate(-15deg); }
-        .line-2 { top: 32%; right: 28%; height: 80px; }
-
-        .dot {
-            width: 10px; height: 10px; background: white; border-radius: 50%;
-            box-shadow: 0 0 15px white; border: 2px solid rgba(255,255,255,0.3);
-            position: absolute; z-index: 6;
-        }
-        .dot-1 { top: 34%; left: 40%; }
-        .dot-2 { top: 44%; right: 16%; }
-
         /* --- VIEWS --- */
         .view { 
             display: none; 
@@ -110,7 +75,7 @@
         }
 
         /* --- DASHBOARD & GENERAL ELEMENTS --- */
-        #view-dashboard, #view-coach, #view-train, #view-routine-detail, #view-profile {
+        #view-dashboard, #view-coach, #view-profile {
             padding-bottom: 120px;
         }
 
@@ -133,7 +98,6 @@
             min-height: 180px;
             display: flex; flex-direction: column; justify-content: center;
             box-shadow: 0 15px 30px rgba(0, 132, 255, 0.2);
-            cursor: pointer;
         }
         .daily-challenge h2 { font-size: 2.2rem; margin: 0; line-height: 1.1; font-weight: 800; position: relative; z-index: 2; }
         .daily-challenge p { color: rgba(255,255,255,0.9); font-weight: 500; margin-top: 10px; font-size: 0.95rem; position: relative; z-index: 2; }
@@ -163,41 +127,28 @@
         }
         .tag { background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 5px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; color: #fff; }
 
-        /* --- PROFILE VIEW SPECIFICS --- */
+        /* --- PROFILE VIEW --- */
         .profile-hero { text-align: center; margin-bottom: 30px; margin-top: 10px; }
         .avatar-large { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary-accent); margin: 0 auto 15px; padding: 5px; background: var(--bg-black); }
         .avatar-large img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 30px; }
         .stat-card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 15px 10px; border-radius: 20px; text-align: center; }
         .stat-card span:first-child { display: block; font-size: 1.1rem; font-weight: 800; color: var(--primary-accent); }
         .stat-card span:last-child { display: block; font-size: 0.7rem; opacity: 0.6; font-weight: 600; text-transform: uppercase; margin-top: 4px; }
-
-        .settings-list { display: flex; flex-direction: column; gap: 10px; }
-        .settings-item { 
-            display: flex; align-items: center; justify-content: space-between; 
-            background: var(--card-dark); padding: 18px 24px; border-radius: 22px; 
-            border: 1px solid var(--card-border); cursor: pointer; transition: 0.3s;
-        }
-        .settings-item:active { background: #222; }
-        .settings-item .item-left { display: flex; align-items: center; gap: 15px; }
-        .settings-item .item-left svg { width: 20px; color: var(--primary-accent); }
-        .settings-item span { font-size: 0.95rem; font-weight: 600; }
-        
         .logout-btn { 
             margin-top: 30px; background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.2); 
             color: #ff3b30; font-weight: 800; padding: 20px; border-radius: 40px; cursor: pointer; 
             text-align: center; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
             font-size: 0.85rem;
         }
-        .logout-btn:active { background: rgba(255,59,48,0.2); transform: scale(0.98); }
 
         /* --- BUTTONS & INPUTS --- */
         .card { background: var(--card-dark); border: 1px solid var(--card-border); padding: 24px; border-radius: 28px; margin-bottom: 16px; }
         input { width: 100%; padding: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 40px; font-size: 1rem; color: #fff; margin-bottom: 14px; }
         button { width: 100%; padding: 20px; background: var(--primary-accent); color: #fff; border: none; border-radius: 50px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        button.outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); }
 
-        /* --- NAVIGATION DOCK --- */
+        /* --- NAVIGATION DOCK (FLOATING ISLAND) --- */
         .bottom-nav {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             width: 85%; max-width: 400px; background: #111111; border-radius: 45px; 
@@ -226,67 +177,82 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
+        const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
     </script>
 
     <!-- 1. WELCOME -->
     <div id="view-welcome" class="view active" style="height: 100vh;">
-        <div class="welcome-content" style="margin-top: auto; padding-bottom: 60px; padding-left: 20px; padding-right: 20px;">
-            <h1 style="font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 20px;">BECOME<br><span style="color:var(--primary-accent)">ELITE</span></h1>
-            <p style="opacity: 0.7; margin-bottom: 40px; line-height: 1.5;">Personalized training powered by Neural Intelligence.</p>
-            <button onclick="nav('view-login')">Get Started</button>
-            <button onclick="nav('view-register')" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); margin-top: 10px;">Create Account</button>
+        <div class="welcome-content" style="margin-top: auto; padding-bottom: 60px;">
+            <h1 style="font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 20px; padding: 0 20px;">BECOME<br><span style="color:var(--primary-accent)">ELITE</span></h1>
+            <p style="opacity: 0.7; margin-bottom: 40px; line-height: 1.5; padding: 0 20px;">Protocolo de entrenamiento optimizado por Inteligencia Neural.</p>
+            <div style="padding: 0 20px;">
+                <button onclick="nav('view-login')">Entrar</button>
+                <button class="outline" onclick="nav('view-register')" style="margin-top: 10px;">Crear Cuenta</button>
+            </div>
         </div>
     </div>
 
     <!-- 2. LOGIN -->
     <div id="view-login" class="view" style="justify-content: center; height: 100vh;">
-        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">SIGN IN</h2>
+        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">ACCESO</h2>
         <div class="card">
-            <input type="email" id="login-email" placeholder="Email Address">
-            <input type="password" id="login-pass" placeholder="Password">
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-pass" placeholder="Contraseña">
             <div id="login-msg" class="error"></div>
-            <button onclick="handleLogin()">Login</button>
-            <div id="login-load" class="loading">Authenticating...</div>
+            <button onclick="handleLogin()">Entrar</button>
+            <div id="login-load" class="loading">Iniciando sesión...</div>
         </div>
-        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Go Back</button>
+        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Volver</button>
     </div>
 
     <!-- 3. REGISTER -->
     <div id="view-register" class="view" style="justify-content: center; height: 100vh;">
-        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">REGISTER</h2>
+        <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 30px;">REGISTRO</h2>
         <div class="card">
-            <input type="email" id="reg-email" placeholder="Email Address">
-            <input type="password" id="reg-pass" placeholder="Password">
+            <input type="email" id="reg-email" placeholder="Email">
+            <input type="password" id="reg-pass" placeholder="Contraseña">
             <div id="reg-msg" class="error"></div>
-            <button onclick="handleRegister()">Register</button>
-            <div id="reg-load" class="loading">Creating account...</div>
+            <button onclick="handleRegister()">Registrarme</button>
+            <div id="reg-load" class="loading">Creando cuenta...</div>
         </div>
-        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Go Back</button>
+        <button onclick="nav('view-welcome')" style="background:transparent; opacity:0.5; font-size:0.8rem;">← Volver</button>
     </div>
 
-    <!-- 4. PAYMENT -->
-    <div id="view-payment" class="view" style="justify-content: center; height: 100vh; text-align: center;">
-        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 20px;">PRO ACCESS</h2>
+    <!-- 4. VIEW PAYMENT STRIPE (NUEVA) -->
+    <div id="view-payment-stripe" class="view" style="justify-content: center; height: 100vh; text-align: center;">
+        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 10px;">PRO UPGRADE</h2>
+        <p style="opacity: 0.7; margin-bottom: 30px;">Paso 1: Activa tu suscripción premium.</p>
         <div class="card">
-            <p style="margin-bottom: 30px; opacity: 0.8;">Unlock all AI features and tracking.</p>
-            <a href="https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01" target="_blank" style="text-decoration: none;">
-                <button>1. Buy Subscription</button>
+            <p style="margin-bottom: 30px; font-weight: 500;">Acceso ilimitado al Coach IA y rutinas avanzadas.</p>
+            <a href="#" onclick="window.open(STRIPE_LINK, '_blank'); nav('view-payment-confirm');" style="text-decoration: none; width: 100%;">
+                <button>Pagar con Stripe</button>
             </a>
-            <div style="margin: 20px 0; height: 1px; background: rgba(255,255,255,0.1);"></div>
-            <button onclick="handleConfirmPayment()" style="background: var(--primary-accent-dim); border: 1px solid var(--primary-accent); color: var(--primary-accent);">2. Confirm Payment</button>
-            <div id="pay-load" class="loading">Verifying...</div>
+            <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.5;">Tras el pago, serás llevado a la confirmación.</p>
+        </div>
+        <button onclick="nav('view-payment-confirm')" style="background:transparent; opacity:0.5; font-size:0.8rem; border: none;">Ya realicé el pago anteriormente →</button>
+    </div>
+
+    <!-- 5. VIEW PAYMENT CONFIRM (NUEVA) -->
+    <div id="view-payment-confirm" class="view" style="justify-content: center; height: 100vh; text-align: center;">
+        <h2 style="color: var(--primary-accent); font-size: 2rem; font-weight: 900; margin-bottom: 10px;">VALIDACIÓN</h2>
+        <p style="opacity: 0.7; margin-bottom: 30px;">Paso 2: Confirmar activación.</p>
+        <div class="card">
+            <p style="margin-bottom: 30px; font-weight: 600;">¿Has completado el pago en Stripe?</p>
+            <button onclick="handleConfirmPayment()" style="background: #fff; color: #000;">Confirmar que ya pagué</button>
+            <div id="pay-load" class="loading">Validando con el servidor...</div>
             <div id="pay-msg" class="error"></div>
         </div>
+        <button onclick="nav('view-payment-stripe')" style="background:transparent; opacity:0.5; font-size:0.8rem; border: none;">← Volver al pago</button>
     </div>
 
     <!-- 6. DASHBOARD -->
     <div id="view-dashboard" class="view">
         <div class="header-profile">
             <div class="user-info">
-                <div class="avatar"><img src="https://i.pravatar.cc/100?u=martin" alt="avatar"></div>
+                <div class="avatar"><img src="https://i.pravatar.cc/100?u=fit" alt="avatar"></div>
                 <div>
-                    <p style="font-size: 0.8rem; margin: 0; opacity: 0.6;">Welcome back,</p>
-                    <p style="font-size: 1.1rem; margin: 0; font-weight: 800;" id="user-display">User</p>
+                    <p style="font-size: 0.8rem; margin: 0; opacity: 0.6;">Hola,</p>
+                    <p style="font-size: 1.1rem; margin: 0; font-weight: 800;" id="user-display">Usuario</p>
                 </div>
             </div>
             <div class="notif-bell">
@@ -296,31 +262,31 @@
 
         <div class="daily-challenge">
             <h2>Daily<br>Challenge</h2>
-            <p>Do your plan before 09:00 AM</p>
+            <p>Completa tu plan antes de las 09:00 AM</p>
             <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?fit=crop&w=300&h=500&q=80" class="hero-img" alt="fit">
         </div>
 
         <div class="calendar-row">
-            <div class="day-card"><span>Mon</span><span>22</span></div>
-            <div class="day-card"><span>Tue</span><span>23</span></div>
-            <div class="day-card"><span>Wed</span><span>24</span></div>
-            <div class="day-card active"><span>Thu</span><span>25</span></div>
-            <div class="day-card"><span>Fri</span><span>26</span></div>
+            <div class="day-card"><span>Lun</span><span>22</span></div>
+            <div class="day-card"><span>Mar</span><span>23</span></div>
+            <div class="day-card"><span>Mie</span><span>24</span></div>
+            <div class="day-card active"><span>Jue</span><span>25</span></div>
+            <div class="day-card"><span>Vie</span><span>26</span></div>
         </div>
 
-        <h3 style="margin-top: 30px; margin-bottom: 20px;">Active Programs</h3>
+        <h3 style="margin-top: 30px; margin-bottom: 20px;">Programas Activos</h3>
         <div class="programs-grid">
             <div class="program-card">
                 <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" alt="chest">
                 <div class="program-info">
-                    <span class="tag">Chest</span>
+                    <span class="tag">Pecho</span>
                     <h4 style="margin: 8px 0 0 0;">Power Press</h4>
                 </div>
             </div>
             <div class="program-card">
                 <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400" alt="arms">
                 <div class="program-info">
-                    <span class="tag">Arms</span>
+                    <span class="tag">Brazos</span>
                     <h4 style="margin: 8px 0 0 0;">Bicep Burn</h4>
                 </div>
             </div>
@@ -330,66 +296,29 @@
     <!-- 7. PROFILE VIEW -->
     <div id="view-profile" class="view">
         <div class="profile-hero">
-            <div class="avatar-large">
-                <img src="https://i.pravatar.cc/150?u=martin" alt="avatar">
-            </div>
-            <h2 id="profile-name" style="margin: 0; font-weight: 900; font-size: 1.5rem;">USER NAME</h2>
-            <p style="opacity: 0.5; font-size: 0.85rem; margin-top: 5px;">Pro Member since 2024</p>
+            <div class="avatar-large"><img src="https://i.pravatar.cc/150?u=fit" alt="avatar"></div>
+            <h2 id="profile-name" style="margin: 0; font-weight: 900; font-size: 1.5rem;">NOMBRE</h2>
+            <p style="opacity: 0.5; font-size: 0.85rem; margin-top: 5px;">Miembro Pro Elite</p>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
-                <span>24</span>
-                <span>Workouts</span>
-            </div>
-            <div class="stat-card">
-                <span>12.5k</span>
-                <span>Kcal</span>
-            </div>
-            <div class="stat-card">
-                <span>Lvl 5</span>
-                <span>Rank</span>
-            </div>
+            <div class="stat-card"><span>24</span><span>Sesiones</span></div>
+            <div class="stat-card"><span>12k</span><span>Kcal</span></div>
+            <div class="stat-card"><span>Lvl 5</span><span>Nivel</span></div>
         </div>
 
-        <div class="settings-list">
-            <div class="settings-item">
-                <div class="item-left">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>Edit Profile</span>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
-            <div class="settings-item">
-                <div class="item-left">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span>Notifications</span>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
-            <div class="settings-item">
-                <div class="item-left">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span>Privacy & Security</span>
-                </div>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </div>
-        </div>
-
-        <div class="logout-btn" onclick="logout()">
-            Sign Out
-        </div>
+        <div class="logout-btn" onclick="logout()">Cerrar Sesión</div>
     </div>
 
-    <!-- COACH AI -->
+    <!-- COACH IA -->
     <div id="view-coach" class="view" style="height: 100vh;">
         <h2 style="margin-bottom: 20px; font-weight: 800;">Neural Coach</h2>
         <div class="card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 15px; background: #111;">
-            <div id="chat-messages" style="height: 60vh; overflow-y: auto; padding-bottom: 20px;">
-                <div style="background: #222; padding: 12px; border-radius: 15px; margin-bottom: 10px; font-size: 0.9rem;">I am ready to optimize your performance. Ask me anything.</div>
+            <div id="chat-messages" style="height: 60vh; overflow-y: auto;">
+                <div style="background: #222; padding: 12px; border-radius: 15px; margin-bottom: 10px; font-size: 0.9rem;">Analizando métricas... ¿En qué optimizamos hoy?</div>
             </div>
             <div style="display: flex; gap: 10px; margin-top: auto;">
-                <input type="text" id="chat-input" placeholder="Type..." style="margin: 0; padding: 15px;">
+                <input type="text" id="chat-input" placeholder="Escribe..." style="margin: 0; padding: 15px;">
                 <button style="width: auto; padding: 0 20px;">↑</button>
             </div>
         </div>
@@ -434,7 +363,7 @@
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment'];
+        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe', 'view-payment-confirm'];
         const navBar = document.getElementById('main-nav');
         const authVis = document.getElementById('auth-visuals');
 
@@ -454,7 +383,7 @@
         });
     }
 
-    // --- LÓGICA SAGRADA (NO TOCAR) ---
+    // --- LÓGICA SAGRADA ---
     async function postData(action, data) {
         try {
             const response = await fetch(SCRIPT_URL, {
@@ -464,7 +393,7 @@
             });
             return await response.json();
         } catch (error) { 
-            return { success: false, message: "Connection lost." }; 
+            return { success: false, message: "Error de conexión." }; 
         }
     }
 
@@ -474,7 +403,7 @@
         const loader = document.getElementById('login-load');
         const msg = document.getElementById('login-msg');
 
-        if(!email || !pass) { msg.innerText = "Denied: Missing fields"; msg.style.display='block'; return; }
+        if(!email || !pass) { msg.innerText = "Campos incompletos"; msg.style.display='block'; return; }
         loader.style.display = 'block';
         msg.style.display = 'none';
 
@@ -488,7 +417,7 @@
         } else { 
             if (res.message.includes("pago")) {
                 localStorage.setItem('tempUserEmail', email);
-                nav('view-payment');
+                nav('view-payment-stripe');
             } else {
                 msg.innerText = res.message.toUpperCase(); msg.style.display='block'; 
             }
@@ -501,14 +430,14 @@
         const loader = document.getElementById('reg-load');
         const msg = document.getElementById('reg-msg');
 
-        if(!email || !pass) { msg.innerText = "Error: Missing fields"; msg.style.display='block'; return; }
+        if(!email || !pass) { msg.innerText = "Campos incompletos"; msg.style.display='block'; return; }
         loader.style.display = 'block';
         const res = await postData('register', { email, password: pass });
         loader.style.display = 'none';
 
         if (res.success) { 
             localStorage.setItem('tempUserEmail', email); 
-            nav('view-payment'); 
+            nav('view-payment-stripe'); 
         } else { 
             msg.innerText = res.message.toUpperCase(); msg.style.display='block'; 
         }
@@ -519,11 +448,17 @@
         const loader = document.getElementById('pay-load');
         const msg = document.getElementById('pay-msg');
         
-        if (!email) return;
+        if (!email) {
+            msg.innerText = "Sesión no encontrada. Re-intenta login.";
+            msg.style.display = 'block';
+            return;
+        }
+
         loader.style.display = 'block';
         msg.style.display = 'none';
 
-        const res = await postData('confirmPayment', { email: email });
+        // Acción: payment_confirmation según requerimiento
+        const res = await postData('payment_confirmation', { email: email });
         loader.style.display = 'none';
 
         if (res.success) {
@@ -531,7 +466,7 @@
             localStorage.removeItem('tempUserEmail');
             updateUserDisplay(email);
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#0084ff', '#ffffff'] });
-            nav('view-dashboard');
+            nav('view-dashboard'); // O "TEST INICIAL" si existe la vista
         } else {
             msg.innerText = res.message.toUpperCase(); msg.style.display='block';
         }
