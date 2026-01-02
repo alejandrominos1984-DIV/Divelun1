@@ -9,12 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary-accent: #0055ff;
-            --primary-navy: #001a33;
-            --primary-accent-glow: rgba(0, 85, 255, 0.5);
+            --primary-accent: #0033ff; /* Azul Marino Neón Intenso */
+            --primary-accent-glow: rgba(0, 51, 255, 0.7);
             --bg-black: #000000;
-            --card-dark: rgba(10, 15, 25, 0.85);
-            --card-border: rgba(0, 85, 255, 0.25);
+            --card-dark: rgba(5, 10, 20, 0.9);
+            --card-border: rgba(0, 51, 255, 0.3);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
             --error-red: #ff3b30;
@@ -42,17 +41,17 @@
             flex-direction: column;
         }
 
-        /* --- AUTH BACKGROUND --- */
+        /* --- AUTH VISUALS --- */
         .auth-bg {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: var(--auth-bg-img);
             background-size: cover; background-position: center;
             z-index: -2;
-            filter: brightness(0.5);
+            filter: brightness(0.3) saturate(0.8);
         }
         .auth-overlay-dark {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,10,30,0.6) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,5,20,0.9) 100%);
             z-index: -1;
         }
 
@@ -66,12 +65,11 @@
             padding: 30px;
             padding-bottom: 140px; 
             min-height: 100vh;
-            overflow-y: auto;
         }
         .view.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- INPUTS & BUTTONS --- */
+        /* --- INPUTS & TOGGLE --- */
         .input-group {
             position: relative;
             width: 100%;
@@ -80,13 +78,18 @@
         input.modern {
             width: 100%;
             padding: 24px;
-            padding-right: 60px; /* Espacio para el ojo */
-            background: rgba(0, 26, 51, 0.3);
+            padding-right: 60px;
+            background: rgba(0, 10, 40, 0.5);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 85, 255, 0.15);
+            border: 1px solid var(--card-border);
             border-radius: 22px;
             color: #fff;
             font-size: 1rem;
+            transition: 0.3s;
+        }
+        input.modern:focus {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 20px var(--primary-accent-glow);
         }
         .toggle-pass {
             position: absolute;
@@ -104,18 +107,25 @@
         }
         .toggle-pass svg { width: 22px; height: 22px; }
 
+        /* --- BUTTONS --- */
         .btn-primary {
             width: 100%;
             padding: 24px;
             background: var(--primary-accent);
-            color: #fff;
+            color: #ffffff;
             border: none;
             border-radius: 22px;
             font-weight: 900;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 10px 30px var(--primary-accent-glow);
+            box-shadow: 0 10px 40px var(--primary-accent-glow);
+            transition: 0.3s;
+            font-size: 1rem;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
+        .btn-primary:active { transform: scale(0.97); box-shadow: 0 5px 20px var(--primary-accent-glow); }
+
         .btn-logout {
             width: 100%;
             padding: 22px;
@@ -137,28 +147,37 @@
             align-items: center;
             margin-bottom: 30px;
         }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-accent); overflow: hidden; }
+        .user-info { display: flex; align-items: center; gap: 14px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-accent); overflow: hidden; box-shadow: 0 0 15px var(--primary-accent-glow); }
         .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
         .hero-mission { 
             width: 100%; height: 220px; border-radius: 30px; position: relative; overflow: hidden; 
-            border: 1px solid var(--card-border); background: #111;
+            border: 1px solid var(--card-border); background: #050510;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
-        .hero-mission img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); }
+        .hero-mission img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); }
         .hero-content { position: absolute; bottom: 25px; left: 25px; right: 25px; }
-        .hero-label { background: var(--primary-accent); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
-        .hero-content h3 { margin: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; }
+        .hero-label { background: var(--primary-accent); color: #fff; padding: 4px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; display: inline-block; box-shadow: 0 0 10px var(--primary-accent-glow); }
+        .hero-content h3 { margin: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
         /* --- NAVIGATION --- */
-        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 88%; max-width: 420px; background: rgba(5, 10, 20, 0.96); backdrop-filter: blur(25px); border-radius: 45px; display: none; justify-content: space-around; padding: 10px; border: 1px solid var(--card-border); z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
+        .bottom-nav { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            width: 88%; max-width: 420px; background: rgba(2, 5, 15, 0.96); 
+            backdrop-filter: blur(25px); border-radius: 45px; display: none; 
+            justify-content: space-around; padding: 10px; border: 1px solid var(--card-border); 
+            z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.9); 
+        }
         .nav-item { color: var(--text-dim); padding: 15px 25px; cursor: pointer; border-radius: 35px; transition: 0.3s; }
-        .nav-item.active { color: var(--primary-accent); background: rgba(0, 85, 255, 0.12); }
-        .nav-item svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+        .nav-item.active { color: var(--primary-accent); background: rgba(0, 51, 255, 0.15); box-shadow: inset 0 0 10px rgba(0, 51, 255, 0.1); }
+        .nav-item svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; filter: drop-shadow(0 0 8px currentColor); }
 
-        .loading { color: var(--primary-accent); text-align: center; font-size: 0.95rem; margin-top: 20px; display: none; font-weight: 800; }
-        .error { color: var(--error-red); padding: 12px; text-align: center; display: none; margin-bottom: 12px; font-weight: 700; border-radius: 14px; background: rgba(255, 59, 48, 0.08); }
-        #payment-verify-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,5,15,0.98); backdrop-filter: blur(25px); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        /* --- HELPERS --- */
+        .loading { color: var(--primary-accent); text-align: center; font-size: 0.95rem; margin-top: 20px; display: none; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px var(--primary-accent-glow); }
+        .error { color: var(--error-red); padding: 14px; text-align: center; display: none; margin-bottom: 15px; font-weight: 700; border-radius: 16px; background: rgba(255, 59, 48, 0.08); border: 1px solid rgba(255, 59, 48, 0.2); }
+        #payment-verify-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,2,10,0.98); backdrop-filter: blur(25px); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 <script type="importmap">
 {
@@ -171,8 +190,8 @@
 <body>
 
 <div id="payment-verify-overlay">
-    <div style="font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--primary-accent));">⚡</div>
-    <h2 style="font-weight: 900; color: var(--primary-accent); text-transform: uppercase;">Sincronizando...</h2>
+    <div style="font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 30px var(--primary-accent));">⚓</div>
+    <h2 style="font-weight: 900; color: var(--primary-accent); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 20px var(--primary-accent-glow);">Sincronizando Élite</h2>
 </div>
 
 <div id="auth-visuals">
@@ -182,77 +201,85 @@
 
 <div class="container">
 
-    <!-- WELCOME VIEW -->
+    <!-- VIEW: WELCOME -->
     <div id="view-welcome" class="view active" style="justify-content: flex-end; padding-bottom: 80px;">
-        <h1 style="font-size: 3.4rem; font-weight: 900; line-height: 0.95; margin-bottom: 40px; letter-spacing: -2px; text-transform: uppercase; text-align: center; text-shadow: 0 0 25px rgba(0, 85, 255, 0.4);">Navy<br><span style="color:var(--primary-accent)">Elite</span><br>Training</h1>
-        <button class="btn-primary" onclick="nav('view-register')" style="border-radius: 50px; font-size: 1.2rem;">REGISTRARSE</button>
-        <p style="text-align: center; margin-top: 25px; font-weight: 700;">¿Ya tienes cuenta? <span onclick="nav('view-login')" style="color:var(--primary-accent); cursor:pointer;">Accede</span></p>
+        <h1 style="font-size: 3.6rem; font-weight: 900; line-height: 0.9; margin-bottom: 45px; letter-spacing: -2px; text-transform: uppercase; text-align: center; text-shadow: 0 0 40px var(--primary-accent-glow);">Navy<br><span style="color:var(--primary-accent)">Elite</span><br>Training</h1>
+        <button class="btn-primary" onclick="nav('view-register')" style="border-radius: 50px; font-size: 1.2rem; height: 80px;">REGISTRARSE</button>
+        <p style="text-align: center; margin-top: 25px; font-weight: 700;">¿Ya tienes cuenta? <span onclick="nav('view-login')" style="color:var(--primary-accent); cursor:pointer; text-shadow: 0 0 5px var(--primary-accent-glow);">Accede</span></p>
     </div>
 
-    <!-- LOGIN VIEW -->
+    <!-- VIEW: LOGIN -->
     <div id="view-login" class="view">
-        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 30px; text-transform: uppercase;">ACCESO</h2>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 30px; text-transform: uppercase; border-left: 4px solid var(--primary-accent); padding-left: 15px;">ACCESO</h2>
         <div id="login-msg" class="error"></div>
         <div class="input-group">
             <input type="email" id="login-email" class="modern" placeholder="Email Operador">
         </div>
         <div class="input-group">
-            <input type="password" id="login-pass" class="modern" placeholder="Código">
+            <input type="password" id="login-pass" class="modern" placeholder="Contraseña">
             <button class="toggle-pass" onclick="togglePassword('login-pass')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
         </div>
-        <p style="text-align: right; margin-top: -5px; margin-bottom: 25px;">
-            <span onclick="nav('view-forgot-password')" style="color:var(--text-dim); font-size: 0.85rem; font-weight: 700; cursor:pointer;">¿Olvidaste tu código?</span>
+        <p style="text-align: right; margin-top: -5px; margin-bottom: 30px;">
+            <span onclick="nav('view-forgot-password')" style="color:var(--text-dim); font-size: 0.85rem; font-weight: 700; cursor:pointer;">¿Olvidaste tu contraseña?</span>
         </p>
         <button class="btn-primary" onclick="handleLogin()">Sincronizar</button>
-        <div id="login-load" class="loading">Verificando...</div>
+        <div id="login-load" class="loading">Autenticando...</div>
         <button onclick="nav('view-welcome')" style="background:none; border:none; color:var(--text-dim); margin-top: 25px; cursor:pointer; font-weight: 800; text-transform: uppercase;">← REGRESAR</button>
     </div>
 
-    <!-- REGISTER VIEW -->
+    <!-- VIEW: REGISTER -->
     <div id="view-register" class="view">
-        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 30px; text-transform: uppercase;">ALTA</h2>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 30px; text-transform: uppercase; border-left: 4px solid var(--primary-accent); padding-left: 15px;">REGISTRO</h2>
         <div id="reg-msg" class="error"></div>
         <div class="input-group">
             <input type="email" id="reg-email" class="modern" placeholder="Email">
         </div>
         <div class="input-group">
-            <input type="password" id="reg-pass" class="modern" placeholder="Nueva Clave">
+            <input type="password" id="reg-pass" class="modern" placeholder="Crea tu clave">
             <button class="toggle-pass" onclick="togglePassword('reg-pass')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
         </div>
         <button class="btn-primary" onclick="handleRegister()">Crear Perfil</button>
-        <div id="reg-load" class="loading">Iniciando...</div>
+        <div id="reg-load" class="loading">Iniciando Protocolo...</div>
         <button onclick="nav('view-welcome')" style="background:none; border:none; color:var(--text-dim); margin-top: 25px; cursor:pointer; font-weight: 800; text-transform: uppercase;">← REGRESAR</button>
     </div>
 
-    <!-- FORGOT PASSWORD VIEW -->
+    <!-- VIEW: FORGOT PASSWORD -->
     <div id="view-forgot-password" class="view">
-        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 15px; text-transform: uppercase;">RECUPERACIÓN</h2>
-        <p style="color: var(--text-dim); margin-bottom: 30px; font-weight: 600; line-height: 1.4;">Ingresa tu email para recibir instrucciones de reinicio de misión.</p>
+        <h2 style="font-size: 2.2rem; font-weight: 900; margin-top: 40px; margin-bottom: 15px; text-transform: uppercase; border-left: 4px solid var(--primary-accent); padding-left: 15px;">RECUPERAR</h2>
+        <p style="color: var(--text-dim); margin-bottom: 30px; font-weight: 600; line-height: 1.4;">Ingresa tu email para recibir instrucciones de reinicio de cuenta.</p>
         <div id="forgot-msg" class="error"></div>
         <div class="input-group">
             <input type="email" id="forgot-email" class="modern" placeholder="Email de Operador">
         </div>
-        <button class="btn-primary" onclick="handleForgotPassword()">Enviar Instrucciones</button>
+        <button class="btn-primary" onclick="handleForgotPassword()">Enviar Código</button>
         <div id="forgot-load" class="loading">Procesando...</div>
         <button onclick="nav('view-login')" style="background:none; border:none; color:var(--text-dim); margin-top: 25px; cursor:pointer; font-weight: 800; text-transform: uppercase;">← VOLVER AL ACCESO</button>
     </div>
 
-    <!-- DASHBOARD VIEW -->
+    <!-- VIEW: PAYMENT -->
+    <div id="view-payment-stripe" class="view" style="justify-content: center; text-align: center;">
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: var(--primary-accent); text-transform: uppercase; text-shadow: 0 0 20px var(--primary-accent-glow);">Membresía Élite</h2>
+        <p style="opacity: 0.7; margin-bottom: 40px; font-weight: 700;">Activa el arsenal completo Navy Training.</p>
+        <button onclick="openPaymentLink()" class="btn-primary">ADQUIRIR ÉLITE</button>
+        <button onclick="logout()" style="background:none; border:none; color:var(--text-dim); margin-top: 30px; cursor:pointer; font-weight: 800;">CERRAR SESIÓN</button>
+    </div>
+
+    <!-- VIEW: DASHBOARD (MINIMALIST) -->
     <div id="view-dashboard" class="view">
         <div class="header-main">
-            <div style="display: flex; align-items: center; gap: 14px;">
-                <div class="avatar"><img src="https://i.pravatar.cc/100?u=navy"></div>
+            <div class="user-info">
+                <div class="avatar"><img src="https://i.pravatar.cc/100?u=navy-marine" alt="avatar"></div>
                 <div>
-                    <p style="margin:0; font-size: 0.7rem; font-weight: 800; opacity: 0.6; text-transform: uppercase;">COMANDANTE:</p>
-                    <p style="margin:0; font-size: 1.2rem; font-weight: 900; color: var(--primary-accent);" id="user-display">USUARIO</p>
+                    <p style="margin:0; font-size: 0.7rem; font-weight: 800; opacity: 0.6; text-transform: uppercase;">OPERADOR:</p>
+                    <p style="margin:0; font-size: 1.2rem; font-weight: 900; color: var(--primary-accent); text-shadow: 0 0 8px var(--primary-accent-glow);" id="user-display">USUARIO</p>
                 </div>
             </div>
-            <div style="background: #111; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" style="width:18px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <div style="background: #050515; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border); box-shadow: 0 0 10px var(--primary-accent-glow);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary-accent)" stroke-width="2.5" style="width:20px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
             </div>
         </div>
 
@@ -266,13 +293,21 @@
         </div>
     </div>
 
-    <!-- PROFILE VIEW -->
+    <!-- VIEW: PROFILE -->
     <div id="view-profile" class="view">
         <div style="text-align: center; margin-top: 20px;">
-            <div style="width:130px; height:130px; border-radius:50%; border:4px solid var(--primary-accent); margin: 0 auto 20px; overflow:hidden;"><img src="https://i.pravatar.cc/150?u=navy" style="width:100%; height:100%; object-fit:cover;"></div>
-            <h2 id="profile-name" style="margin:0; font-weight:900; text-transform: uppercase; font-size: 1.8rem;">USUARIO</h2>
-            <p style="color:var(--primary-accent); font-weight:800; letter-spacing: 2px; font-size: 0.85rem; margin-top: 5px;">NAVY COMMANDER</p>
+            <div style="width:130px; height:130px; border-radius:50%; border:4px solid var(--primary-accent); margin: 0 auto 20px; overflow:hidden; box-shadow: 0 0 30px var(--primary-accent-glow);"><img src="https://i.pravatar.cc/150?u=navy-marine" style="width:100%; height:100%; object-fit:cover;"></div>
+            <h2 id="profile-name" style="margin:0; font-weight:900; text-transform: uppercase; font-size: 1.8rem; text-shadow: 0 0 10px var(--primary-accent-glow);">USUARIO</h2>
+            <p style="color:var(--primary-accent); font-weight:800; letter-spacing: 3px; font-size: 0.85rem; margin-top: 5px;">NAVY COMMANDER</p>
         </div>
+
+        <div style="margin-top: 40px; background: rgba(0, 51, 255, 0.08); padding: 25px; border-radius: 24px; border: 1px solid var(--card-border); box-shadow: inset 0 0 20px rgba(0, 51, 255, 0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 800; opacity: 0.6; text-transform: uppercase; font-size: 0.75rem;">Nivel de Servicio</span>
+                <span style="color: var(--primary-accent); font-weight: 900; text-shadow: 0 0 5px var(--primary-accent-glow);">COMMANDO IV</span>
+            </div>
+        </div>
+
         <button onclick="logout()" class="btn-logout">Terminar Servicio / Logout</button>
     </div>
 
