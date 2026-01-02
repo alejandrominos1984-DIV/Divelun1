@@ -4,411 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIT AI | Navy Elite UX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>Divelun | Acceso Exclusivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-accent: #0066ff;
-            --primary-accent-glow: rgba(0, 102, 255, 0.6);
-            --bg-black: #050505;
-            --card-dark: #121214;
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-dim: #8e8e93;
-            --glass-bg: rgba(10, 10, 12, 0.75);
-            --auth-bg-img: url('https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit1.webp');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
-
-        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-black); color: var(--text-main); margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
-
-        .container { width: 100%; max-width: 480px; min-height: 100vh; position: relative; display: flex; flex-direction: column; }
-
-        /* --- AUTH --- */
-        .auth-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--auth-bg-img); background-size: cover; background-position: center; z-index: -2; filter: brightness(0.4); }
-        .auth-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,5,15,0.95) 100%); z-index: -1; }
-
-        /* --- VIEWS --- */
-        .view { display: none; opacity: 0; animation: fadeIn 0.4s ease-out forwards; flex-direction: column; width: 100%; padding: 20px; min-height: 100vh; }
-        .view.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- DASHBOARD ELEMENTS --- */
-        .header-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 5px; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-accent); overflow: hidden; }
-        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .notif-bell { background: #1c1c1e; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border); }
-
-        /* CAROUSEL BASE */
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 25px 5px 15px; }
-        .section-header h3 { font-size: 1.2rem; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-        .section-header span { font-size: 0.8rem; color: var(--primary-accent); font-weight: 700; cursor: pointer; }
-
-        .carousel-wrap { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 5px; scrollbar-width: none; -ms-overflow-style: none; }
-        .carousel-wrap::-webkit-scrollbar { display: none; }
-
-        /* VERTICAL BANNERS */
-        .v-banner { scroll-snap-align: start; flex: 0 0 65%; height: 240px; border-radius: 30px; position: relative; overflow: hidden; border: 1px solid var(--card-border); background: #121214; }
-        .v-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .v-banner-info { position: absolute; bottom: 20px; left: 20px; right: 20px; }
-        .v-banner-info h4 { margin: 0; font-size: 1.1rem; font-weight: 800; }
-        .v-banner-info p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.6; }
-
-        /* HORIZONTAL BANNERS */
-        .h-banner { scroll-snap-align: start; flex: 0 0 90%; height: 160px; border-radius: 30px; position: relative; overflow: hidden; border: 1px solid var(--card-border); background: #121214; }
-        .h-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
-        .h-banner-info { position: absolute; bottom: 20px; left: 20px; }
-        .h-banner-info h4 { margin: 0; font-size: 1.2rem; font-weight: 800; }
-
-        /* --- ENHANCED GLASS NAVIGATION --- */
-        .glass-nav {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: 88%; max-width: 400px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border-radius: 40px;
-            display: none; justify-content: space-around;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 
-                        inset 0 0 1px 1px rgba(255, 255, 255, 0.05);
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
-        .nav-item {
-            width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: var(--text-dim); position: relative; z-index: 2; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 30px) scale(1.1); }
         }
-        
-        .nav-item.active { 
-            color: #fff; 
-            transform: translateY(-2px) scale(1.1);
+        .animate-float {
+            animation: float 15s infinite alternate ease-in-out;
         }
-        
-        .nav-item svg { width: 22px; height: 22px; stroke-width: 2.2; }
-
-        /* INDICADOR ANIMADO "NEON PILL" */
-        .nav-indicator {
-            position: absolute;
-            height: 44px; width: 44px;
-            background: var(--primary-accent);
-            border-radius: 50%;
-            top: 11px;
-            left: 0; /* Dinámico vía JS */
-            z-index: 1;
-            transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-            box-shadow: 0 0 15px var(--primary-accent), 0 0 30px rgba(0, 102, 255, 0.4);
-            pointer-events: none;
+        .animate-float-reverse {
+            animation: float 18s infinite alternate-reverse ease-in-out;
         }
-
-        /* UTILS */
-        .btn-primary { width: 100%; padding: 22px; background: var(--primary-accent); color: #fff; border: none; border-radius: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 20px var(--primary-accent-glow); }
-        input.modern { width: 100%; padding: 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; color: #fff; margin-bottom: 15px; }
-        .loading { color: var(--primary-accent); text-align: center; margin-top: 15px; display: none; font-weight: 700; }
-        .error { color: #ff3b30; text-align: center; display: none; padding: 10px; font-weight: 600; }
-
-        #payment-verify-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; }
     </style>
-</head>
-<body>
-
-<div id="payment-verify-overlay">
-    <div style="font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--primary-accent));">⚡</div>
-    <h2 style="font-weight: 900; color: #fff;">SYNCING DATA</h2>
-    <p style="opacity: 0.7;">Conectando con Navy Cloud...</p>
-</div>
-
-<div id="auth-visuals">
-    <div class="auth-bg"></div>
-    <div class="auth-overlay"></div>
-</div>
-
-<div class="container">
-
-    <!-- VIEW WELCOME -->
-    <div id="view-welcome" class="view active" style="justify-content: flex-end; padding-bottom: 60px;">
-        <h1 style="font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px var(--primary-accent-glow);">Navy<br><span style="color:var(--primary-accent)">Elite</span><br>Fitness</h1>
-        <button class="btn-primary" onclick="nav('view-register')">Entrar al Sistema</button>
-        <p style="text-align: center; margin-top: 25px; font-weight: 600;">¿Ya eres miembro? <span onclick="nav('view-login')" style="color:var(--primary-accent); cursor:pointer;">Login</span></p>
-    </div>
-
-    <!-- VIEW LOGIN -->
-    <div id="view-login" class="view">
-        <h2 style="font-size: 2.5rem; font-weight: 900; margin-top: 60px; margin-bottom: 40px;">LOGIN</h2>
-        <div id="login-msg" class="error"></div>
-        <input type="email" id="login-email" class="modern" placeholder="Email">
-        <input type="password" id="login-pass" class="modern" placeholder="Contraseña">
-        <button class="btn-primary" onclick="handleLogin()">Acceder</button>
-        <div id="login-load" class="loading">VERIFICANDO...</div>
-        <button onclick="nav('view-welcome')" style="background:none; border:none; color:var(--text-dim); margin-top: 20px; font-weight: 800; cursor:pointer;">← VOLVER</button>
-    </div>
-
-    <!-- VIEW REGISTER -->
-    <div id="view-register" class="view">
-        <h2 style="font-size: 2.5rem; font-weight: 900; margin-top: 60px; margin-bottom: 40px;">JOIN ELITE</h2>
-        <div id="reg-msg" class="error"></div>
-        <input type="email" id="reg-email" class="modern" placeholder="Tu Email">
-        <input type="password" id="reg-pass" class="modern" placeholder="Clave Navy">
-        <button class="btn-primary" onclick="handleRegister()">Crear Perfil</button>
-        <div id="reg-load" class="loading">PROCESANDO...</div>
-    </div>
-
-    <!-- VIEW PAYMENT -->
-    <div id="view-payment-stripe" class="view" style="justify-content: center; text-align: center;">
-        <h2 style="font-size: 2.5rem; font-weight: 900; color: var(--primary-accent); margin-bottom: 10px;">UPGRADE</h2>
-        <p style="opacity: 0.7; margin-bottom: 40px;">Acceso ilimitado a la plataforma IA.</p>
-        <div style="background: #1c1c1e; padding: 30px; border-radius: 30px; border: 1px solid var(--card-border);">
-            <button onclick="openPaymentLink()" class="btn-primary" style="margin-bottom: 20px;">ACTIVAR PLAN PRO</button>
-            <p style="font-size: 0.8rem; opacity: 0.5;">Pago seguro vía Stripe.</p>
-        </div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--text-dim); margin-top: 20px; cursor:pointer;">Cerrar Sesión</button>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div id="view-dashboard" class="view">
-        <div class="header-main">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div class="user-avatar"><img src="https://i.pravatar.cc/100?u=martin"></div>
-                <div>
-                    <p style="margin:0; font-weight:800; font-size: 1.1rem;">Hello, <span id="user-display">Martin</span></p>
-                    <p style="margin:0; font-size: 0.75rem; opacity: 0.5; font-weight: 700;">NAVY LEVEL 4</p>
-                </div>
-            </div>
-            <div class="notif-bell">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-            </div>
-        </div>
-
-        <!-- DAILY PROGRAM CAROUSEL -->
-        <div class="section-header">
-            <h3>Daily Program</h3>
-            <span>See All</span>
-        </div>
-        <div class="carousel-wrap">
-            <div class="v-banner">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500">
-                <div class="v-banner-info"><h4>Chest & Tris</h4><p>45 min • High Intensity</p></div>
-            </div>
-            <div class="v-banner">
-                <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=500">
-                <div class="v-banner-info"><h4>Legs Day</h4><p>60 min • Strength</p></div>
-            </div>
-            <div class="v-banner">
-                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500">
-                <div class="v-banner-info"><h4>Back & Bis</h4><p>50 min • Hypertrophy</p></div>
-            </div>
-            <div class="v-banner">
-                <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=500">
-                <div class="v-banner-info"><h4>Shoulders</h4><p>40 min • Definition</p></div>
-            </div>
-            <div class="v-banner">
-                <img src="https://images.unsplash.com/photo-1518611012118-29a7d23281e8?w=500">
-                <div class="v-banner-info"><h4>Core Core</h4><p>20 min • Stability</p></div>
-            </div>
-        </div>
-
-        <!-- ELITE WORKSHOPS -->
-        <div class="section-header">
-            <h3>Elite Workshops</h3>
-            <span>Join Now</span>
-        </div>
-        <div class="carousel-wrap">
-            <div class="h-banner">
-                <img src="https://images.unsplash.com/photo-1549476464-37392f717551?w=800">
-                <div class="h-banner-info"><h4>Mastering Deadlift</h4></div>
-            </div>
-            <div class="h-banner">
-                <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800">
-                <div class="h-banner-info"><h4>HIIT Blast v2</h4></div>
-            </div>
-            <div class="h-banner">
-                <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800">
-                <div class="h-banner-info"><h4>Bio-Nutrient Guide</h4></div>
-            </div>
-        </div>
-
-        <div style="height: 120px;"></div>
-    </div>
-
-    <!-- PROFILE -->
-    <div id="view-profile" class="view">
-        <div style="text-align: center; margin-top: 40px;">
-            <div style="width:130px; height:130px; border-radius:50%; border:4px solid var(--primary-accent); margin:0 auto 20px; overflow:hidden; box-shadow: 0 0 30px var(--primary-accent-glow);"><img src="https://i.pravatar.cc/150?u=martin" style="width:100%; height:100%; object-fit:cover;"></div>
-            <h2 id="profile-name" style="margin:0; font-weight:900;">MARTIN</h2>
-            <p style="color:var(--primary-accent); font-weight:800; letter-spacing:2px; font-size: 0.8rem;">ELITE OPERATOR</p>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:40px;">
-            <div style="background:#121214; padding:20px; border-radius:25px; border:1px solid var(--card-border); text-align:center;"><span style="display:block; font-size:1.5rem; font-weight:900; color:var(--primary-accent);">24</span><span style="font-size:0.7rem; opacity:0.5; font-weight:800;">WODS DONE</span></div>
-            <div style="background:#121214; padding:20px; border-radius:25px; border:1px solid var(--card-border); text-align:center;"><span style="display:block; font-size:1.5rem; font-weight:900; color:var(--primary-accent);">12.5k</span><span style="font-size:0.7rem; opacity:0.5; font-weight:800;">CALORIES</span></div>
-        </div>
-        <button onclick="logout()" style="margin-top:auto; background:rgba(255,59,48,0.1); color:#ff3b30; border:1px solid rgba(255,59,48,0.2); padding:22px; border-radius:25px; font-weight:900; cursor:pointer;">TERMINAR SESIÓN</button>
-        <div style="height: 120px;"></div>
-    </div>
-
-    <!-- ENHANCED GLASS NAV -->
-    <nav class="glass-nav" id="main-nav">
-        <div class="nav-indicator" id="nav-indicator"></div>
-        <div class="nav-item active" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
-        <div class="nav-item" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20"></path></svg></div>
-        <div class="nav-item" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-        <div class="nav-item" onclick="nav('view-profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-    </nav>
-
-</div>
-
-<script>
-/* =========================================
-   🎛️ PANEL DE CONTROL (SAGRADO)
-   ========================================= */
-   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
-   const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
-   const PAYMENT_TOKEN = "AZ82_XJ91_LQ00_PRO_DIVE"; 
-
-/* =========================================
-   ⛔ LÓGICA DEL SISTEMA
-   ========================================= */
-
-    function updateNavIndicator(viewId) {
-        const indicator = document.getElementById('nav-indicator');
-        const items = document.querySelectorAll('.nav-item');
-        let activeIndex = 0;
-        
-        items.forEach((item, idx) => {
-            item.classList.remove('active');
-            if (item.getAttribute('onclick').includes(viewId)) {
-                activeIndex = idx;
-                item.classList.add('active');
-            }
-        });
-
-        // Cálculo exacto de posición del indicador
-        const navBar = document.getElementById('main-nav');
-        const navPadding = 12; // Coincide con el padding del CSS
-        const totalWidth = navBar.offsetWidth - (navPadding * 2);
-        const itemWidth = totalWidth / items.length;
-        
-        const targetPosX = (activeIndex * itemWidth) + (itemWidth / 2) - 22 + navPadding;
-        indicator.style.transform = `translateX(${targetPosX}px)`;
-    }
-
-    async function checkPaymentToken() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        if (token === PAYMENT_TOKEN) {
-            const email = localStorage.getItem('tempUserEmail') || localStorage.getItem('cyberfit_session');
-            if (!email) return;
-            const overlay = document.getElementById('payment-verify-overlay');
-            overlay.style.display = 'flex';
-            const res = await postData('payment_confirmation', { email: email });
-            if (res.success) {
-                localStorage.setItem('cyberfit_session', email);
-                localStorage.removeItem('tempUserEmail');
-                window.history.replaceState({}, document.title, window.location.pathname);
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                updateUserDisplay(email);
-                nav('view-dashboard');
-            } else {
-                alert("Estatus de pago pendiente.");
-                nav('view-payment-stripe');
-            }
-            overlay.style.display = 'none';
-        }
-    }
-
-    function openPaymentLink() { window.open(STRIPE_LINK, '_blank'); }
-
-    function updateUserDisplay(email) {
-        if(!email) return;
-        const name = email.split('@')[0].toUpperCase();
-        document.getElementById('user-display').innerText = name;
-        document.getElementById('profile-name').innerText = name;
-    }
-
-    function nav(viewId) {
-        document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-        const targetView = document.getElementById(viewId);
-        if(targetView) targetView.classList.add('active');
-        
-        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe'];
-        const navBar = document.getElementById('main-nav');
-        const authVis = document.getElementById('auth-visuals');
-
-        if (publicViews.includes(viewId)) {
-            navBar.style.display = 'none';
-            if(authVis) authVis.style.display = 'block';
-        } else {
-            navBar.style.display = 'flex';
-            if(authVis) authVis.style.display = 'none';
-            setTimeout(() => updateNavIndicator(viewId), 10);
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    async function postData(action, data) {
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-                body: JSON.stringify({ action: action, ...data })
-            });
-            return await response.json();
-        } catch (error) { return { success: false, message: "Error." }; }
-    }
-
-    async function handleLogin() {
-        const email = document.getElementById('login-email').value;
-        const pass = document.getElementById('login-pass').value;
-        const msg = document.getElementById('login-msg');
-        const loader = document.getElementById('login-load');
-        if(!email || !pass) return;
-        loader.style.display = 'block'; msg.style.display = 'none';
-        const res = await postData('login', { email, password: pass });
-        loader.style.display = 'none';
-        if (res.success) {
-            localStorage.setItem('cyberfit_session', email);
-            updateUserDisplay(email);
-            nav('view-dashboard');
-        } else {
-            if (res.message && res.message.toLowerCase().includes("pago")) {
-                localStorage.setItem('tempUserEmail', email);
-                nav('view-payment-stripe');
-            } else {
-                msg.innerText = (res.message || "ERROR").toUpperCase(); msg.style.display='block';
-            }
-        }
-    }
-
-    async function handleRegister() {
-        const email = document.getElementById('reg-email').value;
-        const pass = document.getElementById('reg-pass').value;
-        const msg = document.getElementById('reg-msg');
-        const loader = document.getElementById('reg-load');
-        if(!email || !pass) return;
-        loader.style.display = 'block'; msg.style.display = 'none';
-        const res = await postData('register', { email, password: pass });
-        loader.style.display = 'none';
-        if (res.success) {
-            localStorage.setItem('tempUserEmail', email);
-            nav('view-payment-stripe');
-        } else {
-            msg.innerText = (res.message || "ERROR").toUpperCase(); msg.style.display='block';
-        }
-    }
-
-    function logout() { localStorage.clear(); nav('view-welcome'); }
-
-    window.onload = function() {
-        checkPaymentToken();
-        const session = localStorage.getItem('cyberfit_session');
-        if (session && !new URLSearchParams(window.location.search).get('token')) {
-            updateUserDisplay(session);
-            nav('view-dashboard');
-        }
-    };
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
 </script>
-
+</head>
+<body class="bg-indigo-50 min-h-screen text-slate-800">
+    <div id="root"></div>
 </body>
 </html>
