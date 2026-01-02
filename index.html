@@ -581,7 +581,7 @@
         if(!email) return;
         loader.style.display = 'block';
         msg.style.display = 'none';
-        const res = await postData('recover_password', { email });
+        const res = await postData('recover', { email });
         loader.style.display = 'none';
         if (res.success) {
             success.style.display = 'block';
@@ -605,4 +605,5 @@
 
 </body>
 </html>
+
 
