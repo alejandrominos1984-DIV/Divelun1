@@ -4,450 +4,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIT AI | Navy Elite Training</title>
+    <title>FIT AI | Navy Elite UX</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary-accent: #0055ff; /* Azul Marino Vibrante */
-            --primary-navy: #001a33;  /* Base Azul Marino */
-            --primary-accent-glow: rgba(0, 85, 255, 0.5);
-            --bg-black: #000000;
-            --card-dark: rgba(10, 15, 25, 0.85);
-            --card-border: rgba(0, 85, 255, 0.25);
+            --primary-accent: #0066ff;
+            --primary-accent-glow: rgba(0, 102, 255, 0.6);
+            --bg-black: #050505;
+            --card-dark: #121214;
+            --card-border: rgba(255, 255, 255, 0.08);
             --text-main: #ffffff;
-            --text-dim: #94a3b8;
-            --error-red: #ff3b30;
+            --text-dim: #8e8e93;
+            --glass-bg: rgba(15, 15, 18, 0.8);
             --auth-bg-img: url('https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit1.webp');
         }
 
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-black); color: var(--text-main); margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
 
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-black);
-            color: var(--text-main); 
-            margin: 0; padding: 0; 
-            min-height: 100vh;
-            display: flex; justify-content: center;
-            overflow-x: hidden;
-        }
+        .container { width: 100%; max-width: 480px; min-height: 100vh; position: relative; display: flex; flex-direction: column; }
 
-        .container { 
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- AUTH BACKGROUND --- */
-        .auth-bg {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--auth-bg-img);
-            background-size: cover; background-position: center;
-            z-index: -2;
-            filter: brightness(0.6) contrast(1.05);
-        }
-        .auth-overlay-dark {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,10,30,0.3) 50%, rgba(0, 26, 51, 0.95) 100%);
-            z-index: -1;
-        }
+        /* --- AUTH --- */
+        .auth-bg { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--auth-bg-img); background-size: cover; background-position: center; z-index: -2; filter: brightness(0.4); }
+        .auth-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,5,15,0.95) 100%); z-index: -1; }
 
         /* --- VIEWS --- */
-        .view { 
-            display: none; 
-            opacity: 0; 
-            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; 
-            flex-direction: column;
-            width: 100%;
-            padding: 30px;
-            min-height: 100vh;
-        }
+        .view { display: none; opacity: 0; animation: fadeIn 0.4s ease-out forwards; flex-direction: column; width: 100%; padding: 20px; min-height: 100vh; }
         .view.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- WELCOME VIEW (NAVY NEON STYLE) --- */
-        .welcome-content {
-            margin-top: auto;
-            text-align: center;
-            padding-bottom: 50px;
-        }
-        .welcome-title {
-            font-size: 3.4rem;
-            font-weight: 900;
-            line-height: 0.95;
-            margin-bottom: 40px;
-            letter-spacing: -2px;
-            text-transform: uppercase;
-            text-shadow: 0 0 25px rgba(0, 85, 255, 0.4);
-        }
-        
-        .btn-get-started {
-            background: rgba(10, 20, 40, 0.9);
-            border-radius: 50px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            cursor: pointer;
-            transition: 0.4s;
-            position: relative;
-            text-decoration: none;
-            width: 100%;
-            border: 1px solid rgba(0, 85, 255, 0.2);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-        }
-        .btn-get-started:hover {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 25px var(--primary-accent-glow);
-            transform: translateY(-2px);
-        }
-        .btn-get-started:active { transform: scale(0.96); }
-        .btn-circle {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px var(--primary-accent-glow);
-        }
-        .btn-circle svg { width: 26px; height: 26px; color: #fff; }
-        .btn-text {
-            flex-grow: 1;
-            text-align: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-right: 45px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .btn-arrows {
-            position: absolute;
-            right: 30px;
-            display: flex;
-            gap: 3px;
-            opacity: 0.7;
-            color: var(--primary-accent);
-        }
-
-        .login-link-container {
-            margin-top: 30px;
-            font-size: 1rem;
-            color: var(--text-dim);
-            letter-spacing: 0.5px;
-        }
-        .login-link-container span {
-            color: var(--primary-accent);
-            font-weight: 800;
-            cursor: pointer;
-            text-decoration: none;
-            text-shadow: 0 0 10px var(--primary-accent-glow);
-        }
-
-        /* --- AUTH FORMS --- */
-        .auth-form-container {
-            margin-top: auto;
-            margin-bottom: 40px;
-        }
-        input.modern {
-            width: 100%;
-            padding: 24px;
-            background: rgba(0, 26, 51, 0.3);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 85, 255, 0.15);
-            border-radius: 22px;
-            color: #fff;
-            font-size: 1rem;
-            transition: 0.3s;
-            margin-bottom: 15px;
-        }
-        input.modern:focus {
-            border-color: var(--primary-accent);
-            background: rgba(0, 85, 255, 0.05);
-            box-shadow: 0 0 20px rgba(0, 85, 255, 0.2);
-        }
-        .password-wrap { position: relative; }
-        .eye-btn {
-            position: absolute; right: 22px; top: 28px;
-            background: none; border: none; color: var(--text-dim); cursor: pointer;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 24px;
-            background: var(--primary-accent);
-            color: #fff;
-            border: none;
-            border-radius: 22px;
-            font-weight: 900;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-            box-shadow: 0 10px 30px var(--primary-accent-glow);
-            letter-spacing: 1px;
-        }
-        .btn-primary:active { transform: scale(0.97); filter: brightness(1.2); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- DASHBOARD ELEMENTS --- */
-        #view-dashboard, #view-coach, #view-profile { 
-            padding-bottom: 120px; 
-            background: var(--bg-black);
-        }
-        .header-profile { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary-accent); box-shadow: 0 0 15px var(--primary-accent-glow); }
-        .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .daily-challenge {
-            background: linear-gradient(135deg, #001a33, #0055ff);
-            border-radius: 32px; padding: 28px; color: #fff;
-            position: relative; overflow: hidden; margin-bottom: 24px;
-            min-height: 200px; display: flex; flex-direction: column; justify-content: center;
-            box-shadow: 0 15px 40px rgba(0, 85, 255, 0.25);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .daily-challenge h2 { font-size: 2.4rem; margin: 0; line-height: 1; font-weight: 900; letter-spacing: -1px; }
-        .daily-challenge .hero-img { position: absolute; right: -15px; bottom: 0; height: 110%; opacity: 1; filter: drop-shadow(0 0 15px rgba(0,0,0,0.5)); }
+        .header-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 5px; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary-accent); overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .notif-bell { background: #1c1c1e; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--card-border); }
 
-        .program-card {
-            height: 210px; border-radius: 28px; overflow: hidden; position: relative; 
-            border: 1px solid var(--card-border); transition: 0.4s;
-            background: #0a0f19;
-        }
-        .program-card:hover {
-            border-color: var(--primary-accent);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px var(--primary-accent-glow);
-        }
-        .program-card img { width:100%; height:100%; object-fit:cover; opacity:0.4; transition: 0.4s; }
-        .program-card:hover img { opacity: 0.7; scale: 1.05; }
-        .tag-neon { background: var(--primary-accent); color: #fff; padding:5px 12px; border-radius:10px; font-size:0.75rem; font-weight:900; box-shadow: 0 0 15px var(--primary-accent-glow); text-transform: uppercase; }
+        /* CAROUSEL BASE */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin: 25px 5px 15px; }
+        .section-header h3 { font-size: 1.2rem; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
+        .section-header span { font-size: 0.8rem; color: var(--primary-accent); font-weight: 700; cursor: pointer; }
 
-        /* --- NAVIGATION --- */
-        .bottom-nav { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 88%; max-width: 420px; background: rgba(5, 10, 20, 0.96); backdrop-filter: blur(25px); border-radius: 45px; display: none; justify-content: space-around; padding: 10px; border: 1px solid var(--card-border); z-index: 1000; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9); }
-        .nav-item { color: var(--text-dim); display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 15px 25px; transition: 0.3s; border-radius: 35px; }
-        .nav-item.active { color: var(--primary-accent); background: rgba(0, 85, 255, 0.12); }
-        .nav-item svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; filter: drop-shadow(0 0 8px currentColor); }
+        .carousel-wrap { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 5px; scrollbar-width: none; -ms-overflow-style: none; }
+        .carousel-wrap::-webkit-scrollbar { display: none; }
 
-        .loading { color: var(--primary-accent); text-align: center; font-size: 0.95rem; margin-top: 20px; display: none; font-weight: 800; text-shadow: 0 0 10px var(--primary-accent-glow); text-transform: uppercase; letter-spacing: 1.5px; }
-        .error { color: var(--error-red); font-size: 0.85rem; padding: 12px; text-align: center; display: none; margin-bottom: 12px; font-weight: 700; border: 1px solid rgba(255, 59, 48, 0.4); border-radius: 14px; background: rgba(255, 59, 48, 0.08); }
+        /* VERTICAL BANNERS (5 items) */
+        .v-banner { scroll-snap-align: start; flex: 0 0 65%; height: 240px; border-radius: 30px; position: relative; overflow: hidden; border: 1px solid var(--card-border); background: #121214; }
+        .v-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .v-banner-info { position: absolute; bottom: 20px; left: 20px; right: 20px; }
+        .v-banner-info h4 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+        .v-banner-info p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.6; }
 
-        /* PAYMENT OVERLAY */
-        #payment-verify-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,5,15,0.98);
+        /* HORIZONTAL BANNERS */
+        .h-banner { scroll-snap-align: start; flex: 0 0 90%; height: 160px; border-radius: 30px; position: relative; overflow: hidden; border: 1px solid var(--card-border); background: #121214; }
+        .h-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .h-banner-info { position: absolute; bottom: 20px; left: 20px; }
+        .h-banner-info h4 { margin: 0; font-size: 1.2rem; font-weight: 800; }
+
+        /* GLASS NAVIGATION */
+        .glass-nav {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 88%; max-width: 400px;
+            background: var(--glass-bg);
             backdrop-filter: blur(25px);
-            z-index: 9999; display: none;
-            flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 40px;
+            border-radius: 40px;
+            display: none; justify-content: space-around;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            z-index: 1000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .diamond-neon { font-size: 70px; filter: drop-shadow(0 0 30px var(--primary-accent)); animation: float 3.5s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        .nav-item {
+            width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--text-dim); position: relative; z-index: 2; transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .nav-item.active { color: #fff; }
+        .nav-item svg { width: 24px; height: 24px; stroke-width: 2.2; }
 
-        .stat-card-neon { background: rgba(0, 85, 255, 0.04); padding:22px; border-radius:24px; text-align:center; border: 1px solid var(--card-border); }
-        .stat-card-neon span:first-child { display:block; font-weight:900; color: var(--primary-accent); font-size: 1.6rem; text-shadow: 0 0 15px var(--primary-accent-glow); }
-        .stat-card-neon span:last-child { font-size:0.75rem; opacity:0.6; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+        /* INDICADOR ANIMADO */
+        .nav-indicator {
+            position: absolute;
+            height: 50px; width: 50px;
+            background: var(--primary-accent);
+            border-radius: 50%;
+            top: 12px;
+            left: 10px; /* Dinámico vía JS */
+            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 25px var(--primary-accent-glow);
+        }
 
-        .link-text-neon { color: var(--primary-accent); font-weight: 700; text-decoration: none; text-shadow: 0 0 8px var(--primary-accent-glow); transition: 0.3s; }
-        .link-text-neon:hover { opacity: 0.7; filter: brightness(1.2); }
+        /* UTILS */
+        .btn-primary { width: 100%; padding: 22px; background: var(--primary-accent); color: #fff; border: none; border-radius: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 20px var(--primary-accent-glow); }
+        input.modern { width: 100%; padding: 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; color: #fff; margin-bottom: 15px; }
+        .loading { color: var(--primary-accent); text-align: center; margin-top: 15px; display: none; font-weight: 700; }
+        .error { color: #ff3b30; text-align: center; display: none; padding: 10px; font-weight: 600; }
+
+        #payment-verify-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
 <div id="payment-verify-overlay">
-    <div class="diamond-neon">💎</div>
-    <h2 style="font-weight: 900; margin-bottom: 12px; color: var(--primary-accent); text-transform: uppercase; letter-spacing: 2px;">Protocolo Navy Pro</h2>
-    <p style="opacity: 0.7; letter-spacing: 1.5px; font-weight: 500;">Sincronizando acceso de élite...</p>
+    <div style="font-size: 60px; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--primary-accent));">⚡</div>
+    <h2 style="font-weight: 900; color: #fff;">SYNCING DATA</h2>
+    <p style="opacity: 0.7;">Conectando con Navy Cloud...</p>
 </div>
 
 <div id="auth-visuals">
     <div class="auth-bg"></div>
-    <div class="auth-overlay-dark"></div>
+    <div class="auth-overlay"></div>
 </div>
 
 <div class="container">
 
-    <!-- 1. WELCOME VIEW -->
-    <div id="view-welcome" class="view active">
-        <div class="welcome-content">
-            <h1 class="welcome-title">Ascend<br>To <span style="color:var(--primary-accent)">NAVY ELITE</span></h1>
-            
-            <button class="btn-get-started" onclick="nav('view-register')">
-                <div class="btn-circle">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-                <div class="btn-text">Empieza ahora</div>
-                <div class="btn-arrows">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
-                </div>
-            </button>
-
-            <div class="login-link-container">
-                ¿Ya eres miembro? <span onclick="nav('view-login')">Acceder</span>
-            </div>
-        </div>
+    <!-- VIEW WELCOME -->
+    <div id="view-welcome" class="view active" style="justify-content: flex-end; padding-bottom: 60px;">
+        <h1 style="font-size: 3.5rem; font-weight: 900; line-height: 0.9; text-transform: uppercase; margin-bottom: 40px; text-shadow: 0 0 20px var(--primary-accent-glow);">Navy<br><span style="color:var(--primary-accent)">Elite</span><br>Fitness</h1>
+        <button class="btn-primary" onclick="nav('view-register')">Entrar al Sistema</button>
+        <p style="text-align: center; margin-top: 25px; font-weight: 600;">¿Ya eres miembro? <span onclick="nav('view-login')" style="color:var(--primary-accent); cursor:pointer;">Login</span></p>
     </div>
 
-    <!-- 2. LOGIN VIEW -->
+    <!-- VIEW LOGIN -->
     <div id="view-login" class="view">
-        <div style="margin-top: 60px;">
-            <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; letter-spacing: -1px; text-transform: uppercase;">IDENTIDAD</h2>
-            <p style="color: var(--text-dim); margin-bottom: 45px; font-weight: 600; letter-spacing: 0.5px;">Protocolo de acceso seguro.</p>
-        </div>
-
-        <div class="auth-form-container">
-            <div id="login-msg" class="error"></div>
-            <input type="email" id="login-email" class="modern" placeholder="Correo electrónico">
-            <div class="password-wrap">
-                <input type="password" id="login-pass" class="modern" placeholder="Contraseña">
-                <button class="eye-btn" onclick="togglePassword('login-pass', this)">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-            </div>
-            <button class="btn-primary" onclick="handleLogin()">Entrar al Sistema</button>
-            <div id="login-load" class="loading">Verificando Credenciales...</div>
-            <div style="text-align: center; margin-top: 30px;">
-                <span class="link-text-neon" style="cursor:pointer; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;" onclick="nav('view-recover')">Recuperar Acceso</span>
-            </div>
-        </div>
-        <button onclick="nav('view-welcome')" style="background:none; border:none; color:var(--text-dim); text-align:center; padding: 25px; font-weight: 800; cursor:pointer; text-transform: uppercase; letter-spacing: 2px;">← CANCELAR</button>
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-top: 60px; margin-bottom: 40px;">LOGIN</h2>
+        <div id="login-msg" class="error"></div>
+        <input type="email" id="login-email" class="modern" placeholder="Email">
+        <input type="password" id="login-pass" class="modern" placeholder="Contraseña">
+        <button class="btn-primary" onclick="handleLogin()">Acceder</button>
+        <div id="login-load" class="loading">VERIFICANDO...</div>
+        <button onclick="nav('view-welcome')" style="background:none; border:none; color:var(--text-dim); margin-top: 20px; font-weight: 800; cursor:pointer;">← VOLVER</button>
     </div>
 
-    <!-- 3. REGISTER VIEW -->
+    <!-- VIEW REGISTER -->
     <div id="view-register" class="view">
-        <div style="margin-top: 60px;">
-            <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; letter-spacing: -1px; text-transform: uppercase;">ALTA</h2>
-            <p style="color: var(--text-dim); margin-bottom: 45px; font-weight: 600; letter-spacing: 0.5px;">Inicia tu transformación Navy.</p>
-        </div>
-
-        <div class="auth-form-container">
-            <div id="reg-msg" class="error"></div>
-            <input type="email" id="reg-email" class="modern" placeholder="Correo electrónico">
-            <div class="password-wrap">
-                <input type="password" id="reg-pass" class="modern" placeholder="Crea tu clave maestra">
-                <button class="eye-btn" onclick="togglePassword('reg-pass', this)">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-            </div>
-            <button class="btn-primary" onclick="handleRegister()">Crear Perfil Pro</button>
-            <div id="reg-load" class="loading">Iniciando Sincronización...</div>
-        </div>
-        <div class="login-link-container" style="text-align:center;">
-            ¿Ya tienes perfil? <span onclick="nav('view-login')">Entrar</span>
-        </div>
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-top: 60px; margin-bottom: 40px;">JOIN ELITE</h2>
+        <div id="reg-msg" class="error"></div>
+        <input type="email" id="reg-email" class="modern" placeholder="Tu Email">
+        <input type="password" id="reg-pass" class="modern" placeholder="Clave Navy">
+        <button class="btn-primary" onclick="handleRegister()">Crear Perfil</button>
+        <div id="reg-load" class="loading">PROCESANDO...</div>
     </div>
 
-    <!-- 4. RECOVERY -->
-    <div id="view-recover" class="view">
-        <h2 style="font-size: 2.8rem; font-weight: 900; margin-top: 60px; margin-bottom: 10px; text-transform: uppercase;">RESET</h2>
-        <p style="color: var(--text-dim); margin-bottom: 45px; font-weight: 600;">Restablece tu conexión Navy.</p>
-        <div class="auth-form-container">
-            <div id="recover-msg" class="error"></div>
-            <div id="recover-success" style="color:var(--primary-accent); text-align:center; display:none; margin-bottom:20px; font-weight: 800; text-transform: uppercase;">¡Protocolo de envío completado!</div>
-            <input type="email" id="recover-email" class="modern" placeholder="Email registrado">
-            <button class="btn-primary" onclick="handleRecoverPassword()">Enviar Clave</button>
-            <div id="recover-load" class="loading">Procesando Solicitud...</div>
-        </div>
-        <button onclick="nav('view-login')" style="background:none; border:none; color:var(--text-dim); text-align:center; padding: 25px; font-weight: 800; cursor:pointer; text-transform: uppercase;">← VOLVER</button>
-    </div>
-
-    <!-- 5. PAYMENT -->
+    <!-- VIEW PAYMENT -->
     <div id="view-payment-stripe" class="view" style="justify-content: center; text-align: center;">
-        <div class="diamond-neon">⚡</div>
-        <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 10px; color: var(--primary-accent); text-transform: uppercase; letter-spacing: -1px;">UPGRADE</h2>
-        <p style="opacity: 0.7; margin-bottom: 45px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Desbloquea el Potencial Navy IA.</p>
-        <div style="background: rgba(0, 85, 255, 0.05); padding: 35px; border-radius: 35px; border: 1px solid var(--card-border); margin-bottom: 35px; box-shadow: 0 0 30px rgba(0, 85, 255, 0.15);">
-            <ul style="text-align: left; list-style: none; padding: 0; margin-bottom: 35px; font-size: 1.15rem; font-weight: 600;">
-                <li style="margin-bottom: 18px;">🔱 <span style="color: var(--primary-accent)">NAVY COACH IA</span> Personalizado</li>
-                <li style="margin-bottom: 18px;">🔱 PROTOCOLO DE <span style="color: var(--primary-accent)">FUERZA</span></li>
-                <li style="margin-bottom: 18px;">🔱 <span style="color: var(--primary-accent)">TRACKING</span> BIOMÉTRICO</li>
-            </ul>
-            <button onclick="openPaymentLink()" class="btn-primary" style="padding: 26px; font-size: 1.25rem;">ADQUIRIR ÉLITE</button>
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: var(--primary-accent); margin-bottom: 10px;">UPGRADE</h2>
+        <p style="opacity: 0.7; margin-bottom: 40px;">Acceso ilimitado a la plataforma IA.</p>
+        <div style="background: #1c1c1e; padding: 30px; border-radius: 30px; border: 1px solid var(--card-border);">
+            <button onclick="openPaymentLink()" class="btn-primary" style="margin-bottom: 20px;">ACTIVAR PLAN PRO</button>
+            <p style="font-size: 0.8rem; opacity: 0.5;">Pago seguro vía Stripe.</p>
         </div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">CERRAR SESIÓN</button>
+        <button onclick="logout()" style="background:none; border:none; color:var(--text-dim); margin-top: 20px; cursor:pointer;">Cerrar Sesión</button>
     </div>
 
-    <!-- 6. DASHBOARD -->
+    <!-- DASHBOARD -->
     <div id="view-dashboard" class="view">
-        <div class="header-profile">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div class="avatar"><img src="https://i.pravatar.cc/100?u=fit" alt="avatar"></div>
+        <div class="header-main">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="user-avatar"><img src="https://i.pravatar.cc/100?u=martin"></div>
                 <div>
-                    <p style="font-size: 0.85rem; margin: 0; opacity: 0.6; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;">ESTATUS NAVY:</p>
-                    <p style="font-size: 1.3rem; margin: 0; font-weight: 900; color: var(--primary-accent); letter-spacing: -0.5px;" id="user-display">USUARIO</p>
+                    <p style="margin:0; font-weight:800; font-size: 1.1rem;">Hello, <span id="user-display">Martin</span></p>
+                    <p style="margin:0; font-size: 0.75rem; opacity: 0.5; font-weight: 700;">NAVY LEVEL 4</p>
                 </div>
             </div>
-            <div style="background: rgba(0, 85, 255, 0.12); padding: 14px; border-radius: 50%; border: 1px solid var(--card-border);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary-accent)" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
-        </div>
-        
-        <div class="daily-challenge">
-            <h2 style="letter-spacing: -2px; text-transform: uppercase;">MISION<br>DIARIA</h2>
-            <p style="font-weight: 700; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">¿Preparado para superar límites?</p>
-            <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?fit=crop&w=300&h=500&q=80" class="hero-img">
+            <div class="notif-bell">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
         </div>
 
-        <h3 style="margin: 35px 0 20px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; font-size: 1rem; color: var(--text-dim); border-left: 3px solid var(--primary-accent); padding-left: 15px;">PROGRAMAS ACTIVOS</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
-            <div class="program-card">
-                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400">
-                <div style="position:absolute; bottom:18px; left:18px;">
-                    <span class="tag-neon">FUERZA</span>
-                    <h4 style="margin:10px 0 0; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px;">Power Press</h4>
-                </div>
+        <!-- DAILY PROGRAM CAROUSEL (Vertical banners) -->
+        <div class="section-header">
+            <h3>Daily Program</h3>
+            <span>See All</span>
+        </div>
+        <div class="carousel-wrap">
+            <div class="v-banner">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500">
+                <div class="v-banner-info"><h4>Chest & Tris</h4><p>45 min • High Intensity</p></div>
             </div>
-            <div class="program-card">
-                <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400">
-                <div style="position:absolute; bottom:18px; left:18px;">
-                    <span class="tag-neon">BRAZOS</span>
-                    <h4 style="margin:10px 0 0; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px;">Bicep Burn</h4>
-                </div>
+            <div class="v-banner">
+                <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=500">
+                <div class="v-banner-info"><h4>Legs Day</h4><p>60 min • Strength</p></div>
+            </div>
+            <div class="v-banner">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500">
+                <div class="v-banner-info"><h4>Back & Bis</h4><p>50 min • Hypertrophy</p></div>
+            </div>
+            <div class="v-banner">
+                <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=500">
+                <div class="v-banner-info"><h4>Shoulders</h4><p>40 min • Definition</p></div>
+            </div>
+            <div class="v-banner">
+                <img src="https://images.unsplash.com/photo-1518611012118-29a7d23281e8?w=500">
+                <div class="v-banner-info"><h4>Core Core</h4><p>20 min • Stability</p></div>
             </div>
         </div>
+
+        <!-- ELITE WORKSHOPS (Horizontal banners) -->
+        <div class="section-header">
+            <h3>Elite Workshops</h3>
+            <span>Join Now</span>
+        </div>
+        <div class="carousel-wrap">
+            <div class="h-banner">
+                <img src="https://images.unsplash.com/photo-1549476464-37392f717551?w=800">
+                <div class="h-banner-info"><h4>Mastering Deadlift</h4></div>
+            </div>
+            <div class="h-banner">
+                <img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800">
+                <div class="h-banner-info"><h4>HIIT Blast v2</h4></div>
+            </div>
+            <div class="h-banner">
+                <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800">
+                <div class="h-banner-info"><h4>Bio-Nutrient Guide</h4></div>
+            </div>
+        </div>
+
+        <div style="height: 120px;"></div> <!-- Spacer -->
     </div>
 
-    <!-- 7. PROFILE -->
+    <!-- PROFILE -->
     <div id="view-profile" class="view">
         <div style="text-align: center; margin-top: 40px;">
-            <div style="width:130px; height:130px; border-radius:50%; border:4px solid var(--primary-accent); margin: 0 auto 20px; overflow:hidden; box-shadow: 0 0 30px var(--primary-accent-glow);"><img src="https://i.pravatar.cc/150?u=fit" style="width:100%; height:100%; object-fit:cover;"></div>
-            <h2 id="profile-name" style="margin:0; font-weight:900; font-size: 2rem; letter-spacing: -1px; text-transform: uppercase;">USUARIO</h2>
-            <p style="opacity:0.8; font-weight: 800; color: var(--primary-accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 3px; margin-top: 8px;">Navy Elite Member</p>
+            <div style="width:130px; height:130px; border-radius:50%; border:4px solid var(--primary-accent); margin:0 auto 20px; overflow:hidden; box-shadow: 0 0 30px var(--primary-accent-glow);"><img src="https://i.pravatar.cc/150?u=martin" style="width:100%; height:100%; object-fit:cover;"></div>
+            <h2 id="profile-name" style="margin:0; font-weight:900;">MARTIN</h2>
+            <p style="color:var(--primary-accent); font-weight:800; letter-spacing:2px; font-size: 0.8rem;">ELITE OPERATOR</p>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:50px;">
-            <div class="stat-card-neon"><span>24</span><span>SESIONES</span></div>
-            <div class="stat-card-neon"><span>12k</span><span>KCAL</span></div>
-            <div class="stat-card-neon"><span>PRO</span><span>RANK</span></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:40px;">
+            <div style="background:#121214; padding:20px; border-radius:25px; border:1px solid var(--card-border); text-align:center;"><span style="display:block; font-size:1.5rem; font-weight:900; color:var(--primary-accent);">24</span><span style="font-size:0.7rem; opacity:0.5; font-weight:800;">WODS DONE</span></div>
+            <div style="background:#121214; padding:20px; border-radius:25px; border:1px solid var(--card-border); text-align:center;"><span style="display:block; font-size:1.5rem; font-weight:900; color:var(--primary-accent);">12.5k</span><span style="font-size:0.7rem; opacity:0.5; font-weight:800;">CALORIES</span></div>
         </div>
-        <div class="logout-btn" onclick="logout()" style="margin-top:auto; background:rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.25); color:#ff3b30; padding:22px; border-radius:24px; text-align:center; font-weight:900; cursor:pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;">CERRAR SESIÓN NAVY</div>
+        <button onclick="logout()" style="margin-top:auto; background:rgba(255,59,48,0.1); color:#ff3b30; border:1px solid rgba(255,59,48,0.2); padding:22px; border-radius:25px; font-weight:900; cursor:pointer;">TERMINAR SESIÓN</button>
+        <div style="height: 120px;"></div>
     </div>
 
-    <!-- DOCK NAVIGATION -->
-    <nav class="bottom-nav" id="main-nav">
-        <div class="nav-item active" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
-        <div class="nav-item" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-        <div class="nav-item" onclick="nav('view-profile')"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+    <!-- GLASS NAV -->
+    <nav class="glass-nav" id="main-nav">
+        <div class="nav-indicator" id="nav-indicator"></div>
+        <div class="nav-item active" data-index="0" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+        <div class="nav-item" data-index="1" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M2 12h20"></path></svg></div>
+        <div class="nav-item" data-index="2" onclick="nav('view-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+        <div class="nav-item" data-index="3" onclick="nav('view-profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
     </nav>
 
 </div>
 
 <script>
 /* =========================================
-   🎛️ PANEL DE CONTROL DEL DUEÑO (EDITA AQUÍ TUS DATOS)
+   🎛️ PANEL DE CONTROL (SAGRADO)
    ========================================= */
-
-   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSwLVO7Ub9oAyKD29fEcAFMuKluSfJJ9bx9wLp8ucsUpRavvlyfjtqeUzF06WPdqDM7A/exec";
+   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCdrthB2s-Sb0rp8Fp9YNtznJWHwTbanvVBw9SHWYU-5RvZCWdTfQKWvnH4LaqeFQ-/exec";
    const STRIPE_LINK = "https://buy.stripe.com/test_aFa14p69Vgk53hjclXaZi01";
    const PAYMENT_TOKEN = "AZ82_XJ91_LQ00_PRO_DIVE"; 
 
 /* =========================================
-   ⛔ NO TOQUES NADA DEBAJO DE ESTA LÍNEA (LÓGICA DEL SISTEMA)
+   ⛔ LÓGICA DEL SISTEMA
    ========================================= */
+
+    function updateNavIndicator(viewId) {
+        const indicator = document.getElementById('nav-indicator');
+        const items = document.querySelectorAll('.nav-item');
+        let activeIndex = 0;
+        
+        items.forEach((item, idx) => {
+            item.classList.remove('active');
+            if (item.getAttribute('onclick').includes(viewId)) {
+                activeIndex = idx;
+                item.classList.add('active');
+            }
+        });
+
+        const step = 100 / items.length;
+        const width = indicator.parentElement.offsetWidth;
+        const itemWidth = width / items.length;
+        // Ajuste fino para centrar el círculo neón
+        const pos = (activeIndex * itemWidth) + (itemWidth / 2) - 25; 
+        indicator.style.transform = `translateX(${pos - 10}px)`;
+    }
 
     async function checkPaymentToken() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -462,16 +296,11 @@
                 localStorage.setItem('cyberfit_session', email);
                 localStorage.removeItem('tempUserEmail');
                 window.history.replaceState({}, document.title, window.location.pathname);
-                confetti({ 
-                    particleCount: 200, 
-                    spread: 85, 
-                    origin: { y: 0.65 },
-                    colors: ['#0055ff', '#ffffff', '#001a33']
-                });
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 updateUserDisplay(email);
                 nav('view-dashboard');
             } else {
-                alert("Estatus de pago pendiente de sincronización.");
+                alert("Estatus de pago pendiente.");
                 nav('view-payment-stripe');
             }
             overlay.style.display = 'none';
@@ -479,13 +308,6 @@
     }
 
     function openPaymentLink() { window.open(STRIPE_LINK, '_blank'); }
-
-    function togglePassword(inputId, el) {
-        const input = document.getElementById(inputId);
-        const isPass = input.getAttribute('type') === 'password';
-        input.setAttribute('type', isPass ? 'text' : 'password');
-        el.style.color = isPass ? 'var(--primary-accent)' : 'var(--text-dim)';
-    }
 
     function updateUserDisplay(email) {
         if(!email) return;
@@ -499,7 +321,7 @@
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe', 'view-recover'];
+        const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe'];
         const navBar = document.getElementById('main-nav');
         const authVis = document.getElementById('auth-visuals');
 
@@ -509,15 +331,9 @@
         } else {
             navBar.style.display = 'flex';
             if(authVis) authVis.style.display = 'none';
+            updateNavIndicator(viewId);
         }
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(viewId)) {
-                item.classList.add('active');
-            }
-        });
-        window.scrollTo(0,0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     async function postData(action, data) {
@@ -528,7 +344,7 @@
                 body: JSON.stringify({ action: action, ...data })
             });
             return await response.json();
-        } catch (error) { return { success: false, message: "Error de conexión con el núcleo." }; }
+        } catch (error) { return { success: false, message: "Error." }; }
     }
 
     async function handleLogin() {
@@ -537,8 +353,7 @@
         const msg = document.getElementById('login-msg');
         const loader = document.getElementById('login-load');
         if(!email || !pass) return;
-        loader.style.display = 'block';
-        msg.style.display = 'none';
+        loader.style.display = 'block'; msg.style.display = 'none';
         const res = await postData('login', { email, password: pass });
         loader.style.display = 'none';
         if (res.success) {
@@ -550,7 +365,7 @@
                 localStorage.setItem('tempUserEmail', email);
                 nav('view-payment-stripe');
             } else {
-                msg.innerText = (res.message || "Error de Identidad").toUpperCase(); msg.style.display='block';
+                msg.innerText = (res.message || "ERROR").toUpperCase(); msg.style.display='block';
             }
         }
     }
@@ -561,33 +376,14 @@
         const msg = document.getElementById('reg-msg');
         const loader = document.getElementById('reg-load');
         if(!email || !pass) return;
-        loader.style.display = 'block';
-        msg.style.display = 'none';
+        loader.style.display = 'block'; msg.style.display = 'none';
         const res = await postData('register', { email, password: pass });
         loader.style.display = 'none';
         if (res.success) {
             localStorage.setItem('tempUserEmail', email);
             nav('view-payment-stripe');
         } else {
-            msg.innerText = (res.message || "Falla en Registro").toUpperCase(); msg.style.display='block';
-        }
-    }
-
-    async function handleRecoverPassword() {
-        const email = document.getElementById('recover-email').value;
-        const msg = document.getElementById('recover-msg');
-        const success = document.getElementById('recover-success');
-        const loader = document.getElementById('recover-load');
-        if(!email) return;
-        loader.style.display = 'block';
-        msg.style.display = 'none';
-        const res = await postData('recover', { email });
-        loader.style.display = 'none';
-        if (res.success) {
-            success.style.display = 'block';
-            setTimeout(() => nav('view-login'), 3000);
-        } else {
-            msg.innerText = (res.message || "Error en Recuperación").toUpperCase(); msg.style.display='block';
+            msg.innerText = (res.message || "ERROR").toUpperCase(); msg.style.display='block';
         }
     }
 
@@ -605,5 +401,3 @@
 
 </body>
 </html>
-
-
