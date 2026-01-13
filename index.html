@@ -8,7 +8,7 @@
     <!-- FUENTES Y DEPENDENCIAS -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -197,6 +197,25 @@
         }
         .animate-list-item {
             animation: listFade 0.3s ease-out forwards;
+        }
+
+        /* --- ESTILOS BIBLIOTECA (CODE B INTEGRATION) --- */
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 85, 255, 0.7);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
@@ -896,12 +915,190 @@
         </div>
     </div>
 
+    <!-- 7. BIBLIOTECA (NEW VIEW ADDED) -->
+    <div id="view-library" class="view w-full min-h-screen bg-[#050505] text-white relative overflow-x-hidden">
+        <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+            <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] opacity-40"></div>
+            <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px]"></div>
+        </div>
+        <main class="max-w-7xl mx-auto px-6 pb-24 pt-8 md:pt-12">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="nav('view-dashboard')" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 group">
+                    <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    <span class="text-xs font-bold tracking-widest uppercase">Volver</span>
+                </button>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 p-[2px] relative group cursor-pointer hover:shadow-neon transition-shadow duration-300">
+                        <img alt="User Profile" class="w-full h-full rounded-full object-cover border-2 border-[#050505]" src="https://i.pravatar.cc/150?img=11"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-12 relative z-10 text-center md:text-left">
+                <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 text-glow inline-block">
+                    Pectorales
+                </h1>
+                <p class="text-gray-400 mt-2 text-sm uppercase tracking-widest font-medium">Selecciona un ejercicio para añadir a tu rutina</p>
+            </div>
+            <div class="relative max-w-full mx-auto mb-6">
+                <div class="glass-panel flex items-center px-6 py-4 rounded-2xl border border-white/10 group focus-within:border-primary/50 transition-all duration-300">
+                    <span class="material-symbols-outlined text-gray-400 mr-4 group-focus-within:text-primary transition-colors">search</span>
+                    <input class="bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 w-full font-bold text-sm tracking-wider uppercase" placeholder="Buscar ejercicio de pecho..." type="text"/>
+                </div>
+            </div>
+            <div class="relative w-full mb-10 group/carousel">
+                <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="overflow-x-auto hide-scrollbar pb-2">
+                    <div class="flex gap-3 min-w-max px-2">
+                        <button class="bg-primary/20 backdrop-blur-md border border-primary/60 text-white px-5 py-2.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-neon hover:bg-primary/30 transition-all duration-300 whitespace-nowrap">
+                            Pectorales
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Espalda
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Hombros
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Bíceps
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Tríceps
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Antebrazos
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Piernas
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Glúteos
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Abdomen
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Cardio
+                        </button>
+                        <button class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap">
+                            Estiramientos
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-6 group hover:border-primary/50 transition-all duration-300">
+                    <div class="w-full md:w-48 h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <span class="material-symbols-outlined text-white/50 text-4xl">play_circle</span>
+                        </div>
+                        <img alt="Press de Banca" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOfjgBrsU3AqwxTa86wToIEeMKJqlBKqBq4tCiwt9BmxXcjFoBmEAqc3zptbqaMVd_VPQHj7TvtThCh9WGpsgGn5P78z9DM_Bh0_VCADgDeMtVgWPtRPqHkgkp6MEvDtvQPRjp97C5shZJ3-u_cnNK-Ti-X2lqHJWHe3C0Sgwz_3PJP4yCR7qxEfq-qu1eJxuCDdJPe2J9OpfXVmKOCl9m_XBNQenv-pzhmBraN2ef6QVx_RxLLWToAKR2QtFg4Jf-uONmY-7KUDxD"/>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold italic text-white uppercase tracking-wide mb-1">Press de Banca Plano</h3>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Mayor</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Compuesto</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Barra</span>
+                        </div>
+                    </div>
+                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                        <span>Añadir</span>
+                        <span class="material-symbols-outlined text-sm group-btn-hover:rotate-90 transition-transform">add</span>
+                    </button>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-6 group hover:border-primary/50 transition-all duration-300">
+                    <div class="w-full md:w-48 h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <span class="material-symbols-outlined text-white/50 text-4xl">play_circle</span>
+                        </div>
+                        <img alt="Press Inclinado" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu6iIX33_6qyN3hqoQhxHr6VeSrWTIzAEFkb2PKglIat05zhw7qHvFcE-a3_gnw53znPeOGvlDpM9sxYvnaxAKpkn4lvXFskDyW1SuhQjKR6L6m30x9eOAdm4AVXyHe6Gdf-K8l2k4DX_b3xGUCNND4da04-hEa6DVSJqm8tk1fVuKTXjhRQ9HYpV9QRYMjr-gzkQbldM2XmItBb-6x5e67kXCso1vsSJGebm8-0Px5m57agcohsSMmR1_Rjy6XeJ2UcTF8IifmEAQ"/>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold italic text-white uppercase tracking-wide mb-1">Press Inclinado con Mancuernas</h3>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Superior</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Aislamiento</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Mancuernas</span>
+                        </div>
+                    </div>
+                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                        <span>Añadir</span>
+                        <span class="material-symbols-outlined text-sm">add</span>
+                    </button>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-6 group hover:border-primary/50 transition-all duration-300">
+                    <div class="w-full md:w-48 h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <span class="material-symbols-outlined text-white/50 text-4xl">play_circle</span>
+                        </div>
+                        <img alt="Aperturas" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnZ4lhn3L68nUCuIhuf2IUBXRaHpP3vTMHgrUHgQlWgdHmoi1EcFJ9Jxmg-RDNb3J_xR0guPfxdgYSSU_QWOKtSyxCq31mjuuiTBzLK2anXryaNnx4U-d3YeED_kvgDBKQgs5UjrzWbxpIq3gM92puN0JTBI6bFEBTiyNiGvipxwEFhADf3UmtwmF3-lkAHjiZDL8eWlCJ2jgcZ6mInW4Wd4493nbuXqm95y01yba_g7TOAMnjWLSvJBN37jbmUunI1Ziqeb9FM5h-"/>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold italic text-white uppercase tracking-wide mb-1">Aperturas en Polea</h3>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Medio</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Cable</span>
+                        </div>
+                    </div>
+                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                        <span>Añadir</span>
+                        <span class="material-symbols-outlined text-sm">add</span>
+                    </button>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-6 group hover:border-primary/50 transition-all duration-300">
+                    <div class="w-full md:w-48 h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <span class="material-symbols-outlined text-white/50 text-4xl">play_circle</span>
+                        </div>
+                        <img alt="Fondos" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJdLkXVQZ0fbirq540jVqk3FyEKNIjbqPS6y3_mykSDVgHXpd563WVTXDxKV-OtEloVINOyBbSBGuyWTaCmwXz9vYghTxe7tNCzoEHPbK3dXsiwbR6w-KZ2hGCP-zPzZ827Enz32fjzGaSYkjxgeWuaArj7hOwpW4mRIuoY3J5KAoKCCL5Csc5NJ71bI4pRr_msMdHxpBdk_6DQBNbfKrXajyjr0yppGTgnmFTkktY2X5eMzmS6AkSOABjSaNjdR7D1yzMD8JDlULP"/>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold italic text-white uppercase tracking-wide mb-1">Fondos en Paralelas</h3>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Inferior</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Peso Corporal</span>
+                        </div>
+                    </div>
+                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                        <span>Añadir</span>
+                        <span class="material-symbols-outlined text-sm">add</span>
+                    </button>
+                </div>
+                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-6 group hover:border-primary/50 transition-all duration-300">
+                    <div class="w-full md:w-48 h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                        <div class="absolute inset-0 flex items-center justify-center z-20">
+                            <span class="material-symbols-outlined text-white/50 text-4xl">play_circle</span>
+                        </div>
+                        <img alt="Pullover" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALcJtBytvN4Jfd014LWdfRVD1u2yCVUETEwRmc3WggWZWwqQF7uLGUQqXNRCYen10e8UW-WB4NuHk455dpVLFr5fWmCD5_PjZrlIq_iuqEeqyoueRPhcS7sHha0IvKWCsq0_Ffogy5aOrmBza1jetDkOZhtZOvABzmiCN4gJlzZq_SB_g14CxAIwxj_Lx_Dm2ZCLb7IpAezg5vn7610LSM-N272jDF62Ucqe5ASeS2mK2NiRJztLnpngbO5mIdufLhM67lp-y4uviD"/>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="text-xl font-bold italic text-white uppercase tracking-wide mb-1">Pullover con Mancuerna</h3>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Expansión Torácica</span>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Estiramiento</span>
+                        </div>
+                    </div>
+                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                        <span>Añadir</span>
+                        <span class="material-symbols-outlined text-sm">add</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <!-- Bottom Navigation (MOVED OUTSIDE DASHBOARD, FIXED AT BOTTOM OF BODY) -->
     <div id="navbar-modern" style="display:none;" class="fixed bottom-6 left-0 right-0 mx-auto w-full max-w-[480px] px-4 z-50">
         <nav id="nav-bar" class="nav-glass rounded-[2rem] p-2.5 px-5 flex justify-between items-center shadow-2xl shadow-black/80">
             
             <!-- Nav Item 1: Inicio -->
-            <a onclick="selectNav(this)" class="nav-item flex flex-col items-center gap-1 group cursor-pointer relative" href="#">
+            <a onclick="selectNav(this); nav('view-dashboard')" class="nav-item flex flex-col items-center gap-1 group cursor-pointer relative" href="#">
                 <div class="absolute -top-1 right-0 w-1.5 h-1.5 bg-red-500 rounded-full border border-[#1a1a1a] z-10"></div>
                 <div class="icon-container w-9 h-9 rounded-xl bg-primary shadow-neon text-white -translate-y-1 flex items-center justify-center transition-all duration-300">
                     <span class="material-symbols-outlined text-[20px]">grid_view</span>
@@ -910,7 +1107,7 @@
             </a>
             
             <!-- Nav Item 2: Biblioteca -->
-            <a onclick="selectNav(this)" class="nav-item flex flex-col items-center gap-1 group opacity-50 active:opacity-100 transition-opacity cursor-pointer" href="#">
+            <a onclick="nav('view-library'); selectNav(this)" class="nav-item flex flex-col items-center gap-1 group opacity-50 active:opacity-100 transition-opacity cursor-pointer" href="#">
                 <div class="icon-container w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 text-gray-500 dark:text-gray-400">
                     <span class="material-symbols-outlined text-[20px]">fitness_center</span>
                 </div>
@@ -1004,10 +1201,10 @@
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        // Controlar visibilidad del Navbar Moderno (CORRECCIÓN APLICADA AQUÍ)
+        // Controlar visibilidad del Navbar Moderno (ACTUALIZADO PARA BIBLIOTECA)
         const navbarModern = document.getElementById('navbar-modern');
         if (navbarModern) {
-            if (viewId === 'view-dashboard') {
+            if (viewId === 'view-dashboard' || viewId === 'view-library') {
                 navbarModern.style.display = 'block';
             } else {
                 navbarModern.style.display = 'none';
