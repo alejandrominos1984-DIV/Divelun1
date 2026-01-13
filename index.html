@@ -822,8 +822,9 @@
             <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] opacity-40"></div>
             <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-purple-900/10 rounded-full blur-[120px]"></div>
         </div>
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-28 pt-6 md:pt-12">
-            <div class="flex justify-between items-center mb-8">
+        <!-- PADDING UPDATED: px-4 for mobile, increased pb-32 to clear nav -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-32 pt-6 md:pt-12">
+            <div class="flex justify-between items-center mb-6 md:mb-8">
                 <button onclick="nav('view-dashboard')" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 group">
                     <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
                     <span class="text-xs font-bold tracking-widest uppercase">Volver</span>
@@ -835,13 +836,15 @@
                 </div>
             </div>
             
-            <div class="mb-10 relative z-10 text-center md:text-left">
-                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black italic uppercase leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 text-glow inline-block">
+            <!-- TITLE SIZE UPDATED: text-4xl base -->
+            <div class="mb-8 md:mb-10 relative z-10 text-center md:text-left">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black italic uppercase leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 text-glow inline-block">
                     Pectorales
                 </h1>
                 <p class="text-gray-400 mt-2 text-xs md:text-sm uppercase tracking-widest font-medium">Selecciona un ejercicio para añadir a tu rutina</p>
             </div>
             
+            <!-- SEARCH BAR: Compact padding on mobile -->
             <div class="relative max-w-full mx-auto mb-6">
                 <div class="glass-panel flex items-center px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-white/10 group focus-within:border-primary/50 transition-all duration-300">
                     <span class="material-symbols-outlined text-gray-400 mr-3 md:mr-4 group-focus-within:text-primary transition-colors">search</span>
@@ -849,11 +852,12 @@
                 </div>
             </div>
             
+            <!-- FILTER CAROUSEL: Better gap and padding -->
             <div class="relative w-full mb-8 group/carousel">
-                <div class="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute left-0 top-0 bottom-0 w-4 md:w-6 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-4 md:w-6 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
                 <div class="overflow-x-auto hide-scrollbar pb-2">
-                    <div class="flex gap-3 min-w-max px-4 md:px-0">
+                    <div class="flex gap-2 md:gap-3 min-w-max px-4 md:px-0">
                         <button class="bg-primary/20 backdrop-blur-md border border-primary/60 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-neon hover:bg-primary/30 transition-all duration-300 whitespace-nowrap">
                             Pectorales
                         </button>
@@ -892,8 +896,8 @@
             </div>
             
             <div class="grid grid-cols-1 gap-4 md:gap-6">
-                <!-- Tarjeta 1 -->
-                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
+                <!-- Tarjeta 1: Mobile Optimized (Flex Col, Image Height Fixed) -->
+                <div class="glass-panel p-3 md:p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
                     <div class="w-full md:w-48 h-40 md:h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                         <div class="absolute inset-0 flex items-center justify-center z-20">
@@ -901,22 +905,22 @@
                         </div>
                         <img alt="Press de Banca" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOfjgBrsU3AqwxTa86wToIEeMKJqlBKqBq4tCiwt9BmxXcjFoBmEAqc3zptbqaMVd_VPQHj7TvtThCh9WGpsgGn5P78z9DM_Bh0_VCADgDeMtVgWPtRPqHkgkp6MEvDtvQPRjp97C5shZJ3-u_cnNK-Ti-X2lqHJWHe3C0Sgwz_3PJP4yCR7qxEfq-qu1eJxuCDdJPe2J9OpfXVmKOCl9m_XBNQenv-pzhmBraN2ef6QVx_RxLLWToAKR2QtFg4Jf-uONmY-7KUDxD"/>
                     </div>
-                    <div class="flex-1 text-center md:text-left w-full">
+                    <div class="flex-1 text-left w-full">
                         <h3 class="text-lg md:text-xl font-bold italic text-white uppercase tracking-wide mb-2 md:mb-1">Press de Banca Plano</h3>
-                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div class="flex flex-wrap gap-2 justify-start">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Mayor</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Compuesto</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Barra</span>
                         </div>
                     </div>
-                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                    <button class="w-full md:w-auto px-6 py-3 md:py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
                         <span>Añadir</span>
                         <span class="material-symbols-outlined text-sm group-btn-hover:rotate-90 transition-transform">add</span>
                     </button>
                 </div>
                 
                 <!-- Tarjeta 2 -->
-                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
+                <div class="glass-panel p-3 md:p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
                     <div class="w-full md:w-48 h-40 md:h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                         <div class="absolute inset-0 flex items-center justify-center z-20">
@@ -924,22 +928,22 @@
                         </div>
                         <img alt="Press Inclinado" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu6iIX33_6qyN3hqoQhxHr6VeSrWTIzAEFkb2PKglIat05zhw7qHvFcE-a3_gnw53znPeOGvlDpM9sxYvnaxAKpkn4lvXFskDyW1SuhQjKR6L6m30x9eOAdm4AVXyHe6Gdf-K8l2k4DX_b3xGUCNND4da04-hEa6DVSJqm8tk1fVuKTXjhRQ9HYpV9QRYMjr-gzkQbldM2XmItBb-6x5e67kXCso1vsSJGebm8-0Px5m57agcohsSMmR1_Rjy6XeJ2UcTF8IifmEAQ"/>
                     </div>
-                    <div class="flex-1 text-center md:text-left w-full">
+                    <div class="flex-1 text-left w-full">
                         <h3 class="text-lg md:text-xl font-bold italic text-white uppercase tracking-wide mb-2 md:mb-1">Press Inclinado con Mancuernas</h3>
-                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div class="flex flex-wrap gap-2 justify-start">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Superior</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Aislamiento</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Mancuernas</span>
                         </div>
                     </div>
-                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                    <button class="w-full md:w-auto px-6 py-3 md:py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
                         <span>Añadir</span>
                         <span class="material-symbols-outlined text-sm">add</span>
                     </button>
                 </div>
                 
                 <!-- Tarjeta 3 -->
-                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
+                <div class="glass-panel p-3 md:p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
                     <div class="w-full md:w-48 h-40 md:h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                         <div class="absolute inset-0 flex items-center justify-center z-20">
@@ -947,21 +951,21 @@
                         </div>
                         <img alt="Aperturas" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnZ4lhn3L68nUCuIhuf2IUBXRaHpP3vTMHgrUHgQlWgdHmoi1EcFJ9Jxmg-RDNb3J_xR0guPfxdgYSSU_QWOKtSyxCq31mjuuiTBzLK2anXryaNnx4U-d3YeED_kvgDBKQgs5UjrzWbxpIq3gM92puN0JTBI6bFEBTiyNiGvipxwEFhADf3UmtwmF3-lkAHjiZDL8eWlCJ2jgcZ6mInW4Wd4493nbuXqm95y01yba_g7TOAMnjWLSvJBN37jbmUunI1Ziqeb9FM5h-"/>
                     </div>
-                    <div class="flex-1 text-center md:text-left w-full">
+                    <div class="flex-1 text-left w-full">
                         <h3 class="text-lg md:text-xl font-bold italic text-white uppercase tracking-wide mb-2 md:mb-1">Aperturas en Polea</h3>
-                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div class="flex flex-wrap gap-2 justify-start">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Medio</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Cable</span>
                         </div>
                     </div>
-                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                    <button class="w-full md:w-auto px-6 py-3 md:py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
                         <span>Añadir</span>
                         <span class="material-symbols-outlined text-sm">add</span>
                     </button>
                 </div>
                 
                 <!-- Tarjeta 4 -->
-                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
+                <div class="glass-panel p-3 md:p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
                     <div class="w-full md:w-48 h-40 md:h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                         <div class="absolute inset-0 flex items-center justify-center z-20">
@@ -969,21 +973,21 @@
                         </div>
                         <img alt="Fondos" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJdLkXVQZ0fbirq540jVqk3FyEKNIjbqPS6y3_mykSDVgHXpd563WVTXDxKV-OtEloVINOyBbSBGuyWTaCmwXz9vYghTxe7tNCzoEHPbK3dXsiwbR6w-KZ2hGCP-zPzZ827Enz32fjzGaSYkjxgeWuaArj7hOwpW4mRIuoY3J5KAoKCCL5Csc5NJ71bI4pRr_msMdHxpBdk_6DQBNbfKrXajyjr0yppGTgnmFTkktY2X5eMzmS6AkSOABjSaNjdR7D1yzMD8JDlULP"/>
                     </div>
-                    <div class="flex-1 text-center md:text-left w-full">
+                    <div class="flex-1 text-left w-full">
                         <h3 class="text-lg md:text-xl font-bold italic text-white uppercase tracking-wide mb-2 md:mb-1">Fondos en Paralelas</h3>
-                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div class="flex flex-wrap gap-2 justify-start">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Pectoral Inferior</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Peso Corporal</span>
                         </div>
                     </div>
-                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                    <button class="w-full md:w-auto px-6 py-3 md:py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
                         <span>Añadir</span>
                         <span class="material-symbols-outlined text-sm">add</span>
                     </button>
                 </div>
                 
                 <!-- Tarjeta 5 -->
-                <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
+                <div class="glass-panel p-3 md:p-4 rounded-2xl flex flex-col md:flex-row items-center gap-4 md:gap-6 group hover:border-primary/50 transition-all duration-300">
                     <div class="w-full md:w-48 h-40 md:h-32 bg-gray-800 rounded-xl overflow-hidden relative shrink-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                         <div class="absolute inset-0 flex items-center justify-center z-20">
@@ -991,14 +995,14 @@
                         </div>
                         <img alt="Pullover" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALcJtBytvN4Jfd014LWdfRVD1u2yCVUETEwRmc3WggWZWwqQF7uLGUQqXNRCYen10e8UW-WB4NuHk455dpVLFr5fWmCD5_PjZrlIq_iuqEeqyoueRPhcS7sHha0IvKWCsq0_Ffogy5aOrmBza1jetDkOZhtZOvABzmiCN4gJlzZq_SB_g14CxAIwxj_Lx_Dm2ZCLb7IpAezg5vn7610LSM-N272jDF62Ucqe5ASeS2mK2NiRJztLnpngbO5mIdufLhM67lp-y4uviD"/>
                     </div>
-                    <div class="flex-1 text-center md:text-left w-full">
+                    <div class="flex-1 text-left w-full">
                         <h3 class="text-lg md:text-xl font-bold italic text-white uppercase tracking-wide mb-2 md:mb-1">Pullover con Mancuerna</h3>
-                        <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <div class="flex flex-wrap gap-2 justify-start">
                             <span class="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Expansión Torácica</span>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-white/5 px-2 py-1 rounded">Estiramiento</span>
                         </div>
                     </div>
-                    <button class="w-full md:w-auto px-6 py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
+                    <button class="w-full md:w-auto px-6 py-3 md:py-3 rounded-xl bg-primary/10 border border-primary/50 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-white hover:shadow-neon transition-all duration-300 flex items-center justify-center gap-2 group-btn">
                         <span>Añadir</span>
                         <span class="material-symbols-outlined text-sm">add</span>
                     </button>
