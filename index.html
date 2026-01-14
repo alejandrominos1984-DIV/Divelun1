@@ -2,513 +2,419 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor de Video Pro para Clientes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Editor Social Móvil</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Estilos personalizados para los controles */
-        .tool-group { @apply flex flex-col gap-2 mb-4 p-3 bg-gray-800 rounded-lg; }
-        .tool-label { @apply text-xs text-gray-400 uppercase font-semibold; }
-        .btn-pro { @apply bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded transition flex items-center justify-center gap-2 font-medium; }
-        .input-pro { @apply bg-gray-700 text-white rounded p-2 border border-gray-600 focus:border-indigo-500 outline-none; }
+        /* Bloquear scroll para sensación de App Nativa */
+        body { overscroll-behavior: none; touch-action: none; }
         
-        /* Ajuste para que el canvas sea responsive dentro de su contenedor */
-        #canvas-wrapper {
-            width: 100%;
-            height: 100%;
+        /* Área del Canvas */
+        .canvas-area {
+            height: calc(100vh - 140px); /* Restamos header y footer */
+            width: 100vw;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000;
-            overflow: hidden;
+            position: relative;
         }
-        .canvas-container { 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+
+        /* Overlay de Carga (Renderizado) */
+        .loading-overlay {
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            z-index: 50;
         }
+
+        /* Botones de herramientas */
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            gap: 4px;
+        }
+        .nav-btn.active { color: #818cf8; }
+        .nav-btn i { font-size: 1.25rem; margin-bottom: 2px; }
+
+        /* Estilo para inputs de rango personalizados */
+        input[type=range] { accent-color: #6366f1; }
     </style>
 </head>
+<body class="bg-gray-900 text-white h-screen w-screen flex flex-col overflow-hidden font-['Roboto']">
 
-<body class="bg-gray-900 text-gray-100 h-screen flex flex-col overflow-hidden font-['Roboto']">
-
-    <header class="bg-gray-800 p-3 border-b border-gray-700 flex justify-between items-center shadow-md z-10">
-        <div class="flex items-center gap-2">
-            <i class="fa-solid fa-video text-indigo-500 text-xl"></i>
-            <h1 class="text-lg font-bold">Video Creator <span class="text-indigo-400">Pro</span></h1>
-        </div>
-        <div class="flex gap-3">
-             <label class="btn-pro bg-gray-700 hover:bg-gray-600 cursor-pointer">
-                <i class="fa-solid fa-upload"></i> Subir Video Base
-                <input type="file" id="videoLoader" class="hidden" accept="video/mp4,video/webm">
-            </label>
-            <button id="recordBtn" class="btn-pro bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                <i class="fa-solid fa-circle text-red-500 mr-1" id="recIcon"></i> <span id="recText">Grabar y Descargar</span>
-            </button>
-        </div>
+    <header class="h-14 bg-gray-800 flex justify-between items-center px-4 border-b border-gray-700 z-10">
+        <div class="font-bold text-lg text-indigo-400">Social<span class="text-white">Maker</span></div>
+        <button onclick="startExport()" id="saveBtn" class="bg-indigo-600 px-4 py-1.5 rounded-full text-sm font-bold opacity-50 cursor-not-allowed" disabled>
+            Guardar
+        </button>
     </header>
 
-    <div class="flex flex-1 overflow-hidden relative">
-
-        <div class="w-80 bg-gray-850 p-4 overflow-y-auto border-r border-gray-800 scrollbar-thin">
+    <main class="canvas-area relative bg-gray-950">
+        
+        <div id="welcomeScreen" class="absolute flex flex-col items-center justify-center text-center p-6 z-10">
+            <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl text-indigo-400"></i>
+            </div>
+            <h2 class="text-xl font-bold mb-2">Sube tu Video</h2>
+            <p class="text-gray-400 text-sm mb-6">Duración: 5s a 40s.</p>
             
-            <div class="tool-group">
-                <span class="tool-label">Agregar Elementos</span>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="addText()" class="btn-pro bg-gray-700"><i class="fa-solid fa-font"></i> Texto</button>
-                    <button onclick="addRect()" class="btn-pro bg-gray-700"><i class="fa-solid fa-square"></i> Rectángulo</button>
-                </div>
-                <button onclick="addEmoji()" class="btn-pro bg-gray-700 mt-2"><i class="fa-regular fa-face-smile"></i> Emoji 😀</button>
-            </div>
-
-            <div class="tool-group bg-indigo-900/30 border border-indigo-500/30">
-                 <span class="tool-label text-indigo-300">✨ Plantillas Rápidas</span>
-                 <p class="text-xs text-gray-400 mb-2">Estilo TikTok/Reels (Click para añadir)</p>
-                 
-                 <button onclick="addTemplateTitle()" class="bg-white p-2 rounded mb-2 text-left flex items-center shadow-sm hover:scale-105 transition">
-                     <div class="bg-black text-white p-1 rounded mr-2 text-xs">TÍTULO</div>
-                     <span class="text-black text-sm font-bold">Fondo blanco, texto negrita</span>
-                 </button>
-
-                 <button onclick="addTemplateList()" class="bg-blue-500 p-2 rounded text-left flex items-center shadow-sm hover:scale-105 transition w-full">
-                    <i class="fa-solid fa-broom text-white mr-2"></i>
-                    <span class="text-white text-sm font-bold">Etiqueta Azul + Icono</span>
-                </button>
-            </div>
-
-            <div id="propertiesPanel" class="tool-group opacity-50 pointer-events-none transition-opacity">
-                <span class="tool-label text-indigo-400">Propiedades de Selección</span>
-                
-                <div class="flex items-center justify-between mt-2 bg-gray-700 p-2 rounded">
-                    <span class="text-sm">Color:</span>
-                    <input type="color" id="colorPicker" class="h-8 w-14 cursor-pointer bg-transparent rounded" value="#ffffff">
-                </div>
-
-                <div id="textControls" class="hidden flex flex-col gap-3 mt-3 pt-3 border-t border-gray-700">
-                     <div>
-                        <span class="text-sm block mb-1">Tipografía:</span>
-                        <select id="fontFamily" class="input-pro w-full">
-                            <option value="Arial">Arial (Básica)</option>
-                            <option value="Roboto" selected>Roboto (Moderna)</option>
-                            <option value="Montserrat">Montserrat (Geométrica)</option>
-                            <option value="Playfair Display">Playfair (Elegante)</option>
-                        </select>
-                    </div>
-                    
-                     <div>
-                        <span class="text-sm block mb-1">Grosor:</span>
-                         <select id="fontWeight" class="input-pro w-full">
-                            <option value="normal">Normal</option>
-                            <option value="bold">Negrita (Bold)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="deleteActive()" class="btn-pro bg-red-600/80 hover:bg-red-600 mt-auto w-full">
-                <i class="fa-solid fa-trash"></i> Eliminar Seleccionado (Supr)
-            </button>
+            <label class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold w-full shadow-lg active:scale-95 transition cursor-pointer">
+                Seleccionar Video
+                <input type="file" id="videoInput" class="hidden" accept="video/mp4,video/webm">
+            </label>
         </div>
 
-        <div id="canvas-wrapper" class="flex-1 bg-black relative">
-            <canvas id="c"></canvas>
-            
-            <video id="hiddenVideoElement" style="display: none;" playsinline crossOrigin="anonymous"></video>
-            
-            <div id="recordingOverlay" class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center hidden animate-pulse z-20">
-                <span>● GRABANDO... NO CIERRES ESTA PESTAÑA</span>
+        <canvas id="c" style="display:none;"></canvas>
+        
+        <video id="sourceVideo" class="hidden" playsinline muted crossOrigin="anonymous"></video>
+    </main>
+
+    <footer id="toolsFooter" class="h-24 bg-gray-800 border-t border-gray-700 hidden flex-col">
+        
+        <div id="subMenu" class="h-10 bg-gray-900 flex items-center px-4 gap-4 overflow-x-auto hidden">
             </div>
-             <div id="videoPlaceholder" class="absolute text-gray-500 flex flex-col items-center pointer-events-none">
-                <i class="fa-solid fa-film text-5xl mb-4 opacity-50"></i>
-                <p>Sube un video para comenzar</p>
-             </div>
+
+        <div class="flex-1 flex justify-around items-center px-2">
+            <button onclick="addSimpleText()" class="nav-btn">
+                <i class="fa-solid fa-font"></i> Texto
+            </button>
+            <button onclick="addTemplate1()" class="nav-btn">
+                <i class="fa-solid fa-layer-group"></i> Plantilla
+            </button>
+            <button onclick="addEmoji()" class="nav-btn">
+                <i class="fa-regular fa-face-smile"></i> Emoji
+            </button>
+            <button onclick="deleteObject()" class="nav-btn text-red-400">
+                <i class="fa-solid fa-trash"></i> Borrar
+            </button>
+        </div>
+    </footer>
+
+    <div id="loadingOverlay" class="loading-overlay fixed inset-0 flex flex-col items-center justify-center hidden">
+        <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <h3 class="text-xl font-bold">Exportando Video...</h3>
+        <p class="text-gray-400 text-sm mt-2">No cierres esta ventana</p>
+        <div class="w-64 bg-gray-700 h-2 rounded-full mt-4 overflow-hidden">
+            <div id="progressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+        <p id="progressText" class="text-xs text-gray-400 mt-2">0%</p>
+    </div>
+
+    <div id="editPanel" class="fixed bottom-0 left-0 right-0 bg-gray-800 p-4 rounded-t-2xl transform translate-y-full transition-transform duration-300 z-40 shadow-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <span class="font-bold text-sm text-gray-400">EDITAR ESTILO</span>
+            <button onclick="closeEditPanel()" class="text-gray-400"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="text-xs text-gray-500 mb-1 block">Color Texto</label>
+                <input type="color" id="textColor" class="w-full h-10 rounded bg-gray-700 border-none">
+            </div>
+            <div>
+                <label class="text-xs text-gray-500 mb-1 block">Fondo Caja</label>
+                <input type="color" id="bgColor" class="w-full h-10 rounded bg-gray-700 border-none">
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <label class="text-xs text-gray-500 mb-1 block">Tamaño</label>
+            <input type="range" id="sizeSlider" min="20" max="100" class="w-full">
         </div>
     </div>
 
-
     <script>
-        // --- CONFIGURACIÓN INICIAL ---
-        const videoElement = document.getElementById('hiddenVideoElement');
-        const recordBtn = document.getElementById('recordBtn');
-        const recText = document.getElementById('recText');
-        const recordingOverlay = document.getElementById('recordingOverlay');
-        const propertiesPanel = document.getElementById('propertiesPanel');
-        const textControls = document.getElementById('textControls');
-        const videoPlaceholder = document.getElementById('videoPlaceholder');
+        // --- 1. CONFIGURACIÓN ---
+        const canvas = new fabric.Canvas('c', { selection: false }); // Selección manual
+        const videoEl = document.getElementById('sourceVideo');
+        const saveBtn = document.getElementById('saveBtn');
+        let fabricVideo;
+        let isProcessing = false;
 
-        // Variables globales de estado
-        let isVideoLoaded = false;
-        let isRecording = false;
-        let mediaRecorder;
-        let recordedChunks = [];
-        let fabricVideoObj; // Referencia al objeto de video en Fabric
+        // --- 2. LOGICA DE SUBIDA Y VALIDACIÓN ---
+        document.getElementById('videoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
 
-        // Inicializar Canvas
-        // Usamos una resolución base alta (ej: Full HD vertical) para que la exportación sea de calidad.
-        // El CSS se encarga de que se vea pequeño en la pantalla.
-        const canvasResolution = { width: 720, height: 1280 }; 
-        const canvas = new fabric.Canvas('c', {
-            width: canvasResolution.width,
-            height: canvasResolution.height,
-            backgroundColor: '#111',
-            preserveObjectStacking: true // Importante para que el texto siempre quede sobre el video
+            // Paso 1: Cargar metadata para validar duración
+            const tempUrl = URL.createObjectURL(file);
+            const tempVideo = document.createElement('video');
+            tempVideo.preload = 'metadata';
+            tempVideo.src = tempUrl;
+            
+            tempVideo.onloadedmetadata = function() {
+                const duration = tempVideo.duration;
+                window.URL.revokeObjectURL(tempUrl);
+
+                // VALIDACIÓN DE TIEMPO (5s - 40s)
+                if(duration < 5) {
+                    alert("El video es muy corto. Mínimo 5 segundos.");
+                    return;
+                }
+                if(duration > 40) {
+                    alert("El video es muy largo. Máximo 40 segundos.");
+                    return;
+                }
+
+                // Si pasa, cargamos de verdad
+                loadVideoToCanvas(file);
+            }
         });
 
-        // --- 1. MANEJO DEL VIDEO DE FONDO ---
-
-        document.getElementById('videoLoader').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
+        function loadVideoToCanvas(file) {
             const url = URL.createObjectURL(file);
-            videoElement.src = url;
-
-            videoElement.onloadedmetadata = function() {
-                // Ajustar el tamaño del canvas a la relación de aspecto del video subido
-                const videoRatio = videoElement.videoWidth / videoElement.videoHeight;
-                const newHeight = canvas.getWidth() / videoRatio;
-                canvas.setHeight(newHeight);
-
-                videoPlaceholder.classList.add('hidden');
-                recordBtn.disabled = false;
-
-                // Crear el objeto de video de Fabric
-                fabricVideoObj = new fabric.Image(videoElement, {
-                    left: 0,
-                    top: 0,
-                    scaleX: canvas.getWidth() / videoElement.videoWidth,
-                    scaleY: canvas.getHeight() / videoElement.videoHeight,
-                    selectable: false, // El fondo no se debe poder mover
-                    evented: false,
-                });
+            videoEl.src = url;
+            
+            videoEl.onloadeddata = function() {
+                // Configurar tamaño del canvas basado en el video
+                // pero ajustado a la pantalla del móvil
+                const screenW = document.querySelector('.canvas-area').clientWidth;
+                const screenH = document.querySelector('.canvas-area').clientHeight;
                 
-                // Insertar al fondo (índice 0)
-                canvas.insertAt(fabricVideoObj, 0, true);
-                isVideoLoaded = true;
+                // Calculamos aspect ratio para que "quepa" sin deformarse (contain)
+                const videoRatio = videoEl.videoWidth / videoEl.videoHeight;
+                
+                let renderW = screenW;
+                let renderH = screenW / videoRatio;
 
-                // IMPORTANTE: Bucle de renderizado.
-                // Fabric.js necesita redibujar el canvas cada vez que el video avanza un frame.
-                fabric.util.requestAnimFrame(function renderLoop() {
-                    if (isVideoLoaded) {
-                        canvas.renderAll();
-                        fabric.util.requestAnimFrame(renderLoop);
-                    }
+                if(renderH > screenH) {
+                    renderH = screenH;
+                    renderW = screenH * videoRatio;
+                }
+
+                canvas.setWidth(renderW);
+                canvas.setHeight(renderH);
+                
+                // Crear objeto Fabric
+                fabricVideo = new fabric.Image(videoEl, {
+                    left: 0, top: 0,
+                    scaleX: renderW / videoEl.videoWidth,
+                    scaleY: renderH / videoEl.videoHeight,
+                    selectable: false,
+                    evented: false
+                });
+
+                canvas.add(fabricVideo);
+                canvas.sendToBack(fabricVideo);
+
+                // UI Updates
+                document.getElementById('welcomeScreen').classList.add('hidden');
+                document.getElementById('c').style.display = 'block';
+                document.getElementById('toolsFooter').classList.replace('hidden', 'flex');
+                saveBtn.disabled = false;
+                saveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                // Render Loop para mostrar el frame actual
+                fabric.util.requestAnimFrame(function render() {
+                    canvas.renderAll();
+                    if(!isProcessing) fabric.util.requestAnimFrame(render);
                 });
             };
-        });
+        }
 
-        // --- 2. HERRAMIENTAS DE EDICIÓN ---
+        // --- 3. HERRAMIENTAS (TEXTO Y PLANTILLAS) ---
 
-        function addText() {
-            const text = new fabric.IText('Doble clic para editar', {
-                left: canvas.getWidth() / 2,
-                top: canvas.getHeight() / 2,
-                originX: 'center',
-                originY: 'center',
-                fontFamily: 'Roboto',
+        function addSimpleText() {
+            const text = new fabric.IText('Toca 2 veces', {
+                left: canvas.width / 2,
+                top: canvas.height / 2,
+                originX: 'center', originY: 'center',
+                fontFamily: 'Montserrat',
                 fill: '#ffffff',
                 fontSize: 40,
                 fontWeight: 'bold',
-                shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.5)', blur: 5, offsetX: 2, offsetY: 2 })
+                shadow: '0px 2px 4px rgba(0,0,0,0.5)'
             });
             canvas.add(text);
             canvas.setActiveObject(text);
+        }
+
+        // Plantilla 1: Caja de fondo con texto (Estilo Insta/TikTok)
+        function addTemplate1() {
+            const text = new fabric.IText('TU TEXTO', {
+                fontFamily: 'Montserrat',
+                fontSize: 30,
+                fill: '#000000',
+                originX: 'center', originY: 'center',
+                top: 0, left: 0
+            });
+
+            const rect = new fabric.Rect({
+                fill: '#ffffff',
+                width: 300,
+                height: 60,
+                rx: 10, ry: 10,
+                originX: 'center', originY: 'center'
+            });
+
+            const group = new fabric.Group([rect, text], {
+                left: canvas.width / 2,
+                top: canvas.height / 2,
+            });
+
+            canvas.add(group);
+            canvas.setActiveObject(group);
         }
 
         function addEmoji() {
-            const text = new fabric.IText('😎🔥🚀', {
-                left: canvas.getWidth() / 2,
-                top: canvas.getHeight() / 2,
-                originX: 'center',
-                originY: 'center',
+            const text = new fabric.IText('🔥', {
                 fontSize: 60,
-                selectable: true
+                left: canvas.width / 2, top: canvas.height / 2,
+                originX: 'center', originY: 'center'
             });
             canvas.add(text);
-            canvas.setActiveObject(text);
         }
 
-        function addRect() {
-            const rect = new fabric.Rect({
-                left: canvas.getWidth() / 2,
-                top: canvas.getHeight() / 2,
-                originX: 'center',
-                originY: 'center',
-                fill: '#4f46e5', // Indigo
-                width: 200,
-                height: 100,
-                rx: 10, // Bordes redondeados
-                ry: 10
-            });
-            canvas.add(rect);
-            canvas.setActiveObject(rect);
-        }
-
-        // --- 3. PLANTILLAS (ESTILO TIKTOK/REELS) ---
-
-        // Plantilla 1: Título blanco estilo "How to..." (Imagen 1)
-        function addTemplateTitle() {
-            const bgBox = new fabric.Rect({
-                fill: '#ffffff',
-                width: 500,
-                height: 80,
-                rx: 15, ry: 15,
-                originX: 'center', originY: 'center'
-            });
-            
-            const text = new fabric.IText('How to write a Business Email 💻', {
-                fontFamily: 'Montserrat',
-                fontSize: 28,
-                fill: '#000000',
-                fontWeight: 'bold',
-                originX: 'center', originY: 'center',
-                top: 2 // pequeño ajuste visual
-            });
-
-            // Agrupamos para que se muevan juntos
-            const group = new fabric.Group([bgBox, text], {
-                left: canvas.getWidth() / 2,
-                top: canvas.getHeight() / 3,
-                originX: 'center',
-                originY: 'center',
-            });
-            
-            canvas.add(group);
-            canvas.setActiveObject(group);
-        }
-
-        // Plantilla 2: Etiqueta azul con icono (Imagen 2)
-        function addTemplateList() {
-             // Usamos FontAwesome como texto para el icono (truco rápido)
-            const icon = new fabric.IText('\uf51a', { // Código del icono de escoba
-                fontFamily: 'Font Awesome 6 Free',
-                fontWeight: '900',
-                fontSize: 30,
-                fill: '#ffffff',
-                left: -100, top: 0,
-                originY: 'center'
-            });
-
-            const text = new fabric.IText('Cleaning Vocabulary', {
-                fontFamily: 'Roboto',
-                fontSize: 24,
-                fill: '#ffffff',
-                fontWeight: 'bold',
-                left: -60, top: 0,
-                originY: 'center'
-            });
-
-            const bgBox = new fabric.Rect({
-                fill: '#3b82f6', // Azul
-                width: text.width + icon.width + 60, // Ancho dinámico
-                height: 60,
-                rx: 30, ry: 30, // Completamente redondeado
-                originX: 'center', originY: 'center'
-            });
-
-            // Necesitamos recentrar los elementos dentro del grupo
-            icon.set({ left: -bgBox.width/2 + 20 });
-            text.set({ left: icon.left + icon.width + 15 });
-
-            const group = new fabric.Group([bgBox, icon, text], {
-                left: canvas.getWidth() / 2,
-                top: canvas.getHeight() / 2,
-            });
-            
-            canvas.add(group);
-            canvas.setActiveObject(group);
-        }
-
-        // --- 4. MANEJO DE PROPIEDADES Y EVENTOS ---
-
-        // Eliminar objeto
-        function deleteActive() {
+        function deleteObject() {
             const active = canvas.getActiveObject();
-            if(active && active !== fabricVideoObj) canvas.remove(active);
+            if(active) canvas.remove(active);
+            closeEditPanel();
         }
-        document.addEventListener('keydown', (e) => { if(e.key === 'Delete') deleteActive(); });
 
-        // Actualizar el panel de propiedades al seleccionar
-        canvas.on('selection:created', updatePanel);
-        canvas.on('selection:updated', updatePanel);
-        canvas.on('selection:cleared', () => {
-            propertiesPanel.classList.add('opacity-50', 'pointer-events-none');
-        });
+        // --- 4. PANEL DE EDICIÓN (UX MÓVIL) ---
+        
+        canvas.on('selection:created', openEditPanel);
+        canvas.on('selection:updated', openEditPanel);
+        canvas.on('selection:cleared', closeEditPanel);
 
-        function updatePanel() {
+        function openEditPanel() {
             const active = canvas.getActiveObject();
-            if (!active) return;
-
-            propertiesPanel.classList.remove('opacity-50', 'pointer-events-none');
-
-            // Mostrar/ocultar controles específicos de texto
-            if (active.type === 'i-text' || active.type === 'textbox') {
-                textControls.classList.remove('hidden');
-                document.getElementById('fontFamily').value = active.fontFamily;
-                document.getElementById('fontWeight').value = active.fontWeight;
-                document.getElementById('colorPicker').value = active.fill;
-            } else {
-                textControls.classList.add('hidden');
-                document.getElementById('colorPicker').value = active.fill || '#ffffff';
-            }
+            if(!active) return;
             
-            // Si es un grupo, intentamos obtener el color del primer elemento (la caja de fondo)
-             if(active.type === 'group'){
-                textControls.classList.add('hidden');
-                const bgItem = active.getObjects().find(o => o.type === 'rect');
-                if(bgItem) document.getElementById('colorPicker').value = bgItem.fill;
-            }
-        }
-
-        // Listeners para los cambios de propiedades
-        document.getElementById('colorPicker').addEventListener('input', function(e) {
-            const active = canvas.getActiveObject();
-            if (!active) return;
+            document.getElementById('editPanel').classList.remove('translate-y-full');
             
-            if (active.type === 'i-text' || active.type === 'textbox') {
-                active.set('fill', e.target.value);
-            } else if(active.type === 'group') {
-                 // Si es grupo, cambiamos el fondo (rect) y el texto a blanco/negro según contraste
-                 active.getObjects().forEach(obj => {
-                    if(obj.type === 'rect') obj.set('fill', e.target.value);
-                    // Lógica simple para cambiar texto a blanco o negro según el fondo
-                    /* Si el usuario quiere control total, es mejor no usar grupos,
-                       pero para plantillas rápidas esto ayuda */
-                 });
-            } else {
-                active.set('fill', e.target.value);
-            }
-            canvas.renderAll();
-        });
-
-        document.getElementById('fontFamily').addEventListener('change', function(e) {
-            const active = canvas.getActiveObject();
-            if (active && (active.type === 'i-text' || active.type === 'textbox')) {
-                active.set('fontFamily', e.target.value);
-                canvas.renderAll();
-            }
-        });
-
-        document.getElementById('fontWeight').addEventListener('change', function(e) {
-            const active = canvas.getActiveObject();
-            if (active && (active.type === 'i-text' || active.type === 'textbox')) {
-                active.set('fontWeight', e.target.value);
-                canvas.renderAll();
-            }
-        });
-
-
-        // --- 5. GRABACIÓN Y EXPORTACIÓN (LA PARTE COMPLEJA) ---
-
-        recordBtn.addEventListener('click', toggleRecording);
-
-        async function toggleRecording() {
-            if (!isVideoLoaded) return;
-
-            if (isRecording) {
-                stopRecording();
-            } else {
-                startRecording();
-            }
+            // Cargar valores actuales
+            // (Logica simplificada para demo)
+            if(active.fill) document.getElementById('textColor').value = active.fill;
         }
 
-        async function startRecording() {
-            try {
-                // 1. Preparar la UI
-                isRecording = true;
-                recText.innerText = "Detener y Guardar";
-                recordingOverlay.classList.remove('hidden');
-                recordBtn.classList.replace('bg-green-600', 'bg-red-600');
-                recordBtn.classList.replace('hover:bg-green-700', 'hover:bg-red-700');
-                canvas.discardActiveObject(); // Deseleccionar para que no salgan los bordes en el video
-                canvas.renderAll();
+        function closeEditPanel() {
+            document.getElementById('editPanel').classList.add('translate-y-full');
+        }
 
-                // 2. Reiniciar el video para grabar desde el principio
-                videoElement.currentTime = 0;
-                await videoElement.play();
-
-                // 3. Capturar el stream de VIDEO del canvas (30 FPS)
-                const canvasStream = canvas.getElement().captureStream(30);
-
-                // 4. Capturar el stream de AUDIO del elemento de video
-                // Esto es necesario para que el video final tenga sonido.
-                const audioContext = new AudioContext();
-                const audioSource = audioContext.createMediaElementSource(videoElement);
-                const audioDestination = audioContext.createMediaStreamDestination();
-                audioSource.connect(audioDestination);
-                // Conectar también a la salida normal para que el usuario lo escuche mientras graba
-                audioSource.connect(audioContext.destination); 
-                const audioStream = audioDestination.stream;
-
-                // 5. Combinar Video y Audio en un solo stream
-                const combinedStream = new MediaStream([
-                    ...canvasStream.getVideoTracks(),
-                    ...audioStream.getAudioTracks()
-                ]);
-
-                // 6. Iniciar MediaRecorder
-                recordedChunks = [];
-                // Intentamos usar codecs modernos si están disponibles
-                let options = { mimeType: 'video/webm;codecs=vp9,opus' };
-                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                    options = { mimeType: 'video/webm' }; // Fallback
+        // Eventos del panel de edición
+        document.getElementById('textColor').addEventListener('input', (e) => {
+            const active = canvas.getActiveObject();
+            if(active) {
+                // Si es grupo, buscamos texto
+                if(active.type === 'group') {
+                    active.getObjects().forEach(o => {
+                        if(o.type === 'i-text') o.set('fill', e.target.value);
+                    });
+                } else {
+                    active.set('fill', e.target.value);
                 }
-                
-                mediaRecorder = new MediaRecorder(combinedStream, options);
-
-                mediaRecorder.ondataavailable = function(e) {
-                    if (e.data.size > 0) recordedChunks.push(e.data);
-                };
-
-                mediaRecorder.onstop = downloadVideo;
-
-                mediaRecorder.start();
-
-                // Detener automáticamente cuando termine el video
-                videoElement.addEventListener('ended', stopRecording, { once: true });
-
-            } catch (err) {
-                console.error("Error al iniciar grabación:", err);
-                alert("No se pudo iniciar la grabación de pantalla. Asegúrate de usar un navegador moderno (Chrome/Firefox en PC es lo ideal).");
-                stopRecording();
+                canvas.renderAll();
             }
-        }
+        });
 
-        function stopRecording() {
-            if (!isRecording) return;
-            isRecording = false;
-            mediaRecorder.stop();
-            videoElement.pause();
-            
-            // Restaurar UI
-            recText.innerText = "Procesando...";
-            recordingOverlay.classList.add('hidden');
-            recordBtn.disabled = true;
-        }
+        document.getElementById('bgColor').addEventListener('input', (e) => {
+            const active = canvas.getActiveObject();
+            if(active && active.type === 'group') {
+                active.getObjects().forEach(o => {
+                    if(o.type === 'rect') o.set('fill', e.target.value);
+                });
+                canvas.renderAll();
+            }
+        });
+        
+        document.getElementById('sizeSlider').addEventListener('input', (e) => {
+             const active = canvas.getActiveObject();
+             if(active) {
+                 active.scale(e.target.value / 50); // Escala relativa
+                 canvas.renderAll();
+             }
+        });
 
-        function downloadVideo() {
-            const blob = new Blob(recordedChunks, { type: 'video/webm' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'mi-video-editado.webm';
-            document.body.appendChild(a);
-            a.click();
+
+        // --- 5. LÓGICA DE EXPORTACIÓN (LA MAGIA OCULTA) ---
+
+        function startExport() {
+            if(!videoEl.src) return;
+
+            // 1. Mostrar Overlay de "Procesando"
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            document.getElementById('progressBar').style.width = '0%';
+            isProcessing = true;
+
+            // 2. Preparar grabación oculta
+            canvas.discardActiveObject(); // Quitar selecciones
+            canvas.renderAll();
             
-            // Limpieza final
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-                // Restaurar botón
-                recText.innerText = "Grabar y Descargar";
-                recordBtn.classList.replace('bg-red-600', 'bg-green-600');
-                recordBtn.classList.replace('hover:bg-red-700', 'hover:bg-green-700');
-                recordBtn.disabled = false;
+            const stream = canvas.getElement().captureStream(30); // 30 FPS
+            
+            // Audio Logic
+            const audioCtx = new AudioContext();
+            const source = audioCtx.createMediaElementSource(videoEl);
+            const dest = audioCtx.createMediaStreamDestination();
+            source.connect(dest);
+            source.connect(audioCtx.destination); // Oir mientras procesa (opcional)
+            
+            const combinedStream = new MediaStream([
+                ...stream.getVideoTracks(),
+                ...dest.stream.getAudioTracks()
+            ]);
+
+            const recorder = new MediaRecorder(combinedStream, {
+                mimeType: 'video/webm;codecs=vp9'
+            });
+
+            const chunks = [];
+            recorder.ondataavailable = e => chunks.push(e.data);
+            
+            recorder.onstop = () => {
+                // Fin del proceso
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'video-editado.webm';
+                a.click();
+                
+                // Restaurar UI
+                isProcessing = false;
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                
+                // Reiniciar video para que el usuario pueda seguir editando si quiere
+                videoEl.currentTime = 0; 
+                // Reiniciar loop visual
+                fabric.util.requestAnimFrame(function render() {
+                    canvas.renderAll();
+                    if(!isProcessing) fabric.util.requestAnimFrame(render);
+                });
+            };
+
+            // 3. Ejecutar "Render" (Reproducir video mientras se graba)
+            videoEl.currentTime = 0;
+            videoEl.play();
+            recorder.start();
+
+            // Sincronizar barra de progreso
+            const duration = videoEl.duration;
+            const updateProgress = setInterval(() => {
+                if(videoEl.paused || videoEl.ended) {
+                    clearInterval(updateProgress);
+                } else {
+                    const pct = Math.round((videoEl.currentTime / duration) * 100);
+                    document.getElementById('progressBar').style.width = pct + '%';
+                    document.getElementById('progressText').innerText = pct + '%';
+                }
             }, 100);
+
+            // Detener al finalizar el video
+            videoEl.onended = () => {
+                recorder.stop();
+                videoEl.onended = null; // Limpiar evento
+            };
         }
 
     </script>
