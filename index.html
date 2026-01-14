@@ -973,7 +973,7 @@
             <div class="relative w-full mx-0 mb-6">
                 <div class="glass-panel flex items-center px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-white/10 group focus-within:border-primary/50 transition-all duration-300">
                     <span class="material-symbols-outlined text-gray-400 mr-3 md:mr-4 group-focus-within:text-primary transition-colors">search</span>
-                    <input class="bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 w-full font-bold text-xs md:text-sm tracking-wider uppercase" placeholder="Buscar ejercicio de pecho..." type="text"/>
+                    <input onkeyup="searchGlobal(this.value)" class="bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 w-full font-bold text-xs md:text-sm tracking-wider uppercase" placeholder="Buscar ejercicio de pecho..." type="text"/>
                 </div>
             </div>
             
@@ -1321,6 +1321,71 @@
             { title: "DESCOMPRESIÓN ESPINAL", muscle: "Salud Espalda", type: "Relax", equipment: "Barra", img: "https://images.unsplash.com/photo-1562088287-b903a76b26d5?w=400&q=80" }
         ]
     };
+
+    function searchGlobal(query) {
+        const cleanQuery = query.trim().toLowerCase();
+        const listContainer = document.getElementById('lib-list');
+        const titleEl = document.getElementById('lib-title');
+
+        if (cleanQuery.length < 2) {
+            renderLibrary('pectorales'); 
+            return;
+        }
+
+        titleEl.textContent = `Resultados: '${query}'`;
+        listContainer.innerHTML = '';
+
+        let results = [];
+        Object.keys(libraryData).forEach(key => {
+            const categoryExercises = libraryData[key];
+            categoryExercises.forEach(ex => {
+                if (
+                    ex.title.toLowerCase().includes(cleanQuery) ||
+                    ex.muscle.toLowerCase().includes(cleanQuery) ||
+                    ex.type.toLowerCase().includes(cleanQuery) ||
+                    (ex.equipment && ex.equipment.toLowerCase().includes(cleanQuery))
+                ) {
+                    results.push(ex);
+                }
+            });
+        });
+
+        if (results.length === 0) {
+            listContainer.innerHTML = '<div class="w-full text-center text-gray-500 font-bold mt-10">NO SE ENCONTRARON EJERCICIOS</div>';
+            return;
+        }
+
+        results.forEach(ex => {
+             const cardHTML = `
+               <article class="w-full group bg-[#080808] border border-[#1A1A1A] rounded-[16px] flex flex-col md:flex-row items-center gap-4 hover:border-gray-700 transition-all p-3 md:p-4 h-auto md:h-[130px]">
+                <div class="relative w-full h-40 md:w-[116px] md:h-full flex-shrink-0 rounded-[12px] overflow-hidden bg-gray-800">
+                    <img alt="${ex.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" src="${ex.img}"/>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm">
+                            <svg class="w-4 h-4 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-grow w-full md:min-w-0 flex flex-col justify-between h-full py-1">
+                    <div>
+                        <h3 class="text-white text-sm md:text-lg font-black italic tracking-wide leading-tight line-clamp-2 mb-2">${ex.title}</h3>
+                        <div class="flex flex-wrap gap-1.5 md:gap-2">
+                            <span class="px-1.5 py-0.5 rounded bg-[rgba(46,92,255,0.2)] text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#2E5CFF]">${ex.muscle}</span>
+                            <span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.type}</span>
+                            ${ex.equipment ? `<span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.equipment}</span>` : ''}
+                        </div>
+                    </div>
+                    <button class="mt-4 md:mt-auto w-full md:w-auto self-start px-4 py-1.5 rounded-[20px] border border-[#1A3B8C] bg-transparent text-[#2E5CFF] text-[10px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-[#2E5CFF] hover:text-white hover:shadow-[0_0_15px_rgba(46,92,255,0.4)] transition-all">
+                        Añadir +
+                    </button>
+                </div>
+               </article>
+            `;
+            listContainer.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }
 
     function renderLibrary(category, btnElement) {
         // 1. Actualizar Título
