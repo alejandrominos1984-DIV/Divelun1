@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-    <!-- CONFIGURACIÓN TAILWIND (INTEGRADA CODE A + CODE B) -->
+    <!-- CONFIGURACIÓN TAILWIND -->
     <script>
         tailwind.config = {
             darkMode: "class",
@@ -25,7 +25,7 @@
                         "background-dark": "#050505",
                         "navy-base": "#0a0a1a",
                         "card-dark": "#121212",
-                        // Colores del Diseño Stitch (Code B)
+                        // Colores del Diseño Stitch
                         app: {
                             bg: '#050505',
                             card: '#0A0A0A',
@@ -430,18 +430,18 @@
                                 
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-primary">Día 1</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-primary" data-translate="day_1">Día 1</span>
                                         <span class="material-symbols-outlined text-primary">fitness_center</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Leg Day <br/><span class="text-primary">Power</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Cuádriceps &amp; Gemelos</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="leg_power_desc">Cuádriceps &amp; Gemelos</p>
                                 </div>
                                 
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 65 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Intensidad Alta</span>
+                                        <span data-translate="intensity_high">Intensidad Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -458,17 +458,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 2</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_2">Día 2</span>
                                         <span class="material-symbols-outlined text-gray-500">fitness_center</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Push <br/><span class="text-gray-400">Focus</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Pecho, Hombro, Tríceps</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="push_focus_desc">Pecho, Hombro, Tríceps</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 55 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Media-Alta</span>
+                                        <span data-translate="intensity_med_high">Media-Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -484,17 +484,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 3</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_3">Día 3</span>
                                         <span class="material-symbols-outlined text-gray-500">pool</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Active <br/><span class="text-gray-400">Rest</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Movilidad &amp; Cardio LISS</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="active_rest_desc">Movilidad &amp; Cardio LISS</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 40 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Baja</span>
+                                        <span data-translate="intensity_low">Baja</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -510,17 +510,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 4</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_4">Día 4</span>
                                         <span class="material-symbols-outlined text-gray-500">fitness_center</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Pull <br/><span class="text-gray-400">Hyper</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Espalda &amp; Bíceps</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="pull_hyper_desc">Espalda &amp; Bíceps</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 60 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Alta</span>
+                                        <span data-translate="intensity_high">Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -536,17 +536,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 5</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_5">Día 5</span>
                                         <span class="material-symbols-outlined text-gray-500">fitness_center</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Leg Day <br/><span class="text-gray-400">Posterior</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Femoral &amp; Glúteo</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="leg_posterior_desc">Femoral &amp; Glúteo</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 70 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Muy Alta</span>
+                                        <span data-translate="intensity_very_high">Muy Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -562,17 +562,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 6</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_6">Día 6</span>
                                         <span class="material-symbols-outlined text-gray-500">fitness_center</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Upper <br/><span class="text-gray-400">Body</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Torso Completo</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="upper_body_desc">Torso Completo</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> 50 min
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Media</span>
+                                        <span data-translate="intensity_med">Media</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -588,17 +588,17 @@
                                 <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent"></div>
                                 <div class="relative z-10">
                                     <div class="flex justify-between items-start mb-4">
-                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300">Día 7</span>
+                                        <span class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-wider text-gray-300" data-translate="day_7">Día 7</span>
                                         <span class="material-symbols-outlined text-gray-500">spa</span>
                                     </div>
                                     <h4 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Full <br/><span class="text-gray-400">Recovery</span></h4>
-                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide">Descanso Total</p>
+                                    <p class="text-[10px] font-medium text-gray-400 uppercase tracking-wide" data-translate="full_recovery_desc">Descanso Total</p>
                                 </div>
                                 <div class="relative z-10 mt-auto">
                                     <div class="flex items-center gap-2 mb-4 text-gray-400 text-[10px] font-semibold">
                                         <span class="material-symbols-outlined text-[14px]">schedule</span> --
                                         <span class="w-1 h-1 bg-gray-600 rounded-full"></span>
-                                        <span>Relax</span>
+                                        <span data-translate="intensity_relax">Relax</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
                                         <span class="btn-text" data-translate="btn_start">Comenzar</span>
@@ -636,7 +636,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent z-0"></div>
                                 <div class="relative z-30 w-[60%]">
                                     <span class="inline-block px-1.5 py-0.5 rounded bg-blue-500/20 text-xs font-bold text-blue-300 uppercase tracking-wider mb-1.5 border border-blue-500/30">Top Pick</span>
-                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Rutina <br/><span class="text-blue-400">Piernas</span></h3>
+                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1"><span data-translate="label_routine">Rutina</span> <br/><span class="text-blue-400" data-translate="cat_legs">Piernas</span></h3>
                                     <p class="text-sm font-medium text-blue-200/70 uppercase tracking-wide mt-1 flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">fitness_center</span> 12
                                     </p>
@@ -651,7 +651,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-transparent z-0"></div>
                                 <div class="relative z-30 w-[60%]">
                                     <span class="inline-block px-1.5 py-0.5 rounded bg-purple-500/20 text-xs font-bold text-purple-300 uppercase tracking-wider mb-1.5 border border-purple-500/30">Core</span>
-                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Abdomen <br/><span class="text-purple-400">Steel</span></h3>
+                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1"><span data-translate="cat_abs">Abdomen</span> <br/><span class="text-purple-400">Steel</span></h3>
                                     <p class="text-sm font-medium text-purple-200/70 uppercase tracking-wide mt-1 flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">local_fire_department</span> 8
                                     </p>
@@ -666,7 +666,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-transparent z-0"></div>
                                 <div class="relative z-30 w-[60%]">
                                     <span class="inline-block px-1.5 py-0.5 rounded bg-cyan-500/20 text-xs font-bold text-cyan-300 uppercase tracking-wider mb-1.5 border border-cyan-500/30">Hypertrophy</span>
-                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Brazos <br/><span class="text-cyan-400">Massive</span></h3>
+                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1"><span data-translate="cat_arms">Brazos</span> <br/><span class="text-cyan-400">Massive</span></h3>
                                     <p class="text-sm font-medium text-cyan-200/70 uppercase tracking-wide mt-1 flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">fitness_center</span> 10
                                     </p>
@@ -681,7 +681,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-transparent z-0"></div>
                                 <div class="relative z-30 w-[60%]">
                                     <span class="inline-block px-1.5 py-0.5 rounded bg-indigo-500/20 text-xs font-bold text-indigo-300 uppercase tracking-wider mb-1.5 border border-indigo-500/30">Width</span>
-                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Espalda <br/><span class="text-indigo-400">Cobra</span></h3>
+                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1"><span data-translate="cat_back">Espalda</span> <br/><span class="text-indigo-400">Cobra</span></h3>
                                     <p class="text-sm font-medium text-indigo-200/70 uppercase tracking-wide mt-1 flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">fitness_center</span> 14
                                     </p>
@@ -696,7 +696,7 @@
                                 <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/20 to-transparent z-0"></div>
                                 <div class="relative z-30 w-[60%]">
                                     <span class="inline-block px-1.5 py-0.5 rounded bg-emerald-500/20 text-xs font-bold text-emerald-300 uppercase tracking-wider mb-1.5 border border-emerald-500/30">Edu</span>
-                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1">Ciencia <br/><span class="text-emerald-400">Fitness</span></h3>
+                                    <h3 class="text-3xl font-black italic text-white uppercase leading-none mb-1"><span data-translate="label_science">Ciencia</span> <br/><span class="text-emerald-400">Fitness</span></h3>
                                     <p class="text-sm font-medium text-emerald-200/70 uppercase tracking-wide mt-1 flex items-center gap-1">
                                         <span class="material-symbols-outlined text-[14px]">school</span> 15
                                     </p>
@@ -718,19 +718,19 @@
 
                     <!-- Filtros (Tabs Scrollables) -->
                     <div id="body-focus-filters" class="flex gap-3 overflow-x-auto dash-no-scrollbar pb-2 mb-6 -mx-5 px-5">
-                        <button onclick="filterBodyFocus('routine_fullbody', this)" class="filter-btn active flex-shrink-0 px-5 py-2 rounded-full bg-primary text-white text-[11px] font-bold uppercase tracking-wider shadow-neon transition-all duration-300">
+                        <button onclick="filterBodyFocus('routine_fullbody', this)" class="filter-btn active flex-shrink-0 px-5 py-2 rounded-full bg-primary text-white text-[11px] font-bold uppercase tracking-wider shadow-neon transition-all duration-300" data-translate="filter_fullbody">
                             Full Body
                         </button>
-                        <button onclick="filterBodyFocus('routine_torso', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300">
+                        <button onclick="filterBodyFocus('routine_torso', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300" data-translate="filter_torso">
                             Torso
                         </button>
-                        <button onclick="filterBodyFocus('routine_pierna', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300">
+                        <button onclick="filterBodyFocus('routine_pierna', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300" data-translate="filter_legs">
                             Pierna
                         </button>
-                        <button onclick="filterBodyFocus('routine_gluteo', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300">
+                        <button onclick="filterBodyFocus('routine_gluteo', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300" data-translate="filter_glutes">
                             Glúteo
                         </button>
-                        <button onclick="filterBodyFocus('routine_core', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300">
+                        <button onclick="filterBodyFocus('routine_core', this)" class="filter-btn flex-shrink-0 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[11px] font-bold uppercase tracking-wider hover:bg-white/10 transition-all duration-300" data-translate="filter_core">
                             Core
                         </button>
                     </div>
@@ -769,13 +769,13 @@
                                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/20 text-white transform group-hover:-translate-y-1 transition-transform duration-300">
                                         <span class="material-symbols-outlined text-[24px]">psychology</span>
                                     </div>
-                                    <h3 class="text-lg font-bold text-white leading-tight mb-2">Cómo el ejercicio cambia tu cerebro</h3>
+                                    <h3 class="text-lg font-bold text-white leading-tight mb-2" data-translate="ai_card1_title">Cómo el ejercicio cambia tu cerebro</h3>
                                     <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Neurociencia
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> <span data-translate="ai_neuro">Neurociencia</span>
                                     </p>
                                 </div>
                                 <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider hover:bg-emerald-600 hover:border-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                                    <span>Pregunta a Navy AI</span>
+                                    <span data-translate="btn_ask_ai">Pregunta a Navy AI</span>
                                     <span class="material-symbols-outlined text-[14px] group-hover/btn:rotate-12 transition-transform">chat_bubble</span>
                                 </button>
                             </div>
@@ -789,13 +789,13 @@
                                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20 text-white transform group-hover:-translate-y-1 transition-transform duration-300">
                                         <span class="material-symbols-outlined text-[24px]">monitor_weight</span>
                                     </div>
-                                    <h3 class="text-lg font-bold text-white leading-tight mb-2">Mitos de pérdida de peso</h3>
+                                    <h3 class="text-lg font-bold text-white leading-tight mb-2" data-translate="ai_card2_title">Mitos de pérdida de peso</h3>
                                     <p class="text-[10px] font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> Realidad vs Ficción
+                                        <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> <span data-translate="ai_fact">Realidad vs Ficción</span>
                                     </p>
                                 </div>
                                 <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider hover:bg-orange-600 hover:border-orange-500 hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                                    <span>Pregunta a Navy AI</span>
+                                    <span data-translate="btn_ask_ai">Pregunta a Navy AI</span>
                                     <span class="material-symbols-outlined text-[14px] group-hover/btn:rotate-12 transition-transform">chat_bubble</span>
                                 </button>
                             </div>
@@ -809,13 +809,13 @@
                                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center mb-4 shadow-lg shadow-purple-500/20 text-white transform group-hover:-translate-y-1 transition-transform duration-300">
                                         <span class="material-symbols-outlined text-[24px]">model_training</span>
                                     </div>
-                                    <h3 class="text-lg font-bold text-white leading-tight mb-2">¿Por qué saltas los entrenamientos?</h3>
+                                    <h3 class="text-lg font-bold text-white leading-tight mb-2" data-translate="ai_card3_title">¿Por qué saltas los entrenamientos?</h3>
                                     <p class="text-[10px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Psicología
+                                        <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> <span data-translate="ai_psych">Psicología</span>
                                     </p>
                                 </div>
                                 <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider hover:bg-purple-600 hover:border-purple-500 hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                                    <span>Pregunta a Navy AI</span>
+                                    <span data-translate="btn_ask_ai">Pregunta a Navy AI</span>
                                     <span class="material-symbols-outlined text-[14px] group-hover/btn:rotate-12 transition-transform">chat_bubble</span>
                                 </button>
                             </div>
@@ -829,13 +829,13 @@
                                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/20 text-white transform group-hover:-translate-y-1 transition-transform duration-300">
                                         <span class="material-symbols-outlined text-[24px]">self_improvement</span>
                                     </div>
-                                    <h3 class="text-lg font-bold text-white leading-tight mb-2">Supera la ansiedad con ejercicio</h3>
+                                    <h3 class="text-lg font-bold text-white leading-tight mb-2" data-translate="ai_card4_title">Supera la ansiedad con ejercicio</h3>
                                     <p class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Bienestar Mental
+                                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> <span data-translate="ai_wellness">Bienestar Mental</span>
                                     </p>
                                 </div>
                                 <button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider hover:bg-cyan-600 hover:border-cyan-500 hover:shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
-                                    <span>Pregunta a Navy AI</span>
+                                    <span data-translate="btn_ask_ai">Pregunta a Navy AI</span>
                                     <span class="material-symbols-outlined text-[14px] group-hover/btn:rotate-12 transition-transform">chat_bubble</span>
                                 </button>
                             </div>
@@ -865,15 +865,15 @@
                                 <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4">
                                     <div class="grid grid-cols-3 gap-2 mb-4 divide-x divide-white/10">
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Duración</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_duration">Duración</p>
                                             <p class="text-sm font-bold text-white">30min</p>
                                         </div>
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Descanso</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_rest">Descanso</p>
                                             <p class="text-sm font-bold text-white">20s</p>
                                         </div>
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Reps</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_reps">Reps</p>
                                             <p class="text-sm font-bold text-white">12</p>
                                         </div>
                                     </div>
@@ -892,12 +892,12 @@
                                 <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4">
                                     <div class="grid grid-cols-3 gap-2 mb-4 divide-x divide-white/10">
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Duración</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_duration">Duración</p>
                                             <p class="text-sm font-bold text-white">45min</p>
                                         </div>
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Ritmo</p>
-                                            <p class="text-sm font-bold text-white">Alto</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_rhythm">Ritmo</p>
+                                            <p class="text-sm font-bold text-white" data-translate="val_high">Alto</p>
                                         </div>
                                         <div class="text-center px-1">
                                             <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Kcal</p>
@@ -920,11 +920,11 @@
                                 <div class="absolute bottom-2 left-2 right-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-[1.5rem] p-4">
                                     <div class="grid grid-cols-3 gap-2 mb-4 divide-x divide-white/10">
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Duración</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_duration">Duración</p>
                                             <p class="text-sm font-bold text-white">35min</p>
                                         </div>
                                         <div class="text-center px-1">
-                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1">Rounds</p>
+                                            <p class="text-[9px] text-gray-400 uppercase tracking-wide mb-1" data-translate="label_rounds">Rounds</p>
                                             <p class="text-sm font-bold text-white">10</p>
                                         </div>
                                         <div class="text-center px-1">
@@ -969,7 +969,7 @@
             <!-- TITLE SIZE UPDATED: text-3xl base -->
             <div class="mb-8 md:mb-10 relative z-10 text-center md:text-left">
                 <h1 id="lib-title" class="text-3xl md:text-6xl font-black italic uppercase leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 text-glow inline-block break-words">
-                    Pectorales
+                    <!-- Title set dynamically -->
                 </h1>
                 <p class="text-gray-400 mt-2 text-xs md:text-sm uppercase tracking-widest font-medium" data-translate="lib_subtitle">Selecciona un ejercicio para añadir a tu rutina</p>
             </div>
@@ -988,37 +988,37 @@
                 <div class="absolute right-0 top-0 bottom-0 w-4 md:w-6 bg-gradient-to-l from-[#050505] to-transparent z-10 pointer-events-none"></div>
                 <div class="overflow-x-auto hide-scrollbar pb-2">
                     <div id="lib-filters" class="flex gap-2 md:gap-3 min-w-max px-4 md:px-0">
-                        <button onclick="renderLibrary('pectorales', this)" class="bg-primary/20 backdrop-blur-md border border-primary/60 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-neon hover:bg-primary/30 transition-all duration-300 whitespace-nowrap lib-filter-btn active">
+                        <button onclick="renderLibrary('pectorales', this)" class="bg-primary/20 backdrop-blur-md border border-primary/60 text-white px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-neon hover:bg-primary/30 transition-all duration-300 whitespace-nowrap lib-filter-btn active" data-translate="cat_pectorals">
                             Pectorales
                         </button>
-                        <button onclick="renderLibrary('espalda', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('espalda', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_back">
                             Espalda
                         </button>
-                        <button onclick="renderLibrary('hombros', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('hombros', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_shoulders">
                             Hombros
                         </button>
-                        <button onclick="renderLibrary('biceps', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('biceps', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_biceps">
                             Bíceps
                         </button>
-                        <button onclick="renderLibrary('triceps', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('triceps', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_triceps">
                             Tríceps
                         </button>
-                        <button onclick="renderLibrary('antebrazos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('antebrazos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_forearms">
                             Antebrazos
                         </button>
-                        <button onclick="renderLibrary('piernas', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('piernas', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_legs">
                             Piernas
                         </button>
-                        <button onclick="renderLibrary('gluteos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('gluteos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_glutes">
                             Glúteos
                         </button>
-                        <button onclick="renderLibrary('abdomen', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('abdomen', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_abs">
                             Abdomen
                         </button>
-                        <button onclick="renderLibrary('cardio', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('cardio', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_cardio">
                             Cardio
                         </button>
-                        <button onclick="renderLibrary('estiramientos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn">
+                        <button onclick="renderLibrary('estiramientos', this)" class="glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn" data-translate="cat_stretch">
                             Estiramientos
                         </button>
                     </div>
@@ -1132,14 +1132,10 @@
     }
 
     function nav(viewId) {
-        // Ocultar todas las vistas
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-        
-        // Mostrar la vista objetivo
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
-        // Controlar visibilidad del Navbar Moderno (ACTUALIZADO PARA BIBLIOTECA)
         const navbarModern = document.getElementById('navbar-modern');
         if (navbarModern) {
             if (viewId === 'view-dashboard' || viewId === 'view-library') {
@@ -1149,7 +1145,6 @@
             }
         }
         
-        // Controlar visuales de autenticación
         const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe', 'view-recover'];
         const authVis = document.getElementById('auth-visuals');
 
@@ -1234,10 +1229,10 @@
     function logout() { localStorage.clear(); nav('view-welcome'); }
 
     /* =========================================
-       CODE B LOGIC: DASHBOARD INTERFACE
+       CODE B LOGIC: DASHBOARD INTERFACE + I18N
        ========================================= */
 
-    // --- BASE DE DATOS ACTUALIZADA: RUTINAS DE FUERZA ---
+    // Data Structures
     const workoutsDB = {
         'routine_fullbody': [
             { title: "Total Body Strength", time: "45 min", ex: "8 Ejercicios", intensity: 2, img: "https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit1%20(2).webp", align: "object-top" },
@@ -1266,7 +1261,6 @@
         ]
     };
 
-    // --- LIBRARY DATA (DYNAMIC SPA) ---
     const libraryData = {
         pectorales: [
             { title: "PRESS DE BANCA PLANO", muscle: "Pectoral Mayor", type: "Compuesto", equipment: "Barra", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBthfRNrGu-376eiXq0aGSHK7z8R7SjJRvhob6GgFDOLJHvdWPvHLyOw6AIH_1fm_1bc3aeZVyRQs1HY5tgJM5ttf_EFSo5Bu2DpQL6NfQL_AbU0tJSMdVk2VDvaNydD8dynt0SJwbkzDYu8W3ch74CV7jWAKFYNi7Nof2WIeMpiDSdJHleRC-Wyz-wtPhtrGZF2rKHSBsDz9mP5Gr1F6yB5klQmpu48Ucd6AzPFEA-ZpbzrtgniXjBn3O6-8tHEW0z6zUKzA0rlPV6" },
@@ -1330,44 +1324,463 @@
     // --- I18N SYSTEM ---
     const translations = {
         es: {
+            // UI General
             hero_status: "Sistema activo • Día 12",
             hero_protocol: "Protocolo",
             btn_start: "Comenzar",
-            section_tech: "Científicas",
-            section_popular: "Populares",
-            section_ai_pre: "Descubre con",
-            section_cardio: "Cardio",
+            btn_add: "Añadir +",
+            search_placeholder: "Buscar ejercicio...",
+            
+            // Navegación
             nav_home: "Inicio",
             nav_library: "Biblio",
             nav_create: "Crear",
             nav_data: "Datos",
             nav_ai: "IA",
             lib_back: "Volver",
+            
+            // Títulos de Sección
+            title_routines_prefix: "Rutinas",
+            section_tech: "Científicas",
+            section_popular: "Populares",
+            section_ai_pre: "Descubre con",
+            section_cardio: "Cardio",
             lib_subtitle: "Selecciona un ejercicio para añadir a tu rutina",
-            search_placeholder: "Buscar ejercicio...",
-            title_routines_prefix: "Rutinas"
+            label_routine: "Rutina",
+
+            // Etiquetas de Tarjetas
+            label_duration: "Duración",
+            label_rest: "Descanso",
+            label_reps: "Reps",
+            label_rounds: "Rounds",
+            label_rhythm: "Ritmo",
+            val_high: "Alto",
+            
+            // Categorías & Filtros
+            cat_pectorals: "Pectorales",
+            cat_back: "Espalda",
+            cat_shoulders: "Hombros",
+            cat_biceps: "Bíceps",
+            cat_triceps: "Tríceps",
+            cat_forearms: "Antebrazos",
+            cat_legs: "Piernas",
+            cat_glutes: "Glúteos",
+            cat_abs: "Abdomen",
+            cat_cardio: "Cardio",
+            cat_stretch: "Estiramientos",
+            filter_fullbody: "Full Body",
+            filter_torso: "Torso",
+            filter_legs: "Pierna",
+            filter_glutes: "Glúteo",
+            filter_core: "Core",
+
+            // Navy AI Cards
+            ai_card1_title: "Cómo el ejercicio cambia tu cerebro",
+            ai_neuro: "Neurociencia",
+            btn_ask_ai: "Pregunta a Navy AI",
+            ai_card2_title: "Mitos de pérdida de peso",
+            ai_fact: "Realidad vs Ficción",
+            ai_card3_title: "¿Por qué saltas los entrenamientos?",
+            ai_psych: "Psicología",
+            ai_card4_title: "Supera la ansiedad con ejercicio",
+            ai_wellness: "Bienestar Mental",
+
+            // Rutinas Diarias (Dashboard)
+            day_1: "Día 1",
+            day_2: "Día 2",
+            day_3: "Día 3",
+            day_4: "Día 4",
+            day_5: "Día 5",
+            day_6: "Día 6",
+            day_7: "Día 7",
+            
+            leg_power_desc: "Cuádriceps & Gemelos",
+            push_focus_desc: "Pecho, Hombro, Tríceps",
+            active_rest_desc: "Movilidad & Cardio LISS",
+            pull_hyper_desc: "Espalda & Bíceps",
+            leg_posterior_desc: "Femoral & Glúteo",
+            upper_body_desc: "Torso Completo",
+            full_recovery_desc: "Descanso Total",
+            
+            intensity_high: "Intensidad Alta",
+            intensity_med_high: "Media-Alta",
+            intensity_low: "Baja",
+            intensity_very_high: "Muy Alta",
+            intensity_med: "Media",
+            intensity_relax: "Relax",
+
+            // --- DATA (Ejercicios & Rutinas) ---
+            "Total Body Strength": "Fuerza Total",
+            "Metabolic Conditioning": "Acondicionamiento Metabólico",
+            "Fuerza Funcional": "Fuerza Funcional",
+            "Pecho y Espalda": "Pecho y Espalda",
+            "Hombros 3D": "Hombros 3D",
+            "Upper Body Power": "Poder Torso Superior",
+            "Cuádriceps Focus": "Enfoque Cuádriceps",
+            "Sentadilla Maestra": "Sentadilla Maestra",
+            "Leg Day Destruction": "Destrucción de Pierna",
+            "Glúteo Pump": "Bombeo de Glúteo",
+            "Cadena Posterior": "Cadena Posterior",
+            "Hip Thrust Pro": "Hip Thrust Pro",
+            "Six Pack Attack": "Ataque Six Pack",
+            "Oblicuos de Acero": "Oblicuos de Acero",
+            "Core Stability": "Estabilidad Core",
+            
+            // Ejercicios Biblioteca
+            "PRESS DE BANCA PLANO": "PRESS DE BANCA PLANO",
+            "PRESS INCLINADO CON MANCUERNAS": "PRESS INCLINADO CON MANCUERNAS",
+            "APERTURAS EN POLEA": "APERTURAS EN POLEA",
+            "FONDOS EN PARALELAS": "FONDOS EN PARALELAS",
+            "PULLOVER CON MANCUERNA": "PULLOVER CON MANCUERNA",
+            "DOMINADAS ESTRICTAS": "DOMINADAS ESTRICTAS",
+            "REMO CON BARRA": "REMO CON BARRA",
+            "JALÓN AL PECHO": "JALÓN AL PECHO",
+            "PRESS MILITAR": "PRESS MILITAR",
+            "ELEVACIONES LATERALES": "ELEVACIONES LATERALES",
+            "PÁJAROS (REVERSE FLY)": "PÁJAROS (REVERSE FLY)",
+            "CURL CON BARRA": "CURL CON BARRA",
+            "CURL MARTILLO": "CURL MARTILLO",
+            "CURL PREDICADOR": "CURL PREDICADOR",
+            "PRESS FRANCÉS": "PRESS FRANCÉS",
+            "EXTENSIONES EN POLEA": "EXTENSIONES EN POLEA",
+            "PATADA DE TRÍCEPS": "PATADA DE TRÍCEPS",
+            "CURL DE MUÑECA": "CURL DE MUÑECA",
+            "CURL INVERSO": "CURL INVERSO",
+            "PASEO DE GRANJERO": "PASEO DE GRANJERO",
+            "SENTADILLA LIBRE": "SENTADILLA LIBRE",
+            "PRENSA 45 GRADOS": "PRENSA 45 GRADOS",
+            "ZANCADAS": "ZANCADAS",
+            "HIP THRUST": "HIP THRUST",
+            "PESO MUERTO ROMANO": "PESO MUERTO ROMANO",
+            "PATADA EN POLEA": "PATADA EN POLEA",
+            "CRUNCH EN POLEA": "CRUNCH EN POLEA",
+            "ELEVACIÓN DE PIERNAS": "ELEVACIÓN DE PIERNAS",
+            "PLANCHA ISOMÉTRICA": "PLANCHA ISOMÉTRICA",
+            "BURPEES HIIT": "BURPEES HIIT",
+            "SALTO A LA CUERDA": "SALTO A LA CUERDA",
+            "MOUNTAIN CLIMBERS": "MOUNTAIN CLIMBERS",
+            "YOGA FLOW": "YOGA FLOW",
+            "ESTIRAMIENTO ISQUIOS": "ESTIRAMIENTO ISQUIOS",
+            "DESCOMPRESIÓN ESPINAL": "DESCOMPRESIÓN ESPINAL",
+
+            // Etiquetas (Músculos/Tipos/Equipo)
+            "8 Ejercicios": "8 Ejercicios",
+            "Circuitos": "Circuitos",
+            "10 Ejercicios": "10 Ejercicios",
+            "Super-series": "Super-series",
+            "12 Sets": "12 Sets",
+            "Fuerza Max": "Fuerza Max",
+            "15 Sets": "15 Sets",
+            "Técnica": "Técnica",
+            "Alto Volumen": "Alto Volumen",
+            "Aislamiento": "Aislamiento",
+            "Isquios/Glúteo": "Isquios/Glúteo",
+            "Fuerza": "Fuerza",
+            "Circuito": "Circuito",
+            "Rotaciones": "Rotaciones",
+            "Isométricos": "Isométricos",
+            "Pectoral Mayor": "Pectoral Mayor",
+            "Compuesto": "Compuesto",
+            "Barra": "Barra",
+            "Pectoral Superior": "Pectoral Superior",
+            "Mancuernas": "Mancuernas",
+            "Pectoral Medio": "Pectoral Medio",
+            "Cable": "Cable",
+            "Polea": "Polea",
+            "Pectoral Inferior": "Pectoral Inferior",
+            "Peso Corporal": "Peso Corporal",
+            "Paralelas": "Paralelas",
+            "Expansión Torácica": "Expansión Torácica",
+            "Estiramiento": "Estiramiento",
+            "Mancuerna": "Mancuerna",
+            "Dorsal Ancho": "Dorsal Ancho",
+            "Espalda Media": "Espalda Media",
+            "Dorsales": "Dorsales",
+            "Máquina": "Máquina",
+            "Polea Alta": "Polea Alta",
+            "Deltoides Anterior": "Deltoides Anterior",
+            "Deltoides Medio": "Deltoides Medio",
+            "Deltoides Posterior": "Deltoides Posterior",
+            "Bíceps Global": "Bíceps Global",
+            "Masa General": "Masa General",
+            "Braquial": "Braquial",
+            "Anchura": "Anchura",
+            "Cabeza Corta": "Cabeza Corta",
+            "Banco Scott": "Banco Scott",
+            "Tríceps Global": "Tríceps Global",
+            "Masa": "Masa",
+            "Barra Z": "Barra Z",
+            "Cabeza Lateral": "Cabeza Lateral",
+            "Cabeza Larga": "Cabeza Larga",
+            "Definición": "Definición",
+            "Flexores": "Flexores",
+            "Extensores": "Extensores",
+            "Hipertrofia": "Hipertrofia",
+            "Agarre": "Agarre",
+            "Resistencia": "Resistencia",
+            "Pesas Rusas": "Pesas Rusas",
+            "Pierna Completa": "Pierna Completa",
+            "Cuádriceps": "Cuádriceps",
+            "Prensa": "Prensa",
+            "Unilateral": "Unilateral",
+            "Empuje Cadera": "Empuje Cadera",
+            "Cadena Posterior": "Cadena Posterior",
+            "Recto Abdominal": "Recto Abdominal",
+            "Zona Inferior": "Zona Inferior",
+            "Core": "Core",
+            "Suelo": "Suelo",
+            "Full Body": "Full Body",
+            "Alta Intensidad": "Alta Intensidad",
+            "Coordinación": "Coordinación",
+            "Cuerda": "Cuerda",
+            "Core y Cardio": "Core y Cardio",
+            "Quema Grasa": "Quema Grasa",
+            "Agilidad": "Agilidad",
+            "Flexibilidad": "Flexibilidad",
+            "Movilidad": "Movilidad",
+            "Mat": "Mat",
+            "Recuperación": "Recuperación",
+            "Estático": "Estático",
+            "Salud Espalda": "Salud Espalda",
+            "Relax": "Relax"
         },
         en: {
+            // UI General
             hero_status: "System Active • Day 12",
             hero_protocol: "Protocol",
             btn_start: "Start",
-            section_tech: "Scientific",
-            section_popular: "Popular",
-            section_ai_pre: "Discover with",
-            section_cardio: "Cardio",
+            btn_add: "Add +",
+            search_placeholder: "Search exercise...",
+            
+            // Navigation
             nav_home: "Home",
             nav_library: "Library",
             nav_create: "Create",
             nav_data: "Data",
             nav_ai: "AI",
             lib_back: "Back",
+            
+            // Section Titles
+            title_routines_prefix: "Routines",
+            section_tech: "Scientific",
+            section_popular: "Popular",
+            section_ai_pre: "Discover with",
+            section_cardio: "Cardio",
             lib_subtitle: "Select an exercise to add to your routine",
-            search_placeholder: "Search exercise...",
-            title_routines_prefix: "Routines"
+            label_routine: "Routine",
+
+            // Card Labels
+            label_duration: "Duration",
+            label_rest: "Rest",
+            label_reps: "Reps",
+            label_rounds: "Rounds",
+            label_rhythm: "Rhythm",
+            val_high: "High",
+            
+            // Categories & Filters
+            cat_pectorals: "Pectorals",
+            cat_back: "Back",
+            cat_shoulders: "Shoulders",
+            cat_biceps: "Biceps",
+            cat_triceps: "Triceps",
+            cat_forearms: "Forearms",
+            cat_legs: "Legs",
+            cat_glutes: "Glutes",
+            cat_abs: "Abs",
+            cat_cardio: "Cardio",
+            cat_stretch: "Stretching",
+            filter_fullbody: "Full Body",
+            filter_torso: "Upper Body",
+            filter_legs: "Legs",
+            filter_glutes: "Glutes",
+            filter_core: "Core",
+
+            // Navy AI Cards
+            ai_card1_title: "How exercise changes your brain",
+            ai_neuro: "Neuroscience",
+            btn_ask_ai: "Ask Navy AI",
+            ai_card2_title: "Weight loss myths",
+            ai_fact: "Fact vs Fiction",
+            ai_card3_title: "Why do you skip workouts?",
+            ai_psych: "Psychology",
+            ai_card4_title: "Overcome anxiety with exercise",
+            ai_wellness: "Mental Wellness",
+
+             // Daily Routines (Dashboard)
+            day_1: "Day 1",
+            day_2: "Day 2",
+            day_3: "Day 3",
+            day_4: "Day 4",
+            day_5: "Day 5",
+            day_6: "Day 6",
+            day_7: "Day 7",
+            
+            leg_power_desc: "Quads & Calves",
+            push_focus_desc: "Chest, Shoulders, Triceps",
+            active_rest_desc: "Mobility & LISS Cardio",
+            pull_hyper_desc: "Back & Biceps",
+            leg_posterior_desc: "Hamstrings & Glutes",
+            upper_body_desc: "Full Upper Body",
+            full_recovery_desc: "Total Rest",
+            
+            intensity_high: "High Intensity",
+            intensity_med_high: "Med-High",
+            intensity_low: "Low",
+            intensity_very_high: "Very High",
+            intensity_med: "Medium",
+            intensity_relax: "Relax",
+
+            // --- DATA (Exercises & Routines) ---
+            "Total Body Strength": "Total Body Strength",
+            "Metabolic Conditioning": "Metabolic Conditioning",
+            "Fuerza Funcional": "Functional Strength",
+            "Pecho y Espalda": "Chest & Back",
+            "Hombros 3D": "3D Shoulders",
+            "Upper Body Power": "Upper Body Power",
+            "Cuádriceps Focus": "Quad Focus",
+            "Sentadilla Maestra": "Squat Mastery",
+            "Leg Day Destruction": "Leg Day Destruction",
+            "Glúteo Pump": "Glute Pump",
+            "Cadena Posterior": "Posterior Chain",
+            "Hip Thrust Pro": "Hip Thrust Pro",
+            "Six Pack Attack": "Six Pack Attack",
+            "Oblicuos de Acero": "Steel Obliques",
+            "Core Stability": "Core Stability",
+            
+             // Exercises Library
+            "PRESS DE BANCA PLANO": "FLAT BENCH PRESS",
+            "PRESS INCLINADO CON MANCUERNAS": "INCLINE DUMBBELL PRESS",
+            "APERTURAS EN POLEA": "CABLE FLYS",
+            "FONDOS EN PARALELAS": "PARALLEL DIPS",
+            "PULLOVER CON MANCUERNA": "DUMBBELL PULLOVER",
+            "DOMINADAS ESTRICTAS": "STRICT PULL-UPS",
+            "REMO CON BARRA": "BARBELL ROW",
+            "JALÓN AL PECHO": "LAT PULLDOWN",
+            "PRESS MILITAR": "MILITARY PRESS",
+            "ELEVACIONES LATERALES": "LATERAL RAISES",
+            "PÁJAROS (REVERSE FLY)": "REVERSE FLY",
+            "CURL CON BARRA": "BARBELL CURL",
+            "CURL MARTILLO": "HAMMER CURL",
+            "CURL PREDICADOR": "PREACHER CURL",
+            "PRESS FRANCÉS": "SKULLCRUSHERS",
+            "EXTENSIONES EN POLEA": "TRICEP PUSHDOWNS",
+            "PATADA DE TRÍCEPS": "TRICEP KICKBACKS",
+            "CURL DE MUÑECA": "WRIST CURL",
+            "CURL INVERSO": "REVERSE CURL",
+            "PASEO DE GRANJERO": "FARMER'S WALK",
+            "SENTADILLA LIBRE": "BARBELL SQUAT",
+            "PRENSA 45 GRADOS": "LEG PRESS 45",
+            "ZANCADAS": "LUNGES",
+            "HIP THRUST": "HIP THRUST",
+            "PESO MUERTO ROMANO": "ROMANIAN DEADLIFT",
+            "PATADA EN POLEA": "CABLE KICKBACK",
+            "CRUNCH EN POLEA": "CABLE CRUNCH",
+            "ELEVACIÓN DE PIERNAS": "LEG RAISES",
+            "PLANCHA ISOMÉTRICA": "PLANK",
+            "BURPEES HIIT": "HIIT BURPEES",
+            "SALTO A LA CUERDA": "JUMP ROPE",
+            "MOUNTAIN CLIMBERS": "MOUNTAIN CLIMBERS",
+            "YOGA FLOW": "YOGA FLOW",
+            "ESTIRAMIENTO ISQUIOS": "HAMSTRING STRETCH",
+            "DESCOMPRESIÓN ESPINAL": "SPINAL DECOMPRESSION",
+
+            // Tags
+            "8 Ejercicios": "8 Exercises",
+            "Circuitos": "Circuits",
+            "10 Ejercicios": "10 Exercises",
+            "Super-series": "Super-sets",
+            "12 Sets": "12 Sets",
+            "Fuerza Max": "Max Strength",
+            "15 Sets": "15 Sets",
+            "Técnica": "Technique",
+            "Alto Volumen": "High Volume",
+            "Aislamiento": "Isolation",
+            "Isquios/Glúteo": "Hams/Glutes",
+            "Fuerza": "Strength",
+            "Circuito": "Circuit",
+            "Rotaciones": "Rotations",
+            "Isométricos": "Isometrics",
+            "Pectoral Mayor": "Pectoralis Major",
+            "Compuesto": "Compound",
+            "Barra": "Barbell",
+            "Pectoral Superior": "Upper Chest",
+            "Mancuernas": "Dumbbells",
+            "Pectoral Medio": "Middle Chest",
+            "Cable": "Cable",
+            "Polea": "Pulley",
+            "Pectoral Inferior": "Lower Chest",
+            "Peso Corporal": "Bodyweight",
+            "Paralelas": "Bars",
+            "Expansión Torácica": "Chest Expansion",
+            "Estiramiento": "Stretching",
+            "Mancuerna": "Dumbbell",
+            "Dorsal Ancho": "Lats",
+            "Espalda Media": "Middle Back",
+            "Dorsales": "Dorsals",
+            "Máquina": "Machine",
+            "Polea Alta": "High Pulley",
+            "Deltoides Anterior": "Front Delts",
+            "Deltoides Medio": "Side Delts",
+            "Deltoides Posterior": "Rear Delts",
+            "Bíceps Global": "Overall Biceps",
+            "Masa General": "Overall Mass",
+            "Braquial": "Brachialis",
+            "Anchura": "Width",
+            "Cabeza Corta": "Short Head",
+            "Banco Scott": "Scott Bench",
+            "Tríceps Global": "Overall Triceps",
+            "Masa": "Mass",
+            "Barra Z": "EZ Bar",
+            "Cabeza Lateral": "Lateral Head",
+            "Cabeza Larga": "Long Head",
+            "Definición": "Definition",
+            "Flexores": "Flexors",
+            "Extensores": "Extensors",
+            "Hipertrofia": "Hypertrophy",
+            "Agarre": "Grip",
+            "Resistencia": "Endurance",
+            "Pesas Rusas": "Kettlebells",
+            "Pierna Completa": "Full Leg",
+            "Cuádriceps": "Quadriceps",
+            "Prensa": "Press Machine",
+            "Unilateral": "Unilateral",
+            "Empuje Cadera": "Hip Hinge",
+            "Cadena Posterior": "Posterior Chain",
+            "Recto Abdominal": "Rectus Abdominis",
+            "Zona Inferior": "Lower Abs",
+            "Core": "Core",
+            "Suelo": "Floor",
+            "Full Body": "Full Body",
+            "Alta Intensidad": "High Intensity",
+            "Coordinación": "Coordination",
+            "Cuerda": "Rope",
+            "Core y Cardio": "Core & Cardio",
+            "Quema Grasa": "Fat Burn",
+            "Agilidad": "Agility",
+            "Flexibilidad": "Flexibility",
+            "Movilidad": "Mobility",
+            "Mat": "Mat",
+            "Recuperación": "Recovery",
+            "Estático": "Static",
+            "Salud Espalda": "Back Health",
+            "Relax": "Relax"
         }
     };
 
     let currentLang = localStorage.getItem('app_lang') || (navigator.language.startsWith('en') ? 'en' : 'es');
+    
+    // State trackers for re-rendering
+    let currentDashFilter = 'routine_fullbody';
+    let currentDashBtn = null;
+    let currentLibCategory = 'pectorales';
+    let currentLibBtn = null;
+
+    function t(key) {
+        if (!key) return "";
+        const dict = translations[currentLang];
+        // Retornar traducción o la clave original si no existe (fail-safe)
+        return dict[key] || key;
+    }
 
     function toggleLanguage() {
         currentLang = currentLang === 'es' ? 'en' : 'es';
@@ -1376,23 +1789,35 @@
     }
 
     function applyLanguage() {
-        const t = translations[currentLang];
-        
-        // Button Icon
+        // 1. Update static elements
         const btn = document.getElementById('lang-btn');
         if(btn) btn.innerHTML = `<span class="text-sm">${currentLang === 'es' ? '🇪🇸' : '🇺🇸'}</span>`;
 
-        // Text Content
         document.querySelectorAll('[data-translate]').forEach(el => {
             const key = el.getAttribute('data-translate');
-            if(t[key]) {
+            const translatedText = t(key);
+            if(translatedText) {
                 if(el.tagName === 'INPUT') {
-                    el.placeholder = t[key];
+                    el.placeholder = translatedText;
                 } else {
-                    el.textContent = t[key];
+                    el.textContent = translatedText;
                 }
             }
         });
+
+        // 2. Re-render dynamic sections
+        // Re-render dashboard list
+        // Need to find the button element again or pass null/stored reference
+        if(currentDashBtn) {
+           filterBodyFocus(currentDashFilter, currentDashBtn);
+        } else {
+           // Fallback to initial
+           const firstBtn = document.querySelector('#body-focus-filters .filter-btn');
+           filterBodyFocus('routine_fullbody', firstBtn);
+        }
+
+        // Re-render library list
+        renderLibrary(currentLibCategory, currentLibBtn);
     }
 
     function searchGlobal(query) {
@@ -1401,22 +1826,28 @@
         const titleEl = document.getElementById('lib-title');
 
         if (cleanQuery.length < 2) {
-            renderLibrary('pectorales'); 
+            renderLibrary(currentLibCategory, currentLibBtn); 
             return;
         }
 
-        titleEl.textContent = `Resultados: '${query}'`;
+        titleEl.textContent = `${t('search_placeholder')}: '${query}'`;
         listContainer.innerHTML = '';
 
         let results = [];
         Object.keys(libraryData).forEach(key => {
             const categoryExercises = libraryData[key];
             categoryExercises.forEach(ex => {
+                // Search in both raw values and translated values
+                const titleTrans = t(ex.title).toLowerCase();
+                const muscleTrans = t(ex.muscle).toLowerCase();
+                const typeTrans = t(ex.type).toLowerCase();
+                const equipTrans = ex.equipment ? t(ex.equipment).toLowerCase() : '';
+
                 if (
-                    ex.title.toLowerCase().includes(cleanQuery) ||
-                    ex.muscle.toLowerCase().includes(cleanQuery) ||
-                    ex.type.toLowerCase().includes(cleanQuery) ||
-                    (ex.equipment && ex.equipment.toLowerCase().includes(cleanQuery))
+                    titleTrans.includes(cleanQuery) ||
+                    muscleTrans.includes(cleanQuery) ||
+                    typeTrans.includes(cleanQuery) ||
+                    equipTrans.includes(cleanQuery)
                 ) {
                     results.push(ex);
                 }
@@ -1432,7 +1863,7 @@
              const cardHTML = `
                <article class="w-full group bg-[#080808] border border-[#1A1A1A] rounded-[16px] flex flex-col md:flex-row items-center gap-4 hover:border-gray-700 transition-all p-3 md:p-4 h-auto md:h-[130px]">
                 <div class="relative w-full h-40 md:w-[116px] md:h-full flex-shrink-0 rounded-[12px] overflow-hidden bg-gray-800">
-                    <img alt="${ex.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" src="${ex.img}"/>
+                    <img alt="${t(ex.title)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" src="${ex.img}"/>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/40">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm">
                             <svg class="w-4 h-4 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1443,15 +1874,15 @@
                 </div>
                 <div class="flex-grow w-full md:min-w-0 flex flex-col justify-between h-full py-1">
                     <div>
-                        <h3 class="text-white text-sm md:text-lg font-black italic tracking-wide leading-tight line-clamp-2 mb-2">${ex.title}</h3>
+                        <h3 class="text-white text-sm md:text-lg font-black italic tracking-wide leading-tight line-clamp-2 mb-2">${t(ex.title)}</h3>
                         <div class="flex flex-wrap gap-1.5 md:gap-2">
-                            <span class="px-1.5 py-0.5 rounded bg-[rgba(46,92,255,0.2)] text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#2E5CFF]">${ex.muscle}</span>
-                            <span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.type}</span>
-                            ${ex.equipment ? `<span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.equipment}</span>` : ''}
+                            <span class="px-1.5 py-0.5 rounded bg-[rgba(46,92,255,0.2)] text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#2E5CFF]">${t(ex.muscle)}</span>
+                            <span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${t(ex.type)}</span>
+                            ${ex.equipment ? `<span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${t(ex.equipment)}</span>` : ''}
                         </div>
                     </div>
                     <button class="mt-4 md:mt-auto w-full md:w-auto self-start px-4 py-1.5 rounded-[20px] border border-[#1A3B8C] bg-transparent text-[#2E5CFF] text-[10px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-[#2E5CFF] hover:text-white hover:shadow-[0_0_15px_rgba(46,92,255,0.4)] transition-all">
-                        Añadir +
+                        ${t('btn_add')}
                     </button>
                 </div>
                </article>
@@ -1461,22 +1892,31 @@
     }
 
     function renderLibrary(category, btnElement) {
+        // Save state
+        currentLibCategory = category;
+        if (btnElement) currentLibBtn = btnElement;
+
         // 1. Actualizar Título
         const titleEl = document.getElementById('lib-title');
-        titleEl.textContent = category.toUpperCase();
+        // Find category translation key (e.g. 'cat_pectorals' based on 'pectorales')
+        // Simple mapping based on known keys
+        let catKey = 'cat_' + category; 
+        if (category === 'estiramientos') catKey = 'cat_stretch'; 
+        // fallback if key format differs, but here they align mostly except stretch
+        
+        titleEl.textContent = t(catKey) || category.toUpperCase();
 
         // 2. Actualizar Estilos de Botones
         const buttons = document.querySelectorAll('.lib-filter-btn');
         buttons.forEach(btn => {
-            // Reset to inactive style
             btn.className = 'glass-panel bg-white/5 border border-white/5 text-gray-400 px-4 py-2 md:px-5 md:py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 whitespace-nowrap lib-filter-btn';
         });
 
-        // Set active style to clicked button (or find the one matching category if init)
         let activeBtn = btnElement;
         if (!activeBtn) {
-            // Find button by text content if no element passed (initial load)
-            activeBtn = Array.from(buttons).find(b => b.textContent.trim().toLowerCase() === category.toLowerCase());
+            // Find by data-translate attribute which is stable
+            let targetTranslateKey = catKey;
+            activeBtn = Array.from(buttons).find(b => b.getAttribute('data-translate') === targetTranslateKey);
         }
         
         if (activeBtn) {
@@ -1493,7 +1933,7 @@
             const cardHTML = `
                <article class="w-full group bg-[#080808] border border-[#1A1A1A] rounded-[16px] flex flex-col md:flex-row items-center gap-4 hover:border-gray-700 transition-all p-3 md:p-4 h-auto md:h-[130px]">
                 <div class="relative w-full h-40 md:w-[116px] md:h-full flex-shrink-0 rounded-[12px] overflow-hidden bg-gray-800">
-                    <img alt="${ex.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" src="${ex.img}"/>
+                    <img alt="${t(ex.title)}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" src="${ex.img}"/>
                     <div class="absolute inset-0 flex items-center justify-center bg-black/40">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-sm">
                             <svg class="w-4 h-4 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1504,15 +1944,15 @@
                 </div>
                 <div class="flex-grow w-full md:min-w-0 flex flex-col justify-between h-full py-1">
                     <div>
-                        <h3 class="text-white text-sm md:text-lg font-black italic tracking-wide leading-tight line-clamp-2 mb-2">${ex.title}</h3>
+                        <h3 class="text-white text-sm md:text-lg font-black italic tracking-wide leading-tight line-clamp-2 mb-2">${t(ex.title)}</h3>
                         <div class="flex flex-wrap gap-1.5 md:gap-2">
-                            <span class="px-1.5 py-0.5 rounded bg-[rgba(46,92,255,0.2)] text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#2E5CFF]">${ex.muscle}</span>
-                            <span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.type}</span>
-                            ${ex.equipment ? `<span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${ex.equipment}</span>` : ''}
+                            <span class="px-1.5 py-0.5 rounded bg-[rgba(46,92,255,0.2)] text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#2E5CFF]">${t(ex.muscle)}</span>
+                            <span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${t(ex.type)}</span>
+                            ${ex.equipment ? `<span class="px-1.5 py-0.5 rounded bg-[#222] text-[#AAA] text-[9px] md:text-[10px] font-bold uppercase tracking-wider">${t(ex.equipment)}</span>` : ''}
                         </div>
                     </div>
                     <button class="mt-4 md:mt-auto w-full md:w-auto self-start px-4 py-1.5 rounded-[20px] border border-[#1A3B8C] bg-transparent text-[#2E5CFF] text-[10px] md:text-[12px] font-bold uppercase tracking-widest hover:bg-[#2E5CFF] hover:text-white hover:shadow-[0_0_15px_rgba(46,92,255,0.4)] transition-all">
-                        Añadir +
+                        ${t('btn_add')}
                     </button>
                 </div>
                </article>
@@ -1523,6 +1963,10 @@
 
     // --- LÓGICA DE FILTRADO (DASHBOARD) ---
     function filterBodyFocus(category, btnElement) {
+        // Save State
+        currentDashFilter = category;
+        if(btnElement) currentDashBtn = btnElement;
+
         const buttons = document.querySelectorAll('#body-focus-filters .filter-btn');
         buttons.forEach(btn => {
             btn.classList.remove('bg-primary', 'text-white', 'shadow-neon');
@@ -1552,16 +1996,16 @@
                 const itemHtml = `
                     <div class="dash-glass-panel p-3 rounded-2xl flex items-center gap-4 group active:scale-[0.98] transition-transform cursor-pointer border-white/5 hover:border-primary/30 animate-list-item" style="animation-delay: ${index * 0.1}s">
                         <div class="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-gray-800">
-                            <img src="${routine.img}" class="w-full h-full object-cover ${routine.align} opacity-90 group-hover:scale-110 transition-transform duration-500 ${routine.grayscale ? 'grayscale-[50%]' : ''}" alt="${routine.title}">
+                            <img src="${routine.img}" class="w-full h-full object-cover ${routine.align} opacity-90 group-hover:scale-110 transition-transform duration-500 ${routine.grayscale ? 'grayscale-[50%]' : ''}" alt="${t(routine.title)}">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
                         
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-bold text-white mb-1 truncate">${routine.title}</h3>
+                            <h3 class="text-sm font-bold text-white mb-1 truncate">${t(routine.title)}</h3>
                             <div class="flex items-center gap-2 text-[10px] text-gray-400 mb-2">
                                 <span>${routine.time}</span>
                                 <span class="w-1 h-1 rounded-full bg-gray-600"></span>
-                                <span>${routine.ex}</span>
+                                <span>${t(routine.ex)}</span>
                             </div>
                             <div class="flex gap-0.5">
                                 ${boltsHtml}
@@ -1633,12 +2077,14 @@
         
         // Initial load for dashboard filters
         const firstBtn = document.querySelector('#body-focus-filters .filter-btn');
-        if(firstBtn) filterBodyFocus('routine_fullbody', firstBtn);
+        currentDashBtn = firstBtn;
+        filterBodyFocus('routine_fullbody', firstBtn);
 
         // Initial load for library
+        currentLibCategory = 'pectorales';
         renderLibrary('pectorales');
 
-        // Apply language preference
+        // Apply language preference (this will re-render effectively)
         applyLanguage();
     };
 </script>
