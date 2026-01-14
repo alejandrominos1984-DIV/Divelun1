@@ -114,6 +114,12 @@
             padding: 0;
             background: transparent;
         }
+
+        /* CORRECCIÓN: Eliminar padding global para que la biblioteca ocupe ancho completo */
+        #view-library.view {
+            padding: 0 !important;
+            background: #050505;
+        }
         
         .view.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
