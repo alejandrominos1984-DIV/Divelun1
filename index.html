@@ -1132,10 +1132,14 @@
     }
 
     function nav(viewId) {
+        // Ocultar todas las vistas
         document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+        
+        // Mostrar la vista objetivo
         const targetView = document.getElementById(viewId);
         if(targetView) targetView.classList.add('active');
         
+        // Controlar visibilidad del Navbar Moderno (ACTUALIZADO PARA BIBLIOTECA)
         const navbarModern = document.getElementById('navbar-modern');
         if (navbarModern) {
             if (viewId === 'view-dashboard' || viewId === 'view-library') {
@@ -1145,6 +1149,7 @@
             }
         }
         
+        // Controlar visuales de autenticación
         const publicViews = ['view-welcome', 'view-login', 'view-register', 'view-payment-stripe', 'view-recover'];
         const authVis = document.getElementById('auth-visuals');
 
