@@ -382,6 +382,11 @@
                         <h3 class="text-[9px] font-bold tracking-[0.15em] text-gray-600 dark:text-gray-300 uppercase">Navy Elite</h3>
                     </div>
                     <div class="flex items-center gap-3">
+                        <!-- Botón de Idioma (NUEVO) -->
+                        <button id="lang-btn" class="dash-btn w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-[#1a1a1a] shadow-sm border border-gray-200 dark:border-white/5 active:scale-95 transition-transform" onclick="toggleLanguage()">
+                            <span class="text-sm">🇪🇸</span>
+                        </button>
+
                         <button class="dash-btn w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-[#1a1a1a] shadow-sm border border-gray-200 dark:border-white/5 active:scale-95 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
                             <span class="material-symbols-outlined text-gray-500 dark:text-gray-400 text-[18px]">light_mode</span>
                         </button>
@@ -399,10 +404,10 @@
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
                             </span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-primary">Sistema activo • Día 12</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-translate="hero_status">Sistema activo • Día 12</span>
                         </div>
                         <h1 class="text-5xl font-black italic uppercase leading-[0.85] tracking-tighter text-gray-900 dark:text-white mb-2">
-                            Protocolo <br/>
+                            <span data-translate="hero_protocol">Protocolo</span> <br/>
                             <span class="text-primary dash-text-glow relative inline-block">
                                  Elite
                                 <svg class="absolute -bottom-1 left-0 w-full h-2 text-primary opacity-50" preserveAspectRatio="none" viewBox="0 0 100 10">
@@ -439,7 +444,7 @@
                                         <span>Intensidad Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -466,7 +471,7 @@
                                         <span>Media-Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -492,7 +497,7 @@
                                         <span>Baja</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -518,7 +523,7 @@
                                         <span>Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -544,7 +549,7 @@
                                         <span>Muy Alta</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -570,7 +575,7 @@
                                         <span>Media</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -596,7 +601,7 @@
                                         <span>Relax</span>
                                     </div>
                                     <button onclick="animateStart(this)" class="w-full py-3.5 rounded-xl bg-primary text-white font-bold uppercase tracking-wider text-[10px] shadow-neon active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-transparent">
-                                        <span class="btn-text">Comenzar</span>
+                                        <span class="btn-text" data-translate="btn_start">Comenzar</span>
                                         <span class="material-symbols-outlined text-[14px] btn-icon">arrow_forward</span>
                                     </button>
                                 </div>
@@ -615,7 +620,7 @@
                         </div>
                         <div class="flex items-end gap-3">
                              <h2 class="text-3xl font-black uppercase italic tracking-tighter text-white leading-none">
-                                Rutinas <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-accent)] to-cyan-400 dash-text-glow">Científicas</span>
+                                <span data-translate="title_routines_prefix">Rutinas</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-accent)] to-cyan-400 dash-text-glow" data-translate="section_tech">Científicas</span>
                             </h2>
                             <div class="h-[1px] flex-1 bg-gradient-to-r from-primary/50 to-transparent mb-2 opacity-40"></div>
                         </div>
@@ -706,7 +711,7 @@
                     <!-- Título Sección -->
                     <div class="flex items-center gap-2 mb-6 opacity-0 animate-[fadeIn_0.8s_ease-out_forwards]" style="animation-delay: 0.2s;">
                         <h2 class="text-xl font-black uppercase italic tracking-tighter text-white">
-                            Rutinas <span class="text-primary dash-text-glow">Populares</span>
+                            <span data-translate="title_routines_prefix">Rutinas</span> <span class="text-primary dash-text-glow" data-translate="section_popular">Populares</span>
                         </h2>
                         <div class="h-[1px] flex-1 bg-white/10 ml-2"></div>
                     </div>
@@ -746,7 +751,7 @@
                         </div>
                         <div>
                             <h2 class="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
-                                Descubre con <br/>
+                                <span data-translate="section_ai_pre">Descubre con</span> <br/>
                                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Navy AI</span>
                             </h2>
                         </div>
@@ -844,7 +849,7 @@
                     <!-- Título Sección -->
                     <div class="flex items-center gap-2 mb-6 opacity-0 animate-[fadeIn_0.8s_ease-out_forwards]" style="animation-delay: 0.4s;">
                         <h2 class="text-xl font-black uppercase italic tracking-tighter text-white">
-                            Cardio <span class="text-primary dash-text-glow">Express</span>
+                            <span data-translate="section_cardio">Cardio</span> <span class="text-primary dash-text-glow">Express</span>
                         </h2>
                         <div class="h-[1px] flex-1 bg-white/10 ml-2"></div>
                     </div>
@@ -873,7 +878,7 @@
                                         </div>
                                     </div>
                                     <button class="w-full py-3.5 rounded-xl bg-primary hover:bg-blue-600 text-white font-black uppercase tracking-widest text-[11px] shadow-neon flex items-center justify-center gap-2 transition-all">
-                                        Start
+                                        <span data-translate="btn_start">Start</span>
                                     </button>
                                 </div>
                             </div>
@@ -900,7 +905,7 @@
                                         </div>
                                     </div>
                                     <button class="w-full py-3.5 rounded-xl bg-primary hover:bg-blue-600 text-white font-black uppercase tracking-widest text-[11px] shadow-neon flex items-center justify-center gap-2 transition-all">
-                                        Start
+                                        <span data-translate="btn_start">Start</span>
                                     </button>
                                 </div>
                             </div>
@@ -929,7 +934,7 @@
                                     </div>
 
                                     <button class="w-full py-3.5 rounded-xl bg-primary hover:bg-blue-600 text-white font-black uppercase tracking-widest text-[11px] shadow-neon flex items-center justify-center gap-2 transition-all">
-                                        Start
+                                        <span data-translate="btn_start">Start</span>
                                     </button>
                                 </div>
                             </div>
@@ -952,7 +957,7 @@
             <div class="flex justify-between items-center mb-6 md:mb-8">
                 <button onclick="nav('view-dashboard')" class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 group">
                     <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
-                    <span class="text-xs font-bold tracking-widest uppercase">Volver</span>
+                    <span class="text-xs font-bold tracking-widest uppercase" data-translate="lib_back">Volver</span>
                 </button>
                 <div class="flex items-center gap-4">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 p-[2px] relative group cursor-pointer hover:shadow-neon transition-shadow duration-300">
@@ -966,14 +971,14 @@
                 <h1 id="lib-title" class="text-3xl md:text-6xl font-black italic uppercase leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 text-glow inline-block break-words">
                     Pectorales
                 </h1>
-                <p class="text-gray-400 mt-2 text-xs md:text-sm uppercase tracking-widest font-medium">Selecciona un ejercicio para añadir a tu rutina</p>
+                <p class="text-gray-400 mt-2 text-xs md:text-sm uppercase tracking-widest font-medium" data-translate="lib_subtitle">Selecciona un ejercicio para añadir a tu rutina</p>
             </div>
             
             <!-- SEARCH BAR: Compact padding on mobile -->
             <div class="relative w-full mx-0 mb-6">
                 <div class="glass-panel flex items-center px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-white/10 group focus-within:border-primary/50 transition-all duration-300">
                     <span class="material-symbols-outlined text-gray-400 mr-3 md:mr-4 group-focus-within:text-primary transition-colors">search</span>
-                    <input onkeyup="searchGlobal(this.value)" class="bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 w-full font-bold text-xs md:text-sm tracking-wider uppercase" placeholder="Buscar ejercicio de pecho..." type="text"/>
+                    <input onkeyup="searchGlobal(this.value)" class="bg-transparent border-none focus:ring-0 text-white placeholder-gray-500 w-full font-bold text-xs md:text-sm tracking-wider uppercase" placeholder="Buscar ejercicio..." data-translate="search_placeholder" type="text"/>
                 </div>
             </div>
             
@@ -1036,7 +1041,7 @@
                 <div class="icon-container w-9 h-9 rounded-xl bg-primary shadow-neon text-white -translate-y-1 flex items-center justify-center transition-all duration-300">
                     <span class="material-symbols-outlined text-[20px]">grid_view</span>
                 </div>
-                <span class="text-label text-[8px] font-bold text-primary uppercase tracking-wide mt-0.5 transition-colors duration-300">Inicio</span>
+                <span class="text-label text-[8px] font-bold text-primary uppercase tracking-wide mt-0.5 transition-colors duration-300" data-translate="nav_home">Inicio</span>
             </a>
             
             <!-- Nav Item 2: Biblioteca -->
@@ -1044,7 +1049,7 @@
                 <div class="icon-container w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 text-gray-500 dark:text-gray-400">
                     <span class="material-symbols-outlined text-[20px]">fitness_center</span>
                 </div>
-                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300">Biblio</span>
+                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300" data-translate="nav_library">Biblio</span>
             </a>
             
             <!-- Nav Item 3: Creador -->
@@ -1052,7 +1057,7 @@
                 <div class="icon-container w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 text-gray-500 dark:text-gray-400">
                     <span class="material-symbols-outlined text-[20px]">add_circle</span>
                 </div>
-                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300">Crear</span>
+                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300" data-translate="nav_create">Crear</span>
             </a>
             
             <!-- Nav Item 4: Progreso -->
@@ -1060,7 +1065,7 @@
                 <div class="icon-container w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 text-gray-500 dark:text-gray-400">
                     <span class="material-symbols-outlined text-[20px]">bar_chart</span>
                 </div>
-                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300">Datos</span>
+                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300" data-translate="nav_data">Datos</span>
             </a>
             
             <!-- Nav Item 5: IA Coach -->
@@ -1068,7 +1073,7 @@
                 <div class="icon-container w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 text-gray-500 dark:text-gray-400">
                     <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
                 </div>
-                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300">IA</span>
+                <span class="text-label text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-0.5 transition-colors duration-300" data-translate="nav_ai">IA</span>
             </a>
 
         </nav>
@@ -1322,6 +1327,74 @@
         ]
     };
 
+    // --- I18N SYSTEM ---
+    const translations = {
+        es: {
+            hero_status: "Sistema activo • Día 12",
+            hero_protocol: "Protocolo",
+            btn_start: "Comenzar",
+            section_tech: "Científicas",
+            section_popular: "Populares",
+            section_ai_pre: "Descubre con",
+            section_cardio: "Cardio",
+            nav_home: "Inicio",
+            nav_library: "Biblio",
+            nav_create: "Crear",
+            nav_data: "Datos",
+            nav_ai: "IA",
+            lib_back: "Volver",
+            lib_subtitle: "Selecciona un ejercicio para añadir a tu rutina",
+            search_placeholder: "Buscar ejercicio...",
+            title_routines_prefix: "Rutinas"
+        },
+        en: {
+            hero_status: "System Active • Day 12",
+            hero_protocol: "Protocol",
+            btn_start: "Start",
+            section_tech: "Scientific",
+            section_popular: "Popular",
+            section_ai_pre: "Discover with",
+            section_cardio: "Cardio",
+            nav_home: "Home",
+            nav_library: "Library",
+            nav_create: "Create",
+            nav_data: "Data",
+            nav_ai: "AI",
+            lib_back: "Back",
+            lib_subtitle: "Select an exercise to add to your routine",
+            search_placeholder: "Search exercise...",
+            title_routines_prefix: "Routines"
+        }
+    };
+
+    let currentLang = localStorage.getItem('app_lang') || (navigator.language.startsWith('en') ? 'en' : 'es');
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'es' ? 'en' : 'es';
+        localStorage.setItem('app_lang', currentLang);
+        applyLanguage();
+    }
+
+    function applyLanguage() {
+        const t = translations[currentLang];
+        
+        // Button Icon
+        const btn = document.getElementById('lang-btn');
+        if(btn) btn.innerHTML = `<span class="text-sm">${currentLang === 'es' ? '🇪🇸' : '🇺🇸'}</span>`;
+
+        // Text Content
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            if(t[key]) {
+                if(el.tagName === 'INPUT') {
+                    el.placeholder = t[key];
+                } else {
+                    el.textContent = t[key];
+                }
+            }
+        });
+    }
+
     function searchGlobal(query) {
         const cleanQuery = query.trim().toLowerCase();
         const listContainer = document.getElementById('lib-list');
@@ -1564,6 +1637,9 @@
 
         // Initial load for library
         renderLibrary('pectorales');
+
+        // Apply language preference
+        applyLanguage();
     };
 </script>
 
