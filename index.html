@@ -321,6 +321,89 @@
             border: 1px solid white/10 !important;
             transform: none !important;
         }
+
+        /* Nueva vista: Rutinas Científicas */
+        #view-scientific-routines.view {
+            padding: 0 !important;
+            background: #050505;
+            overflow-y: auto;
+        }
+        
+        .routine-category-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #050505;
+            padding-bottom: 100px;
+        }
+        
+        .routine-back-button {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .routine-header {
+            padding: 20px;
+            padding-top: 70px;
+            background: linear-gradient(to bottom, rgba(10,10,26,0.9) 0%, rgba(5,5,5,0) 100%);
+        }
+        
+        .routine-card {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .routine-card:hover {
+            border-color: rgba(0, 85, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .scientific-badge {
+            background: linear-gradient(90deg, rgba(0,85,255,0.2) 0%, rgba(46,92,255,0.2) 100%);
+            border: 1px solid rgba(0,85,255,0.3);
+            color: #2E5CFF;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .exercise-item {
+            background: rgba(10,10,10,0.5);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #2E5CFF;
+        }
+        
+        .science-principle {
+            background: rgba(10,10,10,0.5);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            border-left: 3px solid #00D4AA;
+        }
     </style>
 </head>
 <body class="text-white selection:bg-primary selection:text-white">
@@ -703,7 +786,7 @@
                     <div class="flex gap-4 overflow-x-auto dash-no-scrollbar pb-6 pt-14 snap-x snap-mandatory -mx-5 px-5">
                         
                         <!-- Cat 1: Piernas -->
-                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer">
+                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer" onclick="openScientificCategory('piernas')">
                             <img src="https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit1%20(2).webp" class="absolute bottom-0 right-0 h-[115%] w-auto z-20 pointer-events-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] pop-out-img transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-3" alt="Piernas Model" />
                             <div class="dash-glass-panel h-44 rounded-[1.5rem] p-5 flex flex-col justify-center relative overflow-hidden border-blue-500/20 bg-blue-900/10">
                                 <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent z-0"></div>
@@ -718,7 +801,7 @@
                         </div>
 
                         <!-- Cat 2: Abdomen -->
-                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer">
+                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer" onclick="openScientificCategory('abdomen')">
                             <img src="https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit3.png" class="absolute bottom-0 right-0 h-[115%] w-auto z-20 pointer-events-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] pop-out-img transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-3" alt="Abdomen Model" />
                             <div class="dash-glass-panel h-44 rounded-[1.5rem] p-5 flex flex-col justify-center relative overflow-hidden border-purple-500/20 bg-purple-900/10">
                                 <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-transparent z-0"></div>
@@ -733,7 +816,7 @@
                         </div>
 
                         <!-- Cat 3: Brazos -->
-                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer">
+                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer" onclick="openScientificCategory('brazos')">
                             <img src="https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit2.png" class="absolute bottom-0 right-[-10px] h-[115%] w-auto z-20 pointer-events-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] pop-out-img transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-3" alt="Brazos Model" />
                             <div class="dash-glass-panel h-44 rounded-[1.5rem] p-5 flex flex-col justify-center relative overflow-hidden border-cyan-500/20 bg-cyan-900/10">
                                 <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-transparent z-0"></div>
@@ -748,7 +831,7 @@
                         </div>
 
                         <!-- Cat 4: Espalda -->
-                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer">
+                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer" onclick="openScientificCategory('espalda')">
                             <img src="https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit5%20(2).webp" class="absolute bottom-0 right-[-10px] h-[115%] w-auto z-20 pointer-events-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] pop-out-img transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-3" alt="Espalda Model" />
                             <div class="dash-glass-panel h-44 rounded-[1.5rem] p-5 flex flex-col justify-center relative overflow-hidden border-indigo-500/20 bg-indigo-900/10">
                                 <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-transparent z-0"></div>
@@ -763,7 +846,7 @@
                         </div>
 
                         <!-- Cat 5: Ciencia Fitness -->
-                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer">
+                        <div class="snap-center flex-shrink-0 w-[75%] relative group cursor-pointer" onclick="openScientificCategory('ciencia')">
                             <img src="https://MINEGOCIO.b-cdn.net/fitness%20imagenes/fit4.png" class="absolute bottom-0 right-[-10px] h-[115%] w-auto z-20 pointer-events-none object-contain drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)] pop-out-img transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-translate-y-3" alt="Educación Model" />
                             <div class="dash-glass-panel h-44 rounded-[1.5rem] p-5 flex flex-col justify-center relative overflow-hidden border-emerald-500/20 bg-emerald-900/10">
                                 <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/20 to-transparent z-0"></div>
@@ -1166,6 +1249,27 @@
         </div>
     </div>
 
+    <!-- 9. VISTA DE RUTINAS CIENTÍFICAS (NEW VIEW) -->
+    <div id="view-scientific-routines" class="view w-full min-h-screen bg-[#050505] text-white relative">
+        <div class="routine-category-container">
+            <!-- Botón de volver atrás -->
+            <button onclick="nav('view-dashboard')" class="routine-back-button">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            
+            <!-- Header de la categoría -->
+            <div class="routine-header">
+                <h1 id="routine-category-title" class="text-4xl font-black italic uppercase mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400"></h1>
+                <p id="routine-category-desc" class="text-gray-400 text-sm mb-6">Rutinas basadas en evidencia científica para maximizar resultados</p>
+            </div>
+            
+            <!-- Lista de rutinas -->
+            <div id="routine-list" class="px-5 pb-32">
+                <!-- Las rutinas se cargan dinámicamente aquí -->
+            </div>
+        </div>
+    </div>
+
     <!-- Bottom Navigation (MOVED OUTSIDE DASHBOARD, FIXED AT BOTTOM OF BODY) -->
     <div id="navbar-modern" style="display:none;" class="fixed bottom-6 left-0 right-0 mx-auto w-full max-w-[480px] px-4 z-50">
         <nav id="nav-bar" class="nav-glass rounded-[2rem] p-2.5 px-5 flex justify-between items-center shadow-2xl shadow-black/80">
@@ -1277,7 +1381,7 @@
         // Controlar visibilidad del Navbar Moderno (ACTUALIZADO PARA BIBLIOTECA)
         const navbarModern = document.getElementById('navbar-modern');
         if (navbarModern) {
-            if (viewId === 'view-dashboard' || viewId === 'view-library' || viewId === 'view-lesson') {
+            if (viewId === 'view-dashboard' || viewId === 'view-library' || viewId === 'view-lesson' || viewId === 'view-scientific-routines') {
                 navbarModern.style.display = 'block';
             } else {
                 navbarModern.style.display = 'none';
@@ -1462,10 +1566,416 @@
         ]
     };
 
+    // --- BASE DE DATOS DE RUTINAS CIENTÍFICAS ---
+    const scientificRoutinesDB = {
+        'piernas': [
+            {
+                id: 'piernas_1',
+                title: 'Hipertrofia de Cuádriceps',
+                subtitle: 'Protocolo de 8 semanas para masa muscular',
+                duration: '75 min',
+                difficulty: 'Avanzado',
+                exercises: [
+                    { name: 'SENTADILLA LIBRE', sets: '4', reps: '8-10', rest: '120s', note: 'Foco en profundidad completa' },
+                    { name: 'PRENSA 45 GRADOS', sets: '3', reps: '12-15', rest: '90s', note: 'Cadena cerrada' },
+                    { name: 'EXTENSIONES DE CUÁDRICEPS', sets: '3', reps: '15-20', rest: '60s', note: 'Contracción máxima' },
+                    { name: 'PESO MUERTO ROMANO', sets: '3', reps: '10-12', rest: '90s', note: 'Foco en femoral' },
+                    { name: 'CURL DE ISQUIOS', sets: '3', reps: '12-15', rest: '60s', note: 'Rango completo' }
+                ],
+                science: 'Volumen óptimo de 15-20 series por grupo muscular semanal (Schoenfeld, 2017). Rango de repeticiones 8-15 para hipertrofia máxima.',
+                frequency: '2x por semana',
+                results: '+3-5% masa muscular en 8 semanas',
+                color: 'blue'
+            },
+            {
+                id: 'piernas_2',
+                title: 'Fuerza Máxima en Sentadilla',
+                subtitle: 'Programa de fuerza neural',
+                duration: '60 min',
+                difficulty: 'Intermedio',
+                exercises: [
+                    { name: 'SENTADILLA LIBRE', sets: '5', reps: '3-5', rest: '180s', note: '85-90% 1RM' },
+                    { name: 'ZANCADAS', sets: '3', reps: '8-10', rest: '90s', note: 'Estabilidad unilateral' },
+                    { name: 'HIP THRUST', sets: '3', reps: '8-10', rest: '90s', note: 'Activación glútea' },
+                    { name: 'ELEVACIÓN DE TALONES', sets: '4', reps: '15-20', rest: '60s', note: 'Gemelos completo' }
+                ],
+                science: 'Intensidad >85% 1RM para adaptaciones neurales (Zatsiorsky, 1995). Descansos largos (3-5min) para resíntesis de ATP.',
+                frequency: '1x por semana',
+                results: '+10-15% fuerza en 6 semanas',
+                color: 'indigo'
+            },
+            {
+                id: 'piernas_3',
+                title: 'Definición y Corte',
+                subtitle: 'Rutina metabólica para quemar grasa',
+                duration: '50 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'SENTADILLA LIBRE', sets: '3', reps: '12-15', rest: '60s', note: 'Tempo 2-1-2' },
+                    { name: 'PRENSA 45 GRADOS', sets: '3', reps: '15-20', rest: '45s', note: 'Alto volumen' },
+                    { name: 'ZANCADAS', sets: '3', reps: '12-15', rest: '45s', note: 'Alternando piernas' },
+                    { name: 'EXTENSIONES DE CUÁDRICEPS', sets: '3', reps: '20-25', rest: '30s', note: 'Bomba muscular' },
+                    { name: 'CURL DE ISQUIOS', sets: '3', reps: '15-20', rest: '30s', note: 'Sin descanso entre ejercicios' }
+                ],
+                science: 'Densidad alta de entrenamiento aumenta EPOC (Exceso de consumo de oxígeno post-ejercicio) quemando +15% calorías post-entreno.',
+                frequency: '2-3x por semana',
+                results: '-2-4% grasa corporal en 4 semanas',
+                color: 'cyan'
+            }
+        ],
+        'abdomen': [
+            {
+                id: 'abdomen_1',
+                title: 'Core de Acero - Nivel Avanzado',
+                subtitle: 'Entrenamiento completo de core funcional',
+                duration: '30 min',
+                difficulty: 'Avanzado',
+                exercises: [
+                    { name: 'CRUNCH EN POLEA', sets: '4', reps: '12-15', rest: '60s', note: 'Resistencia progresiva' },
+                    { name: 'ELEVACIÓN DE PIERNAS', sets: '4', reps: '10-12', rest: '60s', note: 'Control excéntrico' },
+                    { name: 'PLANCHA ISOMÉTRICA', sets: '3', reps: '60s', rest: '30s', note: 'Tiempo bajo tensión' },
+                    { name: 'RUSSIAN TWIST', sets: '3', reps: '20-25', rest: '45s', note: 'Rotación con peso' },
+                    { name: 'DRAGON FLAG', sets: '3', reps: '6-8', rest: '90s', note: 'Fuerza completa' }
+                ],
+                science: 'El core necesita entrenamiento multi-planar: flexión, extensión, rotación y anti-rotación (McGill, 2010).',
+                frequency: '3x por semana',
+                results: 'Mejora del 40% en tests de core en 4 semanas',
+                color: 'purple'
+            },
+            {
+                id: 'abdomen_2',
+                title: 'Definición Abdominal Express',
+                subtitle: 'Quema grasa localizada + tonificación',
+                duration: '25 min',
+                difficulty: 'Intermedio',
+                exercises: [
+                    { name: 'MOUNTAIN CLIMBERS', sets: '4', reps: '30s', rest: '15s', note: 'Alta intensidad' },
+                    { name: 'CRUNCH BICICLETA', sets: '3', reps: '20-25', rest: '30s', note: 'Rotación alternada' },
+                    { name: 'PLANCHA CON ROTACIÓN', sets: '3', reps: '12-15', rest: '45s', note: 'Estabilidad' },
+                    { name: 'ELEVACIÓN DE RODILLAS', sets: '3', reps: '15-20', rest: '30s', note: 'Contracción inferior' },
+                    { name: 'V-UPS', sets: '3', reps: '10-12', rest: '45s', note: 'Coordinación superior-inferior' }
+                ],
+                science: 'Circuitos HIIT abdominales aumentan flujo sanguíneo local +300% favoreciendo oxidación de grasas (Paoli et al., 2012).',
+                frequency: '4-5x por semana',
+                results: 'Visibilidad abdominal en 3-4 semanas',
+                color: 'pink'
+            },
+            {
+                id: 'abdomen_3',
+                title: 'Core Funcional para Deportes',
+                subtitle: 'Prevención de lesiones y potencia',
+                duration: '35 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'PLANCHA ISOMÉTRICA', sets: '4', reps: '45s', rest: '30s', note: 'Base de estabilidad' },
+                    { name: 'DEAD BUG', sets: '3', reps: '12-15', rest: '45s', note: 'Coordinación contralateral' },
+                    { name: 'PALLOF PRESS', sets: '3', reps: '10-12', rest: '60s', note: 'Anti-rotación' },
+                    { name: 'HOLLOW BODY HOLD', sets: '3', reps: '30s', rest: '30s', note: 'Tensión corporal total' },
+                    { name: 'RUSSIAN TWIST', sets: '3', reps: '15-20', rest: '45s', note: 'Rotación controlada' }
+                ],
+                science: 'Core fuerte transfiere 20-30% más fuerza a extremidades y reduce riesgo de lesiones en columna (Willardson, 2014).',
+                frequency: '2-3x por semana',
+                results: '+25% estabilidad en tests funcionales',
+                color: 'rose'
+            }
+        ],
+        'brazos': [
+            {
+                id: 'brazos_1',
+                title: 'Hipertrofia Masiva de Brazos',
+                subtitle: 'Volumen extremo para crecimiento',
+                duration: '55 min',
+                difficulty: 'Avanzado',
+                exercises: [
+                    { name: 'CURL CON BARRA', sets: '4', reps: '8-10', rest: '90s', note: 'Peso progresivo' },
+                    { name: 'PRESS FRANCÉS', sets: '4', reps: '8-10', rest: '90s', note: 'Tríceps completo' },
+                    { name: 'CURL MARTILLO', sets: '3', reps: '10-12', rest: '60s', note: 'Braquial y antebrazo' },
+                    { name: 'EXTENSIONES EN POLEA', sets: '3', reps: '12-15', rest: '60s', note: 'Contracción pico' },
+                    { name: 'CURL PREDICADOR', sets: '3', reps: '10-12', rest: '60s', note: 'Aislamiento bíceps' },
+                    { name: 'PATADA DE TRÍCEPS', sets: '3', reps: '12-15', rest: '60s', note: 'Cabeza larga' }
+                ],
+                science: 'Los brazos responden mejor a alto volumen (18-22 series semanales) debido a alta proporción de fibras tipo II (Schoenfeld, 2016).',
+                frequency: '2x por semana',
+                results: '+2-3cm perímetro brazo en 8 semanas',
+                color: 'cyan'
+            },
+            {
+                id: 'brazos_2',
+                title: 'Fuerza y Definición',
+                subtitle: 'Fuerza funcional + vascularización',
+                duration: '45 min',
+                difficulty: 'Intermedio',
+                exercises: [
+                    { name: 'CURL CON BARRA', sets: '5', reps: '5-7', rest: '120s', note: 'Fuerza máxima' },
+                    { name: 'PRESS FRANCÉS', sets: '4', reps: '6-8', rest: '120s', note: 'Peso pesado' },
+                    { name: 'CURL MARTILLO', sets: '3', reps: '8-10', rest: '75s', note: 'Espesor brazo' },
+                    { name: 'EXTENSIONES EN POLEA', sets: '3', reps: '10-12', rest: '60s', note: 'Bomba muscular' },
+                    { name: 'CURL DE MUÑECA', sets: '3', reps: '15-20', rest: '45s', note: 'Antebrazo' }
+                ],
+                science: 'Entrenamiento de fuerza (85% 1RM) estimula mayor reclutamiento de unidades motoras y aumenta densidad capilar.',
+                frequency: '1-2x por semana',
+                results: '+15-20% fuerza + definición vascular',
+                color: 'teal'
+            },
+            {
+                id: 'brazos_3',
+                title: 'Pump y Vascularización',
+                subtitle: 'Bomba muscular extrema',
+                duration: '40 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'CURL CON BARRA', sets: '3', reps: '12-15', rest: '45s', note: 'Primer ejercicio' },
+                    { name: 'EXTENSIONES EN POLEA', sets: '3', reps: '15-20', rest: '45s', note: 'Tríceps ligero' },
+                    { name: 'CURL MARTILLO', sets: '3', reps: '15-20', rest: '30s', note: 'Superserie' },
+                    { name: 'PATADA DE TRÍCEPS', sets: '3', reps: '15-20', rest: '30s', note: 'Superserie' },
+                    { name: 'CURL CONCENTRADO', sets: '3', reps: '20-25', rest: '20s', note: 'Quemazón final' }
+                ],
+                science: 'Bomba muscular (hipoxia temporal) aumenta síntesis proteica +23% vía mTOR y factor de crecimiento IGF-1 (Loenneke et al., 2012).',
+                frequency: '2-3x por semana',
+                results: 'Vascularización visible en 2-3 semanas',
+                color: 'blue'
+            }
+        ],
+        'espalda': [
+            {
+                id: 'espalda_1',
+                title: 'Espalda en V - Hipertrofia Dorsal',
+                subtitle: 'Amplitud y grosor máximo',
+                duration: '70 min',
+                difficulty: 'Avanzado',
+                exercises: [
+                    { name: 'DOMINADAS ESTRICTAS', sets: '4', reps: '6-8', rest: '120s', note: 'Amplitud completa' },
+                    { name: 'REMO CON BARRA', sets: '4', reps: '8-10', rest: '90s', note: 'Grosor medio' },
+                    { name: 'JALÓN AL PECHO', sets: '3', reps: '10-12', rest: '75s', note: 'Anchura dorsal' },
+                    { name: 'REMO CON MANCUERNA', sets: '3', reps: '10-12', rest: '75s', note: 'Unilateral' },
+                    { name: 'FACE PULL', sets: '3', reps: '15-20', rest: '60s', note: 'Hombros posteriores' }
+                ],
+                science: 'La espalda requiere múltiples ángulos de tracción: vertical (dominadas), horizontal (remos) y rotación (face pulls) para desarrollo completo.',
+                frequency: '2x por semana',
+                results: '+5-7cm en espalda en 10 semanas',
+                color: 'indigo'
+            },
+            {
+                id: 'espalda_2',
+                title: 'Fuerza en Peso Muerto',
+                subtitle: 'Enfoque neural y técnica',
+                duration: '65 min',
+                difficulty: 'Intermedio-Avanzado',
+                exercises: [
+                    { name: 'PESO MUERTO CONVENCIONAL', sets: '5', reps: '3-5', rest: '180s', note: 'Fuerza máxima' },
+                    { name: 'REMO CON BARRA', sets: '4', reps: '6-8', rest: '120s', note: 'Peso pesado' },
+                    { name: 'DOMINADAS ESTRICTAS', sets: '4', reps: '4-6', rest: '120s', note: 'Carga adicional' },
+                    { name: 'HIP THRUST', sets: '3', reps: '8-10', rest: '90s', note: 'Cadena posterior' },
+                    { name: 'SHRUGS', sets: '3', reps: '12-15', rest: '60s', note: 'Trapecio' }
+                ],
+                science: 'El peso muerto recluta +70% de masa muscular corporal. Mejora testosterona y GH post-entreno hasta 48 horas (Kraemer et al., 1990).',
+                frequency: '1x por semana',
+                results: '+20-30kg en peso muerto en 8 semanas',
+                color: 'gray'
+            },
+            {
+                id: 'espalda_3',
+                title: 'Corrección Postural',
+                subtitle: 'Espalda saludable y funcional',
+                duration: '50 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'FACE PULL', sets: '4', reps: '15-20', rest: '60s', note: 'Rotadores externos' },
+                    { name: 'REMO INVERTIDO', sets: '3', reps: '12-15', rest: '60s', note: 'Retracción escapular' },
+                    { name: 'SUPERMAN', sets: '3', reps: '12-15', rest: '45s', note: 'Extensión lumbar' },
+                    { name: 'PULL-APARTS CON BANDA', sets: '3', reps: '20-25', rest: '30s', note: 'Hombros posteriores' },
+                    { name: 'CAT-CAMEL', sets: '3', reps: '10-12', rest: '30s', note: 'Movilidad espinal' }
+                ],
+                science: 'Fortalece romboides y trapecio medio para contrarrestar postura cifótica de sedentarismo. Reduce dolor lumbar en 89% casos (Sitting Disease Study, 2019).',
+                frequency: '3x por semana',
+                results: 'Mejora postural visible en 2-3 semanas',
+                color: 'green'
+            }
+        ],
+        'ciencia': [
+            {
+                id: 'ciencia_1',
+                title: 'Entrenamiento Neuro-Muscular',
+                subtitle: 'Conexión mente-músculo avanzada',
+                duration: '60 min',
+                difficulty: 'Intermedio-Avanzado',
+                exercises: [
+                    { name: 'SENTADILLA LIBRE', sets: '4', reps: '6-8', rest: '150s', note: 'Foco en activación' },
+                    { name: 'PRESS DE BANCA PLANO', sets: '4', reps: '6-8', rest: '150s', note: 'Control excéntrico' },
+                    { name: 'DOMINADAS ESTRICTAS', sets: '4', reps: '6-8', rest: '150s', note: 'Contracción dorsal' },
+                    { name: 'PRESS MILITAR', sets: '3', reps: '8-10', rest: '120s', note: 'Estabilidad core' }
+                ],
+                science: 'Conexión mente-músculo aumenta activación EMG hasta 22% versus movimiento automático (Calatayud et al., 2016). Fundamental para hipertrofia.',
+                frequency: '3x por semana',
+                results: '+30% eficiencia neural en 4 semanas',
+                color: 'emerald'
+            },
+            {
+                id: 'ciencia_2',
+                title: 'Metabolismo y Quema de Grasa',
+                subtitle: 'Optimización hormonal post-ejercicio',
+                duration: '45 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'BURPEES HIIT', sets: '8', reps: '30s trabajo/30s descanso', rest: '30s', note: 'EPOC máximo' },
+                    { name: 'SENTADILLA LIBRE', sets: '3', reps: '12-15', rest: '60s', note: 'Grupos grandes' },
+                    { name: 'PRESS DE BANCA PLANO', sets: '3', reps: '12-15', rest: '60s', note: 'Torso completo' },
+                    { name: 'MOUNTAIN CLIMBERS', sets: '3', reps: '45s', rest: '15s', note: 'Core metabólico' }
+                ],
+                science: 'HIIT + entrenamiento de fuerza aumenta EPOC (consumo de oxígeno post-ejercicio) hasta 48h, quemando +500kcal extra post-entreno (Paoli et al., 2012).',
+                frequency: '3-4x por semana',
+                results: '-1-2% grasa corporal semanal',
+                color: 'orange'
+            },
+            {
+                id: 'ciencia_3',
+                title: 'Longevidad y Salud Articular',
+                subtitle: 'Entrenamiento para vida activa',
+                duration: '55 min',
+                difficulty: 'Todos los niveles',
+                exercises: [
+                    { name: 'SENTADILLA LIBRE', sets: '3', reps: '10-12', rest: '90s', note: 'Rango completo' },
+                    { name: 'PRESS INCLINADO CON MANCUERNAS', sets: '3', reps: '10-12', rest: '90s', note: 'Articulación segura' },
+                    { name: 'REMO CON BARRA', sets: '3', reps: '10-12', rest: '90s', note: 'Postura saludable' },
+                    { name: 'YOGA FLOW', sets: '1', reps: '10min', rest: '0s', note: 'Movilidad' },
+                    { name: 'ESTIRAMIENTO ISQUIOS', sets: '3', reps: '30s', rest: '30s', note: 'Flexibilidad' }
+                ],
+                science: 'Entrenamiento de fuerza mantiene densidad ósea, masa muscular y función articular, reduciendo riesgo de sarcopenia y osteoporosis en 60% (ACSM Position Stand, 2019).',
+                frequency: '2-3x por semana',
+                results: 'Mejora marcadores de salud en 4 semanas',
+                color: 'purple'
+            }
+        ]
+    };
+
     // Variables globales para el control de lecciones
     let currentLessonIndex = 0;
     let currentLessonCategory = '';
     let currentLessonList = [];
+
+    // Función para abrir las rutinas científicas de una categoría
+    function openScientificCategory(category) {
+        const titleMap = {
+            'piernas': 'RUTINAS DE PIERNAS',
+            'abdomen': 'ABDOMEN STEEL',
+            'brazos': 'BRAZOS MASSIVE',
+            'espalda': 'ESPALDA COBRA',
+            'ciencia': 'CIENCIA FITNESS'
+        };
+        
+        const descMap = {
+            'piernas': 'Rutinas basadas en ciencia para desarrollo máximo de piernas',
+            'abdomen': 'Core funcional y definición abdominal científica',
+            'brazos': 'Hipertrofia y fuerza de brazos con evidencia',
+            'espalda': 'Amplitud dorsal y fuerza de espalda',
+            'ciencia': 'Principios científicos aplicados al fitness'
+        };
+        
+        document.getElementById('routine-category-title').textContent = titleMap[category] || category.toUpperCase();
+        document.getElementById('routine-category-desc').textContent = descMap[category] || 'Rutinas basadas en evidencia científica';
+        
+        const routineList = document.getElementById('routine-list');
+        routineList.innerHTML = '';
+        
+        const routines = scientificRoutinesDB[category] || [];
+        
+        routines.forEach(routine => {
+            const colorClasses = {
+                'blue': 'from-blue-500/20 to-blue-600/10 border-blue-500/30',
+                'indigo': 'from-indigo-500/20 to-indigo-600/10 border-indigo-500/30',
+                'cyan': 'from-cyan-500/20 to-cyan-600/10 border-cyan-500/30',
+                'purple': 'from-purple-500/20 to-purple-600/10 border-purple-500/30',
+                'pink': 'from-pink-500/20 to-pink-600/10 border-pink-500/30',
+                'rose': 'from-rose-500/20 to-rose-600/10 border-rose-500/30',
+                'teal': 'from-teal-500/20 to-teal-600/10 border-teal-500/30',
+                'emerald': 'from-emerald-500/20 to-emerald-600/10 border-emerald-500/30',
+                'orange': 'from-orange-500/20 to-orange-600/10 border-orange-500/30',
+                'gray': 'from-gray-500/20 to-gray-600/10 border-gray-500/30',
+                'green': 'from-green-500/20 to-green-600/10 border-green-500/30'
+            };
+            
+            const colorClass = colorClasses[routine.color] || colorClasses['blue'];
+            
+            const routineHTML = `
+                <div class="routine-card">
+                    <div class="scientific-badge">BASADO EN CIENCIA</div>
+                    <h3 class="text-xl font-black italic text-white mb-1">${routine.title}</h3>
+                    <p class="text-gray-400 text-sm mb-4">${routine.subtitle}</p>
+                    
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-gray-400 text-[16px]">schedule</span>
+                            <span class="text-gray-300 text-xs font-bold">${routine.duration}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-gray-400 text-[16px]">fitness_center</span>
+                            <span class="text-gray-300 text-xs font-bold">${routine.difficulty}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-gray-400 text-[16px]">calendar_today</span>
+                            <span class="text-gray-300 text-xs font-bold">${routine.frequency}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-white font-bold mb-2 text-sm">EJERCICIOS:</h4>
+                        ${routine.exercises.map(ex => `
+                            <div class="exercise-item">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-white font-bold text-sm">${ex.name}</span>
+                                    <span class="text-primary font-bold text-xs">${ex.sets} × ${ex.reps}</span>
+                                </div>
+                                <div class="flex justify-between text-gray-400 text-xs mt-1">
+                                    <span>${ex.note}</span>
+                                    <span>Descanso: ${ex.rest}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="science-principle">
+                        <h4 class="text-white font-bold mb-1 text-sm">PRINCIPIO CIENTÍFICO:</h4>
+                        <p class="text-gray-300 text-xs">${routine.science}</p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-white/10">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">RESULTADOS ESPERADOS:</h4>
+                            <p class="text-primary text-xs font-bold">${routine.results}</p>
+                        </div>
+                        <button onclick="startRoutine('${routine.id}')" class="px-4 py-2 rounded-full bg-primary text-white text-xs font-bold uppercase tracking-wider hover:bg-blue-600 transition-all">
+                            COMENZAR
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            routineList.insertAdjacentHTML('beforeend', routineHTML);
+        });
+        
+        nav('view-scientific-routines');
+    }
+
+    // Función para iniciar una rutina
+    function startRoutine(routineId) {
+        // Buscar la rutina en todas las categorías
+        let targetRoutine = null;
+        let categoryFound = '';
+        
+        for (const category in scientificRoutinesDB) {
+            const routine = scientificRoutinesDB[category].find(r => r.id === routineId);
+            if (routine) {
+                targetRoutine = routine;
+                categoryFound = category;
+                break;
+            }
+        }
+        
+        if (targetRoutine) {
+            alert(`Iniciando rutina: ${targetRoutine.title}\n\nEsta rutina está programada para ${targetRoutine.duration} de duración.\n\n¡Enfócate en la técnica y mantén la intensidad!`);
+            // Aquí podrías añadir lógica para iniciar un temporizador o seguimiento
+        }
+    }
 
     // Función para abrir la lección con video
     function openLesson(exercise, category, index) {
